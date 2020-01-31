@@ -42,7 +42,7 @@ public class Main extends Application{
 		circle2.setStroke(Color.BLUE);
 		circle2.setFill(Color.rgb(255, 0, 0, 0.2));
 //		
-		Button button =new Button("New Button");
+		Button button = new Button("New Button");
 		
 		Scene scene1 = new Scene(button, 200, 100);
 		button.setBackground(Background.EMPTY);
@@ -63,6 +63,7 @@ public class Main extends Application{
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		//comment
+		//barts comment
 	}
 }
 
