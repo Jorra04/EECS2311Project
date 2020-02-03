@@ -17,7 +17,7 @@ public class Item {
 	}
 	
 	
-	private int getUID() {
+	public int getUID() {
 		//TODO: if we save items, we need to save highest uid and load it here before assigning UIDs to more items.
 		uid += 1;
 		return uid;
