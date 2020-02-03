@@ -65,7 +65,7 @@ public class Main extends Application{
 		primaryStage.show();
 		//comment
 		//barts comment
-		//jorra's comment
+		//Bart made a change to his branch
 	}
 }
 
