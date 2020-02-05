@@ -24,8 +24,6 @@ import javafx.stage.Stage;
 import javafx.fxml.FXML;
 import javafx.scene.shape.Circle;
 
-
-
 	// Button button;
 
 public class View extends Application{
