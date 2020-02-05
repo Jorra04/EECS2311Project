@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
-	<!-- TODO Add Nodes -->
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="789.0" prefWidth="854.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Circle fx:id="circle1" fill="#1f93ff00" layoutX="347.0" layoutY="395.0" radius="161.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="circle2" fill="#1f93ff00" layoutX="540.0" layoutY="395.0" radius="161.0" stroke="BLACK" strokeType="INSIDE" />
+   </children>
 </AnchorPane>
-
