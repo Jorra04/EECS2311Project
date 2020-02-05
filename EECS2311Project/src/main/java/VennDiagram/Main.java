@@ -1,8 +1,12 @@
 package VennDiagram;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.application.Application;
 //import javafx.event.EventHandler;
 //import javafx.event.ActionEvent;
@@ -12,7 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.shape.Circle;
 //import javafx.scene.layout.StackPane;
 import javafx.scene.Group;
-
+import javafx.scene.text.*;
 import javafx.stage.Stage;
 
 
@@ -43,14 +47,21 @@ public class Main extends Application{
 		circle2.setStroke(Color.BLUE);
 		circle2.setFill(Color.rgb(255, 0, 0, 0.2));
 //		
-		Button button = new Button("New Button");
 		
-		Scene scene1 = new Scene(button, 200, 100);
-		button.setBackground(Background.EMPTY);
-        primaryStage.setScene(scene1);
-        primaryStage.show();
+//		adds button to Venn Diagram Application 
 
-//		//adds button to Venn Diagram Application 
+        Button button = new Button ("Click me");
+        
+        TextField textField = new TextField ("Enter");
+        textField.setPrefHeight(20);
+        textField.setPrefWidth(6* textField.getPrefHeight());
+        textField.setLayoutX(0);
+        textField.setLayoutY(30);
+        button.setLayoutY(textField.getLayoutY() + 1.25*textField.getPrefHeight());
+        button.setLayoutX(textField.getLayoutX()); 
+        button.setBackground(Background.EMPTY);
+       
+        //StackPane r = new StackPane(); 
 		
         
         
@@ -58,7 +69,12 @@ public class Main extends Application{
 		
 		root.getChildren().add(circle1);
 		root.getChildren().add(circle2);
+	
+		root.getChildren().add(textField);
 		root.getChildren().add(button);
+		
+	
+
 		
 		Scene scene = new Scene(root, 600, 300);
 		primaryStage.setScene(scene);
