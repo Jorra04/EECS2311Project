@@ -37,5 +37,5 @@ dependencies {
 }
 
 application {
-	mainClassName = 'VennDiagram.Main'
+	mainClassName = 'VennDiagram.View'
 }
