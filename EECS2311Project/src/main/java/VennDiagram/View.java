@@ -2,6 +2,7 @@ package VennDiagram;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
@@ -20,13 +21,14 @@ import javafx.scene.text.*;
 import javafx.stage.Stage;
 
 
-public class Main extends Application{
+public class View extends Application{
 	
 	//Button button;
 
 	public static void main(String[] args) {
 		launch(args);
 	}
+	
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception{
@@ -63,7 +65,10 @@ public class Main extends Application{
        
         //StackPane r = new StackPane(); 
 		
-        
+		//List View to hold items
+		ListView<String> itemList = new ListView<String>();
+		itemList.getItems().add("Item 1");
+		itemList.getItems().add("item 2");
         
 		Group root = new Group();
 		
@@ -72,11 +77,9 @@ public class Main extends Application{
 	
 		root.getChildren().add(textField);
 		root.getChildren().add(button);
+		root.getChildren().add(itemList);
 		
-	
-
-		
-		Scene scene = new Scene(root, 600, 300);
+		Scene scene = new Scene(root, 1200, 740);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		//comment
