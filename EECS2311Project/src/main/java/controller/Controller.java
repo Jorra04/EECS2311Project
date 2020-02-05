@@ -6,7 +6,9 @@ public class Controller {
 	VennModel model;
 	//view here
 	
-	public Controller() {
-		this.model = new VennModel();
+	public Controller(VennModel model) {
+		this.model = model;
 	}
+	
+	
 }
