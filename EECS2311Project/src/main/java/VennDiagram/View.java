@@ -30,11 +30,20 @@ public class View extends Application{
 	
 	//Button button;
 	model.Item item;
-	@FXML
-	private Circle circle1;
+    @FXML
+    private Circle circle1;
 
-	@FXML
-	private Circle circle2;
+    @FXML
+    private Circle circle2;
+
+    @FXML
+    private ListView<?> listView;
+
+    @FXML
+    private TextField textField1;
+
+    @FXML
+    private Button button1;
 
 	public static void main(String[] args) {
 		launch(args);

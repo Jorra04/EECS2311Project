@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Circle?>
 
@@ -8,5 +9,6 @@
    <children>
       <Circle fx:id="circle1" fill="#1f93ff00" layoutX="347.0" layoutY="395.0" radius="161.0" stroke="BLACK" strokeType="INSIDE" />
       <Circle fx:id="circle2" fill="#1f93ff00" layoutX="540.0" layoutY="395.0" radius="161.0" stroke="BLACK" strokeType="INSIDE" />
+      <ListView fx:id="LISTVIEW" layoutY="50.0" prefHeight="200.0" prefWidth="200.0" />
    </children>
 </AnchorPane>
