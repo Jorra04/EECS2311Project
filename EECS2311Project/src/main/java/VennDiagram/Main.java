@@ -33,6 +33,7 @@ public class Main extends Application{
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception{
+		//brian change
 		primaryStage.setTitle("Venn Diagram");
 	
 		Circle circle1 = new Circle();
@@ -82,9 +83,7 @@ public class Main extends Application{
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		//comment
-		//barts comment
-		//jorra's comment
-		
+
 	}
 	
 }
