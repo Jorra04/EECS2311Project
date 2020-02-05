@@ -29,7 +29,5 @@ public class Group {
 		this.title = title;
 	}
 	
-	//TODO: sort contents
-	
 	
 }
