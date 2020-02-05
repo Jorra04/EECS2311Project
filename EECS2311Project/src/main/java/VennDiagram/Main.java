@@ -47,7 +47,7 @@ public class Main extends Application{
 		circle2.setFill(Color.rgb(255, 0, 0, 0.2));
 //		
 		
-//		//adds button to Venn Diagram Application 
+//		adds button to Venn Diagram Application 
 
         Button button = new Button ("Click me");
         
