@@ -18,5 +18,4 @@ public class Controller {
         Button button = (Button)event.getSource();
     }
 	
-	
 }
