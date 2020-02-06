@@ -4,18 +4,19 @@ import model.VennModel;
 import VennDiagram.View;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
-
+import javafx.scene.control.Label;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.text.Text;
+ 
 public class Controller {
-	VennModel model;
-	//view here
-	View view;
-	public Controller(VennModel model, View view) {
-		this.model = model;
-		this.view = view;
-	}
-	private void handleButtonAction(ActionEvent event)
-    {
-        Button button = (Button)event.getSource();
+    @FXML private Text actiontarget;
+    
+    @FXML
+    private Label label;
+    
+    @FXML protected void handleSubmitButtonAction(ActionEvent event) {
+        actiontarget.setText("Sign in button pressed");
     }
-	
+
 }
