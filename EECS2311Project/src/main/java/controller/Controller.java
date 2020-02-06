@@ -9,6 +9,7 @@ import model.Item;
  
 public class Controller {
 	
+	//create venn diagram instance
     private VennModel model = new VennModel();
 	
 	//fxml components
@@ -17,9 +18,10 @@ public class Controller {
     
     @FXML 
     protected void handleCreateButtonAction(ActionEvent event) {
-        //model.addItem(new Item(create_text.getText()));
-        //System.out.println(model.getItemList().get(0).toString());
-        System.out.println(create_text.getText());
+        model.addItem(new Item(create_text.getText()));
+        for(Item item : model.getItemList()) {
+            System.out.print(item.toString());
+        }
     }
 
 }
