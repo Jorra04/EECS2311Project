@@ -20,7 +20,7 @@ repositories {
     jcenter()
 }
 
-mainClassName = "VennDiagram.View"
+mainClassName = "VennDiagram.App"
 
 javafx {
     version = '13'

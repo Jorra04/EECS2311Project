@@ -2,17 +2,38 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
-
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="503.0" prefWidth="784.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
     <children>
-        <Label text="" />
-      <Button id="create" alignment="TOP_RIGHT" mnemonicParsing="false" text="Create">
-         <VBox.margin>
-            <Insets top="10.0"/>
-         </VBox.margin>
-      </Button>
+      <BorderPane>
+         <right>
+            <Button fx:id="create_button" mnemonicParsing="false" onAction="#handleCreateButtonAction" text="Create" BorderPane.alignment="TOP_RIGHT"> </Button>
+         </right>
+         <center>
+            <TextField fx:id="create_text" promptText="Item name here" BorderPane.alignment="TOP_CENTER">
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+            </TextField>
+         </center>
+      </BorderPane>
+      <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+         <children>
+            <ListView fx:id="item_list"/>
+            <Pane fx:id="diagram_pane" prefHeight="477.0" prefWidth="560.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Circle fill="DODGERBLUE" layoutX="201.0" layoutY="239.0" opacity="0.21" radius="111.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Circle fill="DODGERBLUE" layoutX="340.0" layoutY="239.0" opacity="0.21" radius="111.0" stroke="BLACK" strokeType="INSIDE" />
+               </children>
+            </Pane>
+         </children>
+      </HBox>
     </children>
 </VBox>
