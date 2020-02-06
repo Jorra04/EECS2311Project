@@ -13,8 +13,7 @@ public class Controller {
 		this.model = model;
 		this.view = view;
 	}
-	private void handleButtonAction(ActionEvent event)
-    {
+	private void handleButtonAction(ActionEvent event) {
         Button button = (Button)event.getSource();
     }
 	
