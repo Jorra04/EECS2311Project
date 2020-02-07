@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import model.VennModel;
 import model.Item;
@@ -32,6 +33,21 @@ public class Controller {
 	Pane diagram_pane; // venn diagram is here
 	@FXML
 	Button clearButton; // trying to use this clear button
+
+	//implementing enter key for create_text field to add to item_list
+	@FXML
+	protected void handleCreateTextFieldAction(KeyEvent event) {
+		//TODO: refactor handleCreateTextFieldAction and handleCreateButtonAction methods, they both do the same stuff.
+		if(event.getCode().equals(KeyCode.ENTER)) {
+			if (create_text.getLength() != 0) {
+				Item item = new Item(create_text.getText());
+				content.add(item.toString());
+				item_list.setItems(content);
+				create_text.clear();
+				create_text.requestFocus();
+			}
+		}
+	}
 
 	@FXML
 	protected void handleCreateButtonAction(ActionEvent event){
