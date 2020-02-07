@@ -45,6 +45,7 @@ public class Controller {
 				Item item = new Item(create_text.getText());
 				content.add(item.toString());
 				item_list.setItems(content);
+				item_list.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 				create_text.clear();
 				create_text.requestFocus();
 			}
@@ -62,7 +63,6 @@ public class Controller {
 			create_text.requestFocus();
 		}
 	}
-
 	@FXML
 	protected void handleClearAllButtonAction(ActionEvent event) {
 		
