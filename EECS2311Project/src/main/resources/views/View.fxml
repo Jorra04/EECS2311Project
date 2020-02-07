@@ -18,7 +18,7 @@
             <Button fx:id="create_button" mnemonicParsing="false" onAction="#handleCreateButtonAction" text="Create" BorderPane.alignment="TOP_RIGHT"> </Button>
          </right>
          <center>
-            <TextField fx:id="create_text" promptText="Item name here" BorderPane.alignment="TOP_CENTER">
+            <TextField fx:id="create_text" promptText="Item name here" BorderPane.alignment="TOP_CENTER" onKeyReleased='#handleCreateTextFieldAction'>
                <BorderPane.margin>
                   <Insets />
                </BorderPane.margin>
@@ -27,7 +27,7 @@
       </BorderPane>
       <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>
-            <ListView fx:id="item_list" />
+            <ListView fx:id="item_list"/>
             <Pane fx:id="diagram_pane" prefHeight="477.0" prefWidth="560.0" HBox.hgrow="ALWAYS">
                <children>
                   <Circle fill="DODGERBLUE" layoutX="201.0" layoutY="239.0" opacity="0.21" radius="150.0" stroke="BLACK" strokeType="INSIDE" />
