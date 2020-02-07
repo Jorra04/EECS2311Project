@@ -31,7 +31,8 @@ public class VennModel {
 		this.itemList.add(item);
 	}
 	public void clear() {
-		this.itemList.removeAll(this.itemList);
+		List<Item> copyList = new ArrayList<>(this.itemList);
+		this.itemList.removeAll(copyList);
 	}
 	
 	
