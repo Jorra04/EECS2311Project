@@ -34,23 +34,15 @@ public class Controller {
 	Button clearButton; // trying to use this clear button
 
 	@FXML
-
 	protected void handleCreateButtonAction(ActionEvent event){
 		if (create_text.getLength() != 0) {
 			Item item = new Item(create_text.getText());
 			content.add(item.toString());
-
-			//System.out.println(content);
 			item_list.setItems(content);
-			
 			create_text.clear();
 			create_text.requestFocus();
-			
-		
 		}
-
 	}
-
 	@FXML
 	protected void handleClearAllButtonAction(ActionEvent event) {
 		item_list.getItems().clear();
@@ -60,7 +52,6 @@ public class Controller {
 	protected void handleClearSelectedButtonAction(ActionEvent event) {
 		List<String> copyList = new ArrayList<>(item_list.getSelectionModel().getSelectedItems());
 		item_list.getItems().removeAll(copyList);
-
 	}
 
 }
