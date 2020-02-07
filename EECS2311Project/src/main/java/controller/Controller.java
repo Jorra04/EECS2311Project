@@ -21,6 +21,7 @@ public class Controller {
 	private VennModel model = new VennModel();
 
 	ObservableList<String> content = FXCollections.observableArrayList();
+	int removed = 0;
 
 	// fxml components
 	@FXML
@@ -58,7 +59,8 @@ public class Controller {
 	protected void handleClearSelectedButtonAction(ActionEvent event) {
 		List<String> copyList = new ArrayList<>(item_list.getSelectionModel().getSelectedItems());
 		item_list.getItems().removeAll(copyList);
-		Item.uid --;
+		removed++;
+		Item.uid -=removed;
 		create_text.requestFocus();
 	}
 
