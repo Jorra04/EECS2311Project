@@ -26,11 +26,12 @@
       </BorderPane>
       <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>
-            <ListView fx:id="item_list"/>
+            <ListView fx:id="item_list" />
             <Pane fx:id="diagram_pane" prefHeight="477.0" prefWidth="560.0" HBox.hgrow="ALWAYS">
                <children>
                   <Circle fill="DODGERBLUE" layoutX="201.0" layoutY="239.0" opacity="0.21" radius="111.0" stroke="BLACK" strokeType="INSIDE" />
                   <Circle fill="DODGERBLUE" layoutX="340.0" layoutY="239.0" opacity="0.21" radius="111.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Button fx:id="clearButton" layoutX="399.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleClearButtonAction" text="Clear!" > </Button>
                </children>
             </Pane>
          </children>

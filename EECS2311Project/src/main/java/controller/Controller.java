@@ -1,4 +1,5 @@
 package controller;
+import java.util.*;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,7 +24,7 @@ public class Controller {
 	@FXML Button create_button;
 	@FXML ListView<String> item_list;
 	@FXML Pane diagram_pane; //venn diagram is here
-    
+    @FXML private Button clearButton; //trying to use this clear button
     @FXML 
     protected void handleCreateButtonAction(ActionEvent event) {
         model.addItem(new Item(create_text.getText()));
@@ -31,6 +32,16 @@ public class Controller {
         	content.add(item.toString());
         }
         item_list.setItems(content);
+    }
+    @FXML
+    protected void handleClearButtonAction(ActionEvent event) {
+    	List<String> selectedItemsCopy = new ArrayList<>(item_list.getSelectionModel().getSelectedItems());
+    	if(clearButton.isPressed()) {
+    		item_list.getItems().removeAll(selectedItemsCopy);
+    	}
+//    	List<Integer> selectedItemsCopy = new ArrayList<>(asiLogsListView.getSelectionModel().getSelectedItems());
+//    	asiLogsListView.getItems().removeAll(selectedItemsCopy);
+    	
     }
 
 }
