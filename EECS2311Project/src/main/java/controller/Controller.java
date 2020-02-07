@@ -27,10 +27,9 @@ public class Controller {
     @FXML Button clearButton; //trying to use this clear button
     @FXML 
     protected void handleCreateButtonAction(ActionEvent event) {
-        model.addItem(new Item(create_text.getText()));
-        for(Item item : model.getItemList()) {
-        	content.add(item.toString());
-        }
+        Item item = new Item(create_text.getText());
+        content.add(item.toString());
+       
         System.out.println(content);
         item_list.setItems(content);
     }
