@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
@@ -34,24 +35,31 @@ public class Controller {
 	Button clearButton; // trying to use this clear button
 
 	@FXML
-	protected void handleCreateButtonAction(ActionEvent event){
+	protected void handleCreateButtonAction(ActionEvent event) {
 		if (create_text.getLength() != 0) {
 			Item item = new Item(create_text.getText());
 			content.add(item.toString());
 			item_list.setItems(content);
+			item_list.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 			create_text.clear();
 			create_text.requestFocus();
 		}
 	}
+
 	@FXML
 	protected void handleClearAllButtonAction(ActionEvent event) {
+		
+		Item.uid =0;
 		item_list.getItems().clear();
+		create_text.requestFocus();
 	}
 
 	@FXML
 	protected void handleClearSelectedButtonAction(ActionEvent event) {
 		List<String> copyList = new ArrayList<>(item_list.getSelectionModel().getSelectedItems());
 		item_list.getItems().removeAll(copyList);
+		Item.uid --;
+		create_text.requestFocus();
 	}
 
 }
