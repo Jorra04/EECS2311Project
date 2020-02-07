@@ -75,6 +75,7 @@ public class Controller {
 	protected void handleClearSelectedButtonAction(ActionEvent event) {
 		List<String> copyList = new ArrayList<>(item_list.getSelectionModel().getSelectedItems());
 		item_list.getItems().removeAll(copyList);
+		System.out.println(item_list.getSelectionModel().getSelectedItem());
 		removed++;
 		Item.uid -=removed;
 		create_text.requestFocus();
