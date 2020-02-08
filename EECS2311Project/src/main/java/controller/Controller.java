@@ -23,7 +23,7 @@ public class Controller {
 	private VennModel model = new VennModel();
 
 	ObservableList<Item> content = FXCollections.observableArrayList();
-
+	//Test
 	// fxml components
 	@FXML
 	TextField create_text;
