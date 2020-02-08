@@ -29,9 +29,6 @@ public class View extends Application{
 		launch(args);
 	}
 
-	
-	
-
 	@Override
 	public void start(Stage stage) throws Exception{
 //		System.out.printf("root = %s\n", getClass().getResource("/views/View.fxml"));
