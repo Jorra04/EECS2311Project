@@ -1,5 +1,6 @@
 package controller;
 
+import java.net.URL;
 import java.util.*;
 
 import javafx.collections.FXCollections;
@@ -20,7 +21,7 @@ public class Controller {
 
 	// create venn diagram instance
 	private VennModel model = new VennModel();
-
+	
 	ObservableList<String> content = FXCollections.observableArrayList();
 
 	// fxml components
@@ -34,6 +35,11 @@ public class Controller {
 	Pane diagram_pane; // venn diagram is here
 	@FXML
 	Button clearButton; // trying to use this clear button
+	
+    public void initialize(URL url, ResourceBundle rb) {
+    	content.setAll(model.getStringItemList());
+        item_list.setItems(content);
+    }
 
 	//implementing enter key for create_text field to add to item_list
 	@FXML
@@ -42,8 +48,8 @@ public class Controller {
 		if(event.getCode().equals(KeyCode.ENTER)) {
 			if (create_text.getLength() != 0) {
 				Item item = new Item(create_text.getText());
-				content.add(item.toString());
-				item_list.setItems(content);
+				model.getItemList().add(item);
+				content.setAll(model.getStringItemList());
 				create_text.clear();
 				create_text.requestFocus();
 			}
@@ -54,9 +60,8 @@ public class Controller {
 	protected void handleCreateButtonAction(ActionEvent event) {
 		if (create_text.getLength() != 0) {
 			Item item = new Item(create_text.getText());
-			content.add(item.toString());
-			item_list.setItems(content);
-			item_list.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+			model.getItemList().add(item);
+			item_list.setItems(model.getStringItemList());
 			create_text.clear();
 			create_text.requestFocus();
 		}
@@ -64,9 +69,9 @@ public class Controller {
 
 	@FXML
 	protected void handleClearAllButtonAction(ActionEvent event) {
-		
 		Item.uid =0;
 		item_list.getItems().clear();
+		model.getItemList().clear();
 		create_text.requestFocus();
 	}
 
@@ -74,7 +79,7 @@ public class Controller {
 	protected void handleClearSelectedButtonAction(ActionEvent event) {
 		List<String> copyList = new ArrayList<>(item_list.getSelectionModel().getSelectedItems());
 		item_list.getItems().removeAll(copyList);
-		Item.uid --;
+		Item.uid--;
 		create_text.requestFocus();
 	}
 
