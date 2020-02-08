@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VennModel {
+	
 	List<Item> itemList;
 	List<Group> groupList;
+	
 	public VennModel() {
 		this.itemList = new ArrayList<Item>();
 		this.groupList = new ArrayList<Group>();

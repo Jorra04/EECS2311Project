@@ -15,16 +15,11 @@ import javafx.scene.shape.Circle;
 
 //merged
 
-
-
-
 public class View extends Application{
 	public static Stage primaryStage;
 	private AnchorPane anchorPane;
 	//private FXMLLoader loader;
 	
-
-
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -42,5 +37,4 @@ public class View extends Application{
 	    stage.show();
 	}
 	
-
 }

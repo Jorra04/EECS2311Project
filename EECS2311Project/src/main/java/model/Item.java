@@ -40,7 +40,7 @@ public class Item {
 		return result;
 	}
 
-
+	//SOMEONE TOOK 2030 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
