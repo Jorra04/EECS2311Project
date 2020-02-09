@@ -52,7 +52,7 @@ public class Controller {
 		}
 	}
 
-
+	@FXML
 	protected void handleCreateButtonAction(ActionEvent event){
 		if (create_text.getLength() != 0) {
 			Item item = new Item(create_text.getText());
