@@ -135,6 +135,8 @@ public class Controller {
 		middleSetText.setText("Text");
 		create_text.requestFocus();
 		event.consume();
+		
+		//works.
 	}
 
 	@FXML
