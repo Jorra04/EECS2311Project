@@ -128,9 +128,10 @@ public class Controller {
 	@FXML
 	protected void handleClearAllButtonAction(ActionEvent event) {
 		Item.uid =0;
+		
+//		leftSetText.setText("");
+//		rightSetText.setText("");
 		item_list.getItems().clear();
-		leftGroup.removeAll();
-		rightGroup.removeAll();
 		create_text.requestFocus();
 		event.consume();
 	}
