@@ -6,8 +6,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -24,7 +22,6 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
-import javafx.util.Callback;
 import model.VennModel;
 import model.Group;
 import model.Item;
@@ -179,14 +176,17 @@ public class Controller {
 		if(db.hasContent(itemFormat)) {
 			leftGroup.insertItems((ArrayList<Item>) db.getContent(itemFormat));
 			Set<Integer> match = leftGroup.findMatching(rightGroup);
-			ArrayList<Item> temp = new ArrayList<Item>();
+			//ArrayList<Item> temp = new ArrayList<Item>();
 			for(Item item : itemsContent) {
 				if(match.contains(item.getID())) {
-					
+					matchGroup.insertItem(item);
+					leftGroup.removeItem(item);
+					rightGroup.removeItem(item);
 				}
 			}
-			//matchGroup = ;
+			middleSetText.setText(matchGroup.toVisualList());
 			leftSetText.setText(leftGroup.toVisualList());
+			rightSetText.setText(rightGroup.toVisualList());
 			isCompleted = true;
 		}
 		event.setDropCompleted(isCompleted);
@@ -208,6 +208,17 @@ public class Controller {
 		Dragboard db = event.getDragboard();
 		if(db.hasContent(itemFormat)) {
 			rightGroup.insertItems((ArrayList<Item>) db.getContent(itemFormat));
+			Set<Integer> match = rightGroup.findMatching(leftGroup);
+			//ArrayList<Item> temp = new ArrayList<Item>();
+			for(Item item : itemsContent) {
+				if(match.contains(item.getID())) {
+					matchGroup.insertItem(item);
+					rightGroup.removeItem(item);
+					leftGroup.removeItem(item);
+				}
+			}
+			middleSetText.setText(matchGroup.toVisualList());
+			leftSetText.setText(leftGroup.toVisualList());
 			rightSetText.setText(rightGroup.toVisualList());
 			isCompleted = true;
 		}
