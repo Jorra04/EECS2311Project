@@ -50,16 +50,25 @@ public class Controller {
 		}
 	}
 
-	@FXML
-	protected void handleCreateButtonAction(ActionEvent event) {
+
+	protected void handleCreateButtonAction(ActionEvent event){
 		if (create_text.getLength() != 0) {
 			Item item = new Item(create_text.getText());
 			content.add(item.toString());
+
+			//System.out.println(content);
 			item_list.setItems(content);
+
 			item_list.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+			
+
 			create_text.clear();
 			create_text.requestFocus();
+			
+		
 		}
+
 	}
 
 	@FXML
@@ -74,8 +83,10 @@ public class Controller {
 	protected void handleClearSelectedButtonAction(ActionEvent event) {
 		List<String> copyList = new ArrayList<>(item_list.getSelectionModel().getSelectedItems());
 		item_list.getItems().removeAll(copyList);
+
 		Item.uid --;
 		create_text.requestFocus();
+
 	}
 
 }
