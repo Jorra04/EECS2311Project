@@ -27,8 +27,8 @@
       </BorderPane>
       <Pane fx:id="diagram_pane" prefHeight="434.0" prefWidth="905.0">
          <children>
-            <Circle fill="DODGERBLUE" layoutX="392.0" layoutY="227.0" opacity="0.21" radius="150.0" stroke="BLACK" strokeType="INSIDE" />
-            <Circle fill="DODGERBLUE" layoutX="549.0" layoutY="227.0" opacity="0.21" radius="150.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fx:id="leftCircle" fill="DODGERBLUE" layoutX="392.0" layoutY="227.0" opacity="0.21" radius="150.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fx:id="rightCircle" fill="DODGERBLUE" layoutX="549.0" layoutY="227.0" opacity="0.21" radius="150.0" stroke="BLACK" strokeType="INSIDE" />
             <Button fx:id="clearButton" layoutX="399.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleClearAllButtonAction" prefHeight="14.0" prefWidth="82.0" text="CLEAR ALL!"> </Button>
             <Label fx:id="Label1" layoutX="240.0" layoutY="65.0" prefHeight="25.0" prefWidth="71.0" text="Set 1" />
             <Label fx:id="Label2" layoutX="638.0" layoutY="65.0" prefHeight="25.0" prefWidth="71.0" text="Set 2" textAlignment="RIGHT" />
