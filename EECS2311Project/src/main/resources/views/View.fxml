@@ -20,7 +20,7 @@
             <Button fx:id="create_button" mnemonicParsing="false" onAction="#handleCreateButtonAction" text="Create" BorderPane.alignment="TOP_RIGHT"> </Button>
          </right>
          <center>
-            <TextField fx:id="create_text" onKeyReleased="#handleCreateTextFieldAction" promptText="Item name here" BorderPane.alignment="TOP_CENTER">
+            <TextField fx:id="create_text" promptText="Item name here" BorderPane.alignment="TOP_CENTER" onKeyReleased='#handleCreateTextFieldAction'>
                <BorderPane.margin>
                   <Insets />
                </BorderPane.margin>
@@ -39,11 +39,11 @@
       </Pane>
       <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>
-            <ListView fx:id="item_list" />
+            <ListView fx:id="item_list"/>
             <Pane fx:id="diagram_pane" prefHeight="477.0" prefWidth="560.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Circle fx:id="circle1" fill="DODGERBLUE" layoutX="201.0" layoutY="239.0" opacity="0.21" radius="150.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Circle fx:id="circle2" fill="DODGERBLUE" layoutX="340.0" layoutY="239.0" opacity="0.21" radius="150.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Circle fill="DODGERBLUE" layoutX="201.0" layoutY="239.0" opacity="0.21" radius="150.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Circle fill="DODGERBLUE" layoutX="340.0" layoutY="239.0" opacity="0.21" radius="150.0" stroke="BLACK" strokeType="INSIDE" />
                   <Button fx:id="clearButton" layoutX="399.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleClearAllButtonAction" prefHeight="14.0" prefWidth="82.0" text="CLEAR ALL!"> </Button>
                   <Label fx:id="Label1" layoutX="51.0" layoutY="93.0" prefHeight="25.0" prefWidth="71.0" text="Set 1" />
                   <Label fx:id="Label2" layoutX="446.0" layoutY="93.0" prefHeight="25.0" prefWidth="71.0" text="Set 2" textAlignment="RIGHT" />
