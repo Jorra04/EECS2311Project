@@ -22,7 +22,7 @@ public class Controller {
 	// create venn diagram instance
 	private VennModel model = new VennModel();
 	
-	ObservableList<String> content = FXCollections.observableArrayList();
+	ObservableList<String> itemsContent = FXCollections.observableArrayList();
 
 	// fxml components
 	@FXML
@@ -36,9 +36,11 @@ public class Controller {
 	@FXML
 	Button clearButton; // trying to use this clear button
 	
-    public void initialize(URL url, ResourceBundle rb) {
-    	content.setAll(model.getStringItemList());
-        item_list.setItems(content);
+	//use this to help setup the fxml components, initialize is called as soon as app starts up. Similar to a constructor.
+    public void initialize() {
+    	//setup content list, item_list reflects the observable list itemsContent
+    	itemsContent.setAll(model.getStringItemList());
+        item_list.setItems(itemsContent);
     }
 
 	//implementing enter key for create_text field to add to item_list
@@ -49,7 +51,7 @@ public class Controller {
 			if (create_text.getLength() != 0) {
 				Item item = new Item(create_text.getText());
 				model.getItemList().add(item);
-				content.setAll(model.getStringItemList());
+				itemsContent.setAll(model.getStringItemList());
 				create_text.clear();
 				create_text.requestFocus();
 			}
@@ -61,7 +63,7 @@ public class Controller {
 		if (create_text.getLength() != 0) {
 			Item item = new Item(create_text.getText());
 			model.getItemList().add(item);
-			item_list.setItems(model.getStringItemList());
+			itemsContent.setAll(model.getStringItemList());
 			create_text.clear();
 			create_text.requestFocus();
 		}
