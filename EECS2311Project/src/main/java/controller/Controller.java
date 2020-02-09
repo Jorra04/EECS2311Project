@@ -128,25 +128,43 @@ public class Controller {
 	@FXML
 	protected void handleClearAllButtonAction(ActionEvent event) {
 		Item.uid =0;
-		item_list.getItems().clear();
-		model.getItemList().clear();
 		leftSetText.setText("Text");
 		rightSetText.setText("Text");
 		middleSetText.setText("Text");
+		rightGroup.removeAll();
+		leftGroup.removeAll();
+		matchGroup.removeAll();
+		model.getItemList().clear();
+		item_list.getItems().clear();
 		create_text.requestFocus();
 		event.consume();
-		
-		//works.
 	}
 
 	@FXML
 	protected void handleClearSelectedButtonAction(ActionEvent event) {
 		List<Item> copyList = new ArrayList<>(item_list.getSelectionModel().getSelectedItems());
 		item_list.getItems().removeAll(copyList);
-		Item.uid --;
-		//System.out.println(item_list.getSelectionModel().getSelectedItem());
+	
+		leftGroup.removeItems(copyList);
+		rightGroup.removeItems(copyList);
+		matchGroup.removeItems(copyList);
+		leftSetText.setText(leftGroup.toVisualList());
+		rightSetText.setText(rightGroup.toVisualList());
+		middleSetText.setText(matchGroup.toVisualList());
 		removed++;
-		Item.uid -=removed;
+		model.getItemList().removeAll(copyList);
+		
+		if(leftGroup.isEmpty()) {
+			leftSetText.setText("Text");
+		}
+		if(rightGroup.isEmpty()) {
+			rightSetText.setText("Text");
+		}
+		if(matchGroup.isEmpty()) {
+			middleSetText.setText("Text");
+		}
+		
+		
 		create_text.requestFocus();
 		event.consume();
 	}
@@ -229,6 +247,10 @@ public class Controller {
 		event.setDropCompleted(isCompleted);
 		event.consume();
 	}
+//	protected boolean listViewContains(Text text) {
+////		should implement something to check if entering ID is already entered in field.
+//		for(int i = 0; i < model.)
+//	}
 	
 
 }

@@ -43,6 +43,9 @@ public class Group {
 	public int getTitle() {
 		return this.getTitle();
 	}
+	public boolean isEmpty() {
+		return items.size() == 0;
+	}
 	
 	public void setTitle(String title) {
 		this.title = title;
