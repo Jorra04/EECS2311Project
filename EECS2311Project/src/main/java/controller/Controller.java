@@ -144,7 +144,7 @@ public class Controller {
 		List<Item> copyList = new ArrayList<>(item_list.getSelectionModel().getSelectedItems());
 		item_list.getItems().removeAll(copyList);
 		Item.uid --;
-		System.out.println(item_list.getSelectionModel().getSelectedItem());
+		//System.out.println(item_list.getSelectionModel().getSelectedItem());
 		removed++;
 		Item.uid -=removed;
 		create_text.requestFocus();
