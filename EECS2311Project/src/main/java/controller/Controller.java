@@ -6,8 +6,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -22,8 +20,6 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -47,10 +43,6 @@ public class Controller {
 	private static final DataFormat itemFormat = new DataFormat("item");
 
 	// fxml components
-	@FXML
-	Circle leftCircle;
-	@FXML
-	Circle rightCircle;
 	@FXML
 	TextField create_text;
 	@FXML
@@ -106,12 +98,11 @@ public class Controller {
         return	new ArrayList<Item>(list);
     }
 
-	// implementing enter key for create_text field to add to item_list
+	//implementing enter key for create_text field to add to item_list
 	@FXML
 	protected void handleCreateTextFieldAction(KeyEvent event) {
-		// TODO: refactor handleCreateTextFieldAction and handleCreateButtonAction
-		// methods, they both do the same stuff.
-		if (event.getCode().equals(KeyCode.ENTER)) {
+		//TODO: refactor handleCreateTextFieldAction and handleCreateButtonAction methods, they both do the same stuff.
+		if(event.getCode().equals(KeyCode.ENTER)) {
 			if (create_text.getLength() != 0) {
 				Item item = new Item(create_text.getText());
 				model.getItemList().add(item);
@@ -124,25 +115,22 @@ public class Controller {
 	}
 
 	@FXML
-	protected void handleCreateButtonAction(ActionEvent event) {
+	protected void handleCreateButtonAction(ActionEvent event){
 		if (create_text.getLength() != 0) {
 			Item item = new Item(create_text.getText());
-			content.add(item.toString());
-			item_list.setItems(content);
-			item_list.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 			model.getItemList().add(item);
 			itemsContent.setAll(model.getItemList());
 			create_text.clear();
 			create_text.requestFocus();
-
+			
+		
 		}
 		event.consume();
 	}
 
 	@FXML
 	protected void handleClearAllButtonAction(ActionEvent event) {
-
-		Item.uid = 0;
+		Item.uid =0;
 		item_list.getItems().clear();
 		model.getItemList().clear();
 		create_text.requestFocus();
@@ -153,11 +141,10 @@ public class Controller {
 	protected void handleClearSelectedButtonAction(ActionEvent event) {
 		List<Item> copyList = new ArrayList<>(item_list.getSelectionModel().getSelectedItems());
 		item_list.getItems().removeAll(copyList);
-
-		Item.uid--;
+		Item.uid --;
 		System.out.println(item_list.getSelectionModel().getSelectedItem());
 		removed++;
-		Item.uid -= removed;
+		Item.uid -=removed;
 		create_text.requestFocus();
 		event.consume();
 	}
