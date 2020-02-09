@@ -20,9 +20,7 @@ import javafx.scene.shape.Circle;
 
 public class View extends Application{
 	public static Stage primaryStage;
-	private AnchorPane anchorPane;
 	//private FXMLLoader loader;
-	
 
 
 	public static void main(String[] args) {

@@ -8,35 +8,68 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Text?>
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="503.0" prefWidth="784.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
     <children>
       <BorderPane>
          <right>
-           
+            <Button fx:id="create_button" mnemonicParsing="false" onAction="#handleCreateButtonAction" text="Create" BorderPane.alignment="TOP_RIGHT"> </Button>
          </right>
          <center>
-            <TextField fx:id="create_text" onKeyReleased="#handleCreateTextFieldAction" prefHeight="26.0" prefWidth="714.0" promptText="Item name here" BorderPane.alignment="TOP_CENTER">
+            <TextField fx:id="create_text" onKeyReleased="#handleCreateTextFieldAction" promptText="Item name here" BorderPane.alignment="TOP_CENTER">
                <BorderPane.margin>
                   <Insets />
                </BorderPane.margin>
             </TextField>
          </center>
       </BorderPane>
-      <Pane fx:id="diagram_pane" prefHeight="434.0" prefWidth="905.0">
+      <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>
-            <Circle fill="DODGERBLUE" layoutX="392.0" layoutY="227.0" opacity="0.21" radius="150.0" stroke="BLACK" strokeType="INSIDE" />
-            <Circle fill="DODGERBLUE" layoutX="549.0" layoutY="227.0" opacity="0.21" radius="150.0" stroke="BLACK" strokeType="INSIDE" />
-            <Button fx:id="clearButton" layoutX="399.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleClearAllButtonAction" prefHeight="14.0" prefWidth="82.0" text="CLEAR ALL!"> </Button>
-            <Label fx:id="Label1" layoutX="240.0" layoutY="65.0" prefHeight="25.0" prefWidth="71.0" text="Set 1" />
-            <Label fx:id="Label2" layoutX="638.0" layoutY="65.0" prefHeight="25.0" prefWidth="71.0" text="Set 2" textAlignment="RIGHT" />
-            <Button fx:id="ClearAll" layoutX="240.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleClearSelectedButtonAction" prefHeight="25.0" prefWidth="105.0" text="Clear selected" />
-            <ListView fx:id="item_list" layoutX="1.0" layoutY="3.0" prefHeight="473.0" prefWidth="206.0" />
-            <Button fx:id="createButton" layoutX="699.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleCreateButtonAction" text="Create" />
+            <ListView fx:id="item_list" onDragDetected="#handleItemListDragDetection" />
+            <Pane fx:id="diagram_pane" prefHeight="477.0" prefWidth="560.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <StackPane fx:id="middleSet" layoutX="206.0" layoutY="159.0" prefHeight="256.0" prefWidth="136.0">
+                     <children>
+                        <Text fx:id= "middleSetText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" StackPane.alignment="CENTER" />
+                     </children>
+                  </StackPane>
+                  <Button fx:id="clearButton" layoutX="399.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleClearAllButtonAction" prefHeight="14.0" prefWidth="82.0" text="CLEAR ALL!"> </Button>
+                  <Label fx:id="Label1" layoutX="51.0" layoutY="93.0" prefHeight="25.0" prefWidth="71.0" text="Set 1" />
+                  <Label fx:id="Label2" layoutX="446.0" layoutY="93.0" prefHeight="25.0" prefWidth="71.0" text="Set 2" textAlignment="RIGHT" />
+                  <Button fx:id="ClearAll" layoutX="240.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleClearSelectedButtonAction" prefHeight="25.0" prefWidth="105.0" text="Clear selected" />
+                  <StackPane alignment="BOTTOM_CENTER" layoutX="209.0" layoutY="129.0" prefHeight="185.0" prefWidth="200.0">
+                     <children>
+                        <Circle fill="DODGERBLUE" opacity="0.2" radius="159.0" stroke="BLACK" strokeType="INSIDE" StackPane.alignment="CENTER" />
+                        <StackPane fx:id="rightSet" onDragDropped="#handleRightSetDrop" onDragOver="#handleRightSetDragOver" prefHeight="150.0" prefWidth="200.0">
+                           <StackPane.margin>
+                              <Insets left="65.0" />
+                           </StackPane.margin>
+                           <children>
+                              <Text fx:id="rightSetText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                           </children>
+                        </StackPane>
+                     </children>
+                  </StackPane>
+                  <StackPane alignment="BOTTOM_CENTER" layoutX="19.0" layoutY="129.0" prefHeight="185.0" prefWidth="200.0">
+                     <children>
+                        <Circle fill="DODGERBLUE" opacity="0.2" radius="159.0" stroke="BLACK" strokeType="INSIDE" StackPane.alignment="CENTER" />
+                        <StackPane fx:id= "leftSet" onDragDropped="#handleLeftSetDrop" onDragOver="#handleLeftSetDragOver" prefHeight="150.0" prefWidth="200.0">
+                           <StackPane.margin>
+                              <Insets right="65.0" />
+                           </StackPane.margin>
+                           <children>
+                              <Text fx:id="leftSetText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                           </children>
+                        </StackPane>
+                     </children>
+                  </StackPane>
+               </children>
+            </Pane>
          </children>
-      </Pane>
-      <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+      </HBox>
     </children>
 </VBox>
