@@ -22,6 +22,7 @@ public class Controller {
 	private VennModel model = new VennModel();
 
 	ObservableList<String> content = FXCollections.observableArrayList();
+	int removed = 0;
 
 	// fxml components
 	@FXML
@@ -44,6 +45,7 @@ public class Controller {
 				Item item = new Item(create_text.getText());
 				content.add(item.toString());
 				item_list.setItems(content);
+				item_list.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 				create_text.clear();
 				create_text.requestFocus();
 			}
@@ -70,7 +72,6 @@ public class Controller {
 		}
 
 	}
-
 	@FXML
 	protected void handleClearAllButtonAction(ActionEvent event) {
 		
@@ -83,8 +84,14 @@ public class Controller {
 	protected void handleClearSelectedButtonAction(ActionEvent event) {
 		List<String> copyList = new ArrayList<>(item_list.getSelectionModel().getSelectedItems());
 		item_list.getItems().removeAll(copyList);
+<<<<<<< HEAD
 
 		Item.uid --;
+=======
+		System.out.println(item_list.getSelectionModel().getSelectedItem());
+		removed++;
+		Item.uid -=removed;
+>>>>>>> jorra_branch
 		create_text.requestFocus();
 
 	}
