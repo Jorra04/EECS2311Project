@@ -33,7 +33,7 @@
             <Label fx:id="Label1" layoutX="240.0" layoutY="65.0" prefHeight="25.0" prefWidth="71.0" text="Set 1" />
             <Label fx:id="Label2" layoutX="638.0" layoutY="65.0" prefHeight="25.0" prefWidth="71.0" text="Set 2" textAlignment="RIGHT" />
             <Button fx:id="ClearAll" layoutX="240.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleClearSelectedButtonAction" prefHeight="25.0" prefWidth="105.0" text="Clear selected" />
-            <ListView fx:id="item_list" layoutX="1.0" layoutY="3.0" prefHeight="400.0" prefWidth="206.0" />
+            <ListView fx:id="item_list" layoutX="1.0" layoutY="3.0" prefHeight="473.0" prefWidth="206.0" />
             <Button fx:id="createButton" layoutX="699.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleCreateButtonAction" text="Create" />
          </children>
       </Pane>
