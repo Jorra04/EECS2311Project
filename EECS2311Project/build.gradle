@@ -20,9 +20,16 @@ repositories {
     jcenter()
 }
 
+mainClassName = "VennDiagram.App"
+
 javafx {
     version = '13'
     modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+sourceSets.main.resources {
+    srcDirs = ['src/main/resources']
+    include '**/*.fxml'
 }
 
 dependencies {
@@ -34,8 +41,4 @@ dependencies {
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
-}
-
-application {
-	mainClassName = 'VennDiagram.Main'
 }
