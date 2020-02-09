@@ -36,6 +36,9 @@ public class Group {
 			this.removeItem(item);
 		}
 	}
+	public void removeAll() {
+		this.items.clear();
+	}
 	
 	public int getTitle() {
 		return this.getTitle();

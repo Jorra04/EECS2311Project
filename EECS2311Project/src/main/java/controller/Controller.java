@@ -132,7 +132,8 @@ public class Controller {
 	protected void handleClearAllButtonAction(ActionEvent event) {
 		Item.uid =0;
 		item_list.getItems().clear();
-		model.getItemList().clear();
+		leftGroup.removeAll();
+		rightGroup.removeAll();
 		create_text.requestFocus();
 		event.consume();
 	}
