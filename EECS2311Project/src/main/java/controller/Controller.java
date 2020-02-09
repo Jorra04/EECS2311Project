@@ -247,10 +247,7 @@ public class Controller {
 		event.setDropCompleted(isCompleted);
 		event.consume();
 	}
-//	protected boolean listViewContains(Text text) {
-////		should implement something to check if entering ID is already entered in field.
-//		for(int i = 0; i < model.)
-//	}
+
 	
 
 }
