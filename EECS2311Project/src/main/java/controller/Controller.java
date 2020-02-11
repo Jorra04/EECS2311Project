@@ -21,6 +21,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import model.VennModel;
 import model.Group;
@@ -40,6 +42,12 @@ public class Controller {
 	private static final DataFormat itemFormat = new DataFormat("item");
 
 	// fxml components
+	@FXML
+	Circle leftCirc;
+	@FXML
+	Circle rightCirc;
+	
+	
 	@FXML
 	TextField create_text;
 	@FXML
@@ -102,6 +110,7 @@ public class Controller {
 		if(event.getCode().equals(KeyCode.ENTER)) {
 			if (create_text.getLength() != 0) {
 				Item item = new Item(create_text.getText());
+				
 				model.getItemList().add(item);
 				itemsContent.setAll(model.getItemList());
 				create_text.clear();
@@ -119,6 +128,7 @@ public class Controller {
 			itemsContent.setAll(model.getItemList());
 			create_text.clear();
 			create_text.requestFocus();
+		
 			
 		
 		}
