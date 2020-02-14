@@ -166,6 +166,8 @@ public class Controller {
 	protected void leftCircleColour() {
 		if (diagram_pane.getChildren().contains(Controller.box)) {
 			diagram_pane.getChildren().remove(Controller.box);
+			Color colorVal = (Color)leftCircle.getFill();
+			colorPicker.setValue(colorVal);
 		}
 		//colorPicker.set
 
@@ -190,7 +192,8 @@ public class Controller {
 	protected void rightCircleColour() {
 		if (diagram_pane.getChildren().contains(Controller.box)) {
 			diagram_pane.getChildren().remove(Controller.box);
-			System.out.println("Removed");
+			Color colorVal = (Color)rightCircle.getFill();
+			colorPicker.setValue(colorVal);
 		}
 		diagram_pane.getChildren().add(Controller.box);
 		box.setLayoutX(14);
