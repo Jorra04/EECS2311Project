@@ -32,12 +32,16 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import model.VennModel;
 import model.Group;
 import model.Item;
+import VennDiagram.View;;
 
 public class Controller {
 
+	//View.primaryStage.setScene(View.promptWindow); --> code to switch windows.
 	// create venn diagram instance
 	int removed = 0;
 	private VennModel model;
@@ -132,6 +136,7 @@ public class Controller {
 
 				model.getItemList().add(item);
 				itemsContent.setAll(model.getItemList());
+				
 				create_text.clear();
 				create_text.requestFocus();
 			}

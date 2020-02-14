@@ -20,6 +20,7 @@ import javafx.scene.shape.Circle;
 
 public class View extends Application{
 	public static Stage primaryStage;
+	public static Scene promptWindow;
 	//private FXMLLoader loader;
 
 
