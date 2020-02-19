@@ -154,12 +154,11 @@ public class Controller {
 			Item item = new Item(create_text.getText());
 			model.getItemList().add(item);
 			itemsContent.setAll(model.getItemList());
-			// create_button.setTextFill(Color.RED);
-			rightCircle.setFill(Color.RED);
 			create_text.clear();
 			create_text.requestFocus();
 
 		}
+		create_text.requestFocus();
 		event.consume();
 	}
 
