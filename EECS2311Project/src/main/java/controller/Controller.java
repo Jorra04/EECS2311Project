@@ -1,5 +1,5 @@
 package controller;
-
+import VennDiagram.AlertBox;
 import java.util.*;
 
 import com.sun.jdi.event.Event;
@@ -58,9 +58,13 @@ public class Controller {
 	Circle leftCircle;
 	@FXML
 	Circle rightCircle;
+	@FXML
+	Button clearSelButton;
+	@FXML
+	Button clearAll; // trying to use this clear button
 
 	@FXML
-	SplitMenuButton menuButton = new SplitMenuButton();
+	SplitMenuButton splitMenu = new SplitMenuButton();
 
 	@FXML
 	MenuItem lButton = new MenuItem();
@@ -75,8 +79,7 @@ public class Controller {
 	ListView<Item> item_list;
 	@FXML
 	Pane diagram_pane; // venn diagram is here
-	@FXML
-	Button clearButton; // trying to use this clear button
+	
 	@FXML
 	StackPane leftSet, rightSet, middleSet;
 	@FXML
@@ -89,6 +92,7 @@ public class Controller {
 	// app starts up. Similar to a constructor.
 	public void initialize() {
 		model = new VennModel();
+		clearAll.requestFocus();
 		// setup content list, item_list reflects the observable list itemsContent
 		itemsContent.setAll(model.getItemList());
 		item_list.setItems(itemsContent);
@@ -161,8 +165,8 @@ public class Controller {
 
 	@FXML
 	protected void menuClick() {
-		menuButton.getItems().add(lButton);
-		menuButton.getItems().add(rButton);
+		splitMenu.getItems().add(lButton);
+		splitMenu.getItems().add(rButton);
 
 	}
 
@@ -175,16 +179,18 @@ public class Controller {
 			colorPicker.setValue(colorVal);
 		}
 		//colorPicker.set
+		splitMenu.setText("Left Circle");
 
 		diagram_pane.getChildren().add(Controller.box);
 		box.setLayoutX(14);
-		box.setLayoutY(menuButton.getLayoutY() + 50);
+		box.setLayoutY(splitMenu.getLayoutY() + 50);
 
 		colorPicker.setOnAction(new EventHandler() {
 			@Override
 			public void handle(javafx.event.Event event) {
 				leftCircle.setFill(colorPicker.getValue());
 				leftCircle.setStroke(Color.BLACK);
+				
 
 			}
 		});
@@ -200,9 +206,11 @@ public class Controller {
 			Color colorVal = (Color)rightCircle.getFill();
 			colorPicker.setValue(colorVal);
 		}
+		splitMenu.setText("Right Circle");
+
 		diagram_pane.getChildren().add(Controller.box);
 		box.setLayoutX(14);
-		box.setLayoutY(menuButton.getLayoutY() + 50);
+		box.setLayoutY(splitMenu.getLayoutY() + 50);
 		colorPicker.setOnAction(new EventHandler() {
 			public void handle(javafx.event.Event event) {
 				// TODO Auto-generated method s
@@ -217,16 +225,24 @@ public class Controller {
 	@FXML
 	protected void handleClearAllButtonAction(ActionEvent event) {
 		Item.uid = 0;
-		leftSetText.setText("Text");
-		rightSetText.setText("Text");
-		middleSetText.setText("Text");
-		rightGroup.removeAll();
-		leftGroup.removeAll();
-		matchGroup.removeAll();
-		model.getItemList().clear();
-		item_list.getItems().clear();
-		create_text.requestFocus();
-		event.consume();
+		AlertBox.display("ALERT", "You are about to delete all data, do you wish to proceed?");
+		if(AlertBox.closePressed) {
+			leftSetText.setText("Text");
+			rightSetText.setText("Text");
+			middleSetText.setText("Text");
+			rightGroup.removeAll();
+			leftGroup.removeAll();
+			matchGroup.removeAll();
+			model.getItemList().clear();
+			item_list.getItems().clear();
+			create_text.requestFocus();
+			AlertBox.cancelPressed = false;
+			AlertBox.closePressed = false;
+			event.consume();
+		}
+		
+		
+		
 	}
 
 	@FXML
