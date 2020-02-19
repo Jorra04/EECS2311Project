@@ -7,7 +7,7 @@ import javafx.scene.control.*;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.*;
 
-public class AlertBox {
+public class clearAllAlert {
 	public static Stage window;
 	static Button closeButton = new Button("Delete all!");
 	static Button cancel = new Button("Cancel");

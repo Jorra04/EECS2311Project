@@ -1,5 +1,5 @@
 package controller;
-import VennDiagram.AlertBox;
+import VennDiagram.clearAllAlert;
 import java.util.*;
 
 import com.sun.jdi.event.Event;
@@ -224,8 +224,8 @@ public class Controller {
 	@FXML
 	protected void handleClearAllButtonAction(ActionEvent event) {
 		Item.uid = 0;
-		AlertBox.display("ALERT", "You are about to delete all data, do you wish to proceed?");
-		if(AlertBox.closePressed) {
+		clearAllAlert.display("ALERT", "You are about to delete all data, do you wish to proceed?");
+		if(clearAllAlert.closePressed) {
 			leftSetText.setText("Text");
 			rightSetText.setText("Text");
 			middleSetText.setText("Text");
@@ -235,8 +235,8 @@ public class Controller {
 			model.getItemList().clear();
 			item_list.getItems().clear();
 			create_text.requestFocus();
-			AlertBox.cancelPressed = false;
-			AlertBox.closePressed = false;
+			clearAllAlert.cancelPressed = false;
+			clearAllAlert.closePressed = false;
 			event.consume();
 		}
 		
