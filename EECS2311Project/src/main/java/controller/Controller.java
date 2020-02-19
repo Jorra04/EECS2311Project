@@ -37,7 +37,7 @@ import javafx.scene.control.Alert.AlertType;
 import model.VennModel;
 import model.Group;
 import model.Item;
-import VennDiagram.View;;
+import VennDiagram.View;
 
 public class Controller {
 

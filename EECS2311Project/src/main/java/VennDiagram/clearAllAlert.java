@@ -21,7 +21,6 @@ public class clearAllAlert {
 		window.setMinHeight(120);
 		window.setMinWidth(400);
 		
-		
 		Label label = new Label();
 		label.setText(message);
 		

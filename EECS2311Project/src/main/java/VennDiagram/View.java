@@ -27,7 +27,7 @@ import javafx.stage.Stage;
 public class View extends Application{
 	public static Stage primaryStage;
 	public static Scene promptWindow;
-	
+	public static Scene scene;
 	
 	//private FXMLLoader loader;
 
@@ -46,25 +46,11 @@ public class View extends Application{
 		
 		primaryStage = stage;
 		Parent root = FXMLLoader.load(getClass().getResource("/views/View.fxml"));
+		Parent root2 = FXMLLoader.load(getClass().getResource("/views/openingPage.fxml"));
 		   
-	    Scene scene = new Scene(root, 800, 600);
-		
-		Text text = new Text("Welcome to Group 3's Venn Diagram Application!");
-		text.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
-		text.setFill(Color.RED);
-		
-	
-		
-		Button button = new Button("Take me to the next scene");
-		
-		button.setOnAction(e -> primaryStage.setScene(scene));
-		
-		StackPane layout1 = new StackPane();
-		
-		layout1.getChildren().addAll(text,button);
-		StackPane.setAlignment(text, Pos.TOP_CENTER);
-		
-		promptWindow = new Scene(layout1,700,500);
+	    scene = new Scene(root, 800, 600);
+	    
+		promptWindow = new Scene(root2,700,500);
 		
 	
 	    primaryStage.setTitle("VennDiagram Creator");
