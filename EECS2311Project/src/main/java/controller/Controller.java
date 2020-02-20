@@ -35,6 +35,7 @@ import javafx.scene.text.Text;
 import model.VennModel;
 import model.Group;
 import model.Item;
+import VennDiagram.TagAlreadyExistsAlert;
 import VennDiagram.View;
 
 public class Controller {
@@ -50,7 +51,8 @@ public class Controller {
 	Group rightGroup;
 	Group matchGroup;
 	private static final DataFormat itemFormat = new DataFormat("item");
-
+	
+	private ArrayList<String> itemText = new ArrayList<>();
 	// fxml components
 	@FXML
     private MenuItem newFile;
@@ -148,17 +150,23 @@ public class Controller {
 	// implementing enter key for create_text field to add to item_list
 	@FXML
 	protected void handleCreateTextFieldAction(KeyEvent event) {
-		// TODO: refactor handleCreateTextFieldAction and handleCreateButtonAction
 		// methods, they both do the same stuff.
 		if (event.getCode().equals(KeyCode.ENTER)) {
 			if (create_text.getLength() != 0) {
-				Item item = new Item(create_text.getText());
-
-				model.getItemList().add(item);
-				itemsContent.setAll(model.getItemList());
+				if(!tagAlreadyExists(create_text.getText())) {
+					Item item = new Item(create_text.getText());
+					String adder = create_text.getText().replaceAll(" ", "");
+					itemText.add(adder);
+					model.getItemList().add(item);
+					itemsContent.setAll(model.getItemList());
+				}
+				else {
+					TagAlreadyExistsAlert.display("Alert", "Tag Already Exists!");
+				}
 				
 				create_text.clear();
 				create_text.requestFocus();
+				
 			}
 		}
 		event.consume();
@@ -167,11 +175,20 @@ public class Controller {
 	@FXML
 	protected void handleCreateButtonAction(ActionEvent event) {
 		if (create_text.getLength() != 0) {
-			Item item = new Item(create_text.getText());
-			model.getItemList().add(item);
-			itemsContent.setAll(model.getItemList());
+			if(!tagAlreadyExists(create_text.getText())) {
+				Item item = new Item(create_text.getText());
+				String adder = create_text.getText().replaceAll(" ", "");
+				itemText.add(adder);
+				model.getItemList().add(item);
+				itemsContent.setAll(model.getItemList());
+			}
+			else {
+				TagAlreadyExistsAlert.display("Alert", "Tag Already Exists!");
+			}
 			create_text.clear();
 			create_text.requestFocus();
+			
+			
 
 		}
 		create_text.requestFocus();
@@ -182,7 +199,6 @@ public class Controller {
 	protected void menuClick() {
 		splitMenu.getItems().add(lButton);
 		splitMenu.getItems().add(rButton);
-
 	}
 
 	@SuppressWarnings("unchecked")
@@ -193,7 +209,6 @@ public class Controller {
 			Color colorVal = (Color)leftCircle.getFill();
 			colorPicker.setValue(colorVal);
 		}
-		//colorPicker.set
 		splitMenu.setText("Left Circle");
 
 		diagram_pane.getChildren().add(Controller.box);
@@ -206,7 +221,6 @@ public class Controller {
 				leftCircle.setFill(colorPicker.getValue());
 				leftCircle.setStroke(Color.BLACK);
 				
-
 			}
 		});
 
@@ -228,7 +242,6 @@ public class Controller {
 		box.setLayoutY(splitMenu.getLayoutY() + 30);
 		colorPicker.setOnAction(new EventHandler() {
 			public void handle(javafx.event.Event event) {
-				// TODO Auto-generated method s
 				rightCircle.setFill(colorPicker.getValue());
 				rightCircle.setStroke(Color.BLACK);
 
@@ -369,8 +382,8 @@ public class Controller {
 	
 	@FXML
 	protected void menuButtonClose(ActionEvent event) {
-		VennDiagram.quitProgram.display("Confirm Exit", "Are you sure you want to exit?");
-		if(VennDiagram.quitProgram.closePressed) {
+		VennDiagram.quitProgramAlert.display("Confirm Exit", "Are you sure you want to exit?");
+		if(VennDiagram.quitProgramAlert.closePressed) {
 			View.primaryStage.close();
 		}
 		event.consume();
@@ -397,6 +410,14 @@ public class Controller {
 		  }
 		
 		event.consume();
+	}
+	
+	protected boolean tagAlreadyExists(String tag) {
+		String checker = tag.replaceAll(" ", "");
+		if(itemText.contains(checker)) {
+			return true;
+		}
+		return false;
 	}
 	
 

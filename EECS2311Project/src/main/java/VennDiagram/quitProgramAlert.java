@@ -9,7 +9,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class quitProgram {
+public class quitProgramAlert {
 	public static Stage window;
 	protected static Button quit = new Button("Quit");
 	protected static Button cancel = new Button("Cancel");

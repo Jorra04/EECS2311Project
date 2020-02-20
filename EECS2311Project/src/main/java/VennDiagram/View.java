@@ -41,8 +41,8 @@ public class View extends Application{
 		promptWindow = new Scene(root2,750,550);
 		
 		primaryStage.setOnCloseRequest(event ->{
-			quitProgram.display("Confirm Exit", "Are you sure you want to exit?");
-			if(!quitProgram.closePressed) {
+			quitProgramAlert.display("Confirm Exit", "Are you sure you want to exit?");
+			if(!quitProgramAlert.closePressed) {
 				event.consume();
 			}
 			
