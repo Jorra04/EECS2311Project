@@ -11,8 +11,7 @@
 
 <AnchorPane fx:id="anchorpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="583.0" prefWidth="742.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.startPageController">
    <children>
-      <Button fx:id="next" layoutX="533.0" layoutY="182.0" mnemonicParsing="false" onAction="#nextScene" prefHeight="37.0" prefWidth="134.0" text="Enter Our App" />
-      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="742.0">
+      <MenuBar prefHeight="583.0" prefWidth="742.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
@@ -34,6 +33,7 @@
           </Menu>
         </menus>
       </MenuBar>
+      <Button fx:id="next" layoutX="533.0" layoutY="182.0" mnemonicParsing="false" onAction="#nextScene" prefHeight="37.0" prefWidth="134.0" text="Enter Our App" />
       <Pane layoutX="31.0" layoutY="27.0" prefHeight="138.0" prefWidth="693.0">
          <children>
             <Text fill="#d30909" layoutX="74.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to the Venn Diagram App!" textAlignment="CENTER" underline="true" wrappingWidth="516.13671875">
