@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 public class TagAlreadyExistsAlert {
 	public static Stage window;
 	static Button confirm = new Button("Okay, Got It.");
-	public static boolean cancelPressed, closePressed;
+	private static boolean confirmPressed;
 	
 	
 	public static void display(String title, String message) {
@@ -26,7 +26,7 @@ public class TagAlreadyExistsAlert {
 		label.setText(message);
 
 		confirm.setOnAction(e-> {
-			cancelPressed = true;
+			confirmPressed = true;
 			window.close();
 		});
 		
