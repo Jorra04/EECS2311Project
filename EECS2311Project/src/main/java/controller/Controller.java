@@ -376,6 +376,7 @@ public class Controller {
 		if(VennDiagram.quitProgram.closePressed) {
 			View.primaryStage.close();
 		}
+		event.consume();
 		
 	}
 	
@@ -397,6 +398,8 @@ public class Controller {
 		  } catch (Exception ex) {
 			ex.printStackTrace();
 		  }
+		
+		event.consume();
 	}
 	
 

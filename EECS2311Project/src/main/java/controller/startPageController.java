@@ -44,6 +44,7 @@ public class startPageController {
 		if(VennDiagram.quitProgram.closePressed) {
 			View.primaryStage.close();
 		}
+		event.consume();
 	}
 	
 	@FXML
@@ -64,6 +65,7 @@ public class startPageController {
 		  } catch (Exception ex) {
 			ex.printStackTrace();
 		  }
+		event.consume();
 	}
 	
 	
