@@ -26,11 +26,13 @@
                   <MenuItem fx:id="newFile" mnemonicParsing="false" text="New" />
                   <MenuItem fx:id="openFile" mnemonicParsing="false" text="Open" />
                   <MenuItem fx:id="saveFile" mnemonicParsing="false" text="Save" />
+                  <MenuItem fx:id="switchScene" mnemonicParsing="false" onAction="#backToMenu" text="Back to Menu" />
               <MenuItem fx:id="quitProgram" mnemonicParsing="false" onAction="#menuButtonClose" text="Quit" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
+                  <MenuItem fx:id="restoreDef" mnemonicParsing="false" onAction="#restoreDefault" text="Restore Default" />
               <MenuItem mnemonicParsing="false" text="Delete" />
             </items>
           </Menu>

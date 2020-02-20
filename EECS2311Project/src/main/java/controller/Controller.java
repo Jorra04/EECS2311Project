@@ -1,5 +1,6 @@
 package controller;
 import VennDiagram.clearAllAlert;
+import VennDiagram.restoreDefaultsAlert;
 
 import java.io.File;
 import java.util.*;
@@ -37,6 +38,7 @@ import model.Group;
 import model.Item;
 import VennDiagram.TagAlreadyExistsAlert;
 import VennDiagram.View;
+import VennDiagram.backToMenuAlert;
 import VennDiagram.tooManyCirclesAlert;
 
 public class Controller {
@@ -55,8 +57,10 @@ public class Controller {
 	private static final DataFormat itemFormat = new DataFormat("item");
 	
 	private ArrayList<String> itemText = new ArrayList<>();
-	// fxml components
 	
+	private ArrayList<Circle> circles = new ArrayList<>();
+	// fxml components
+	Circle circle;
 	@FXML
 	Button addCirc;
 	@FXML
@@ -67,9 +71,14 @@ public class Controller {
 
     @FXML
     private MenuItem saveFile;
+    
+    @FXML
+    private MenuItem switchScene;
 
     @FXML
     private MenuItem quitProgram;
+    @FXML
+    private MenuItem restoreDef;
     @FXML
     private MenuItem aboutUs;
 	@FXML
@@ -254,20 +263,9 @@ public class Controller {
 
 	@FXML
 	protected void handleClearAllButtonAction(ActionEvent event) {
-		Item.uid = 0;
 		clearAllAlert.display("ALERT", "You are about to delete all data, do you wish to proceed?");
 		if(clearAllAlert.closePressed) {
-			leftSetText.setText("Text");
-			rightSetText.setText("Text");
-			middleSetText.setText("Text");
-			rightGroup.removeAll();
-			leftGroup.removeAll();
-			matchGroup.removeAll();
-			model.getItemList().clear();
-			item_list.getItems().clear();
-			create_text.requestFocus();
-			clearAllAlert.cancelPressed = false;
-			clearAllAlert.closePressed = false;
+			remover();
 			event.consume();
 		}
 		
@@ -441,13 +439,57 @@ public class Controller {
 	}
 	
 	private void circleCreator(double radius, int startX, int startY) {
-		Circle circle = new Circle();
+		circle = new Circle();
 		circle.setFill(leftCircle.getFill());
 		circle.setOpacity(leftCircle.getOpacity());
 		circle.setRadius(radius);
 		circle.setLayoutX(startX);
 		circle.setLayoutY(startY);
+		circles.add(circle);
 		diagram_pane.getChildren().add(circle);
+		System.out.println(circles);
+		
+	}
+	
+	private void circleDestroyer(List<Circle> circle) {
+		diagram_pane.getChildren().removeAll(circles);
+	}
+	
+	@FXML
+	protected void backToMenu(ActionEvent event) {
+		backToMenuAlert.display("Alert", "Back to menu?");
+		if(backToMenuAlert.confirmPressed) {
+			View.primaryStage.setScene(View.promptWindow);
+		}
+	}
+	
+	@FXML
+	protected void restoreDefault(ActionEvent event) {
+		restoreDefaultsAlert.display("Alert", "You've selected to delete all data, do you"
+				+ " wish to continue?");
+		if(restoreDefaultsAlert.deletePressed) {
+			remover();
+			circleDestroyer(this.circles);
+			this.numCirc = 2;
+			event.consume();
+		}
+		
+	}
+	
+	private void remover() { //function to remove all items, used in multiple places.
+		leftSetText.setText("Text");
+		rightSetText.setText("Text");
+		middleSetText.setText("Text");
+		rightGroup.removeAll();
+		leftGroup.removeAll();
+		matchGroup.removeAll();
+		model.getItemList().clear();
+		item_list.getItems().clear();
+		create_text.requestFocus();
+		itemText.clear(); //this is needed, as if we dont have this, the program thinks we have duplicate items present.
+		Item.uid = 0;
+		clearAllAlert.cancelPressed = false;
+		clearAllAlert.closePressed = false;
 		
 	}
 	
