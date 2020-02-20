@@ -1,5 +1,8 @@
 package controller;
 import VennDiagram.clearAllAlert;
+
+import java.io.File;
+import java.net.URI;
 import java.util.*;
 
 import com.sun.jdi.event.Event;
@@ -55,6 +58,17 @@ public class Controller {
 
 	// fxml components
 	@FXML
+    private MenuItem newFile;
+
+    @FXML
+    private MenuItem openFile;
+
+    @FXML
+    private MenuItem saveFile;
+
+    @FXML
+    private MenuItem quitProgram;
+	@FXML
 	Circle leftCircle;
 	@FXML
 	Circle rightCircle;
@@ -91,6 +105,8 @@ public class Controller {
 	// use this to help setup the fxml components, initialize is called as soon as
 	// app starts up. Similar to a constructor.
 	public void initialize() {
+		splitMenu.setOnAction(e -> {
+		});
 		model = new VennModel();
 		clearAll.requestFocus();
 		// setup content list, item_list reflects the observable list itemsContent
@@ -182,7 +198,7 @@ public class Controller {
 
 		diagram_pane.getChildren().add(Controller.box);
 		box.setLayoutX(14);
-		box.setLayoutY(splitMenu.getLayoutY() + 50);
+		box.setLayoutY(splitMenu.getLayoutY() + 30);
 
 		colorPicker.setOnAction(new EventHandler() {
 			@Override
@@ -209,7 +225,7 @@ public class Controller {
 
 		diagram_pane.getChildren().add(Controller.box);
 		box.setLayoutX(14);
-		box.setLayoutY(splitMenu.getLayoutY() + 50);
+		box.setLayoutY(splitMenu.getLayoutY() + 30);
 		colorPicker.setOnAction(new EventHandler() {
 			public void handle(javafx.event.Event event) {
 				// TODO Auto-generated method s
@@ -350,5 +366,35 @@ public class Controller {
 		event.setDropCompleted(isCompleted);
 		event.consume();
 	}
+	
+	@FXML
+	protected void menuButtonClose(ActionEvent event) {
+		VennDiagram.quitProgram.display("Confirm Exit", "You are about to end the program, do you wish to proceed?");
+		if(VennDiagram.quitProgram.closePressed) {
+			View.primaryStage.close();
+		}
+		
+	}
+	
+	@FXML 
+	protected void aboutUs(ActionEvent event) {
+		try {
+
+			File pdfFile = new File("src\\main\\resources\\userMan\\manual.pdf");
+			if (pdfFile.exists()) {
+
+				if (java.awt.Desktop.isDesktopSupported()) {
+					java.awt.Desktop.getDesktop().open(pdfFile);
+				} else {
+					System.out.println("Awt Desktop is not supported!");
+				}
+			} else {
+				System.out.println("File is not exists!");
+			}
+		  } catch (Exception ex) {
+			ex.printStackTrace();
+		  }
+	}
+	
 
 }

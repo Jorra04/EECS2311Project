@@ -5,14 +5,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="583.0" prefWidth="742.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.startPage">
+<AnchorPane fx:id="anchorpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="583.0" prefWidth="742.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.startPage">
    <children>
-      <Text fx:id="title" fill="#fd0000" layoutX="59.0" layoutY="71.0" stroke="#0a0a0a" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to Group 3's Venn Diagram Application!" underline="true" wrappingWidth="624.13671875">
+      <Text fx:id="title" fill="#b50808" layoutX="17.0" layoutY="59.0" stroke="#0a0a0a" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to Group 3's Venn Diagram Application!" textAlignment="CENTER" underline="true" wrappingWidth="708.13671875">
          <font>
-            <Font size="28.0" />
+            <Font name="Elephant Italic" size="36.0" />
          </font></Text>
       <Button fx:id="next" layoutX="533.0" layoutY="182.0" mnemonicParsing="false" onAction="#nextScene" prefHeight="37.0" prefWidth="134.0" text="Enter Our App" />
-      <Text fill="#295be6" fontSmoothingType="LCD" layoutX="59.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contributors:" wrappingWidth="176.13671875">
+      <Text fill="#295be6" fontSmoothingType="LCD" layoutX="59.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contributors:" underline="true" wrappingWidth="176.13671875">
          <font>
             <Font name="Georgia Italic" size="21.0" />
          </font>
@@ -32,7 +32,7 @@
             <Font name="Georgia Italic" size="21.0" />
          </font>
       </Text>
-      <Text layoutX="59.0" layoutY="374.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jorra Singh " wrappingWidth="148.13671875">
+      <Text layoutX="59.0" layoutY="374.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jorra Singh " wrappingWidth="176.13671875">
          <font>
             <Font name="Georgia Italic" size="21.0" />
          </font>

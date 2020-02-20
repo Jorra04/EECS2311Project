@@ -36,8 +36,7 @@ public class View extends Application{
 		launch(args);
 	}
 
-	
-	
+
 
 	@Override
 	public void start(Stage stage) throws Exception{
@@ -50,7 +49,15 @@ public class View extends Application{
 		   
 	    scene = new Scene(root, 800, 600);
 	    
-		promptWindow = new Scene(root2,700,500);
+		promptWindow = new Scene(root2,750,550);
+		
+		primaryStage.setOnCloseRequest(event ->{
+			quitProgram.display("Exit", "Are you sure you want to exit?");
+			if(!quitProgram.closePressed) {
+				event.consume();
+			}
+			
+		});
 		
 	
 	    primaryStage.setTitle("VennDiagram Creator");
