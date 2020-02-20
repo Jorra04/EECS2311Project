@@ -5,49 +5,21 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane fx:id="anchorpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="583.0" prefWidth="742.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.startPageController">
    <children>
-      <Text fx:id="title" fill="#b50808" layoutX="17.0" layoutY="59.0" stroke="#0a0a0a" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to Group 3's Venn Diagram Application!" textAlignment="CENTER" underline="true" wrappingWidth="708.13671875">
-         <font>
-            <Font name="Elephant Italic" size="36.0" />
-         </font></Text>
       <Button fx:id="next" layoutX="533.0" layoutY="182.0" mnemonicParsing="false" onAction="#nextScene" prefHeight="37.0" prefWidth="134.0" text="Enter Our App" />
-      <Text fill="#295be6" fontSmoothingType="LCD" layoutX="59.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contributors:" underline="true" wrappingWidth="176.13671875">
-         <font>
-            <Font name="Georgia Italic" size="21.0" />
-         </font>
-      </Text>
-      <Text layoutX="59.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Brian Wong" wrappingWidth="176.13671875">
-         <font>
-            <Font name="Georgia Italic" size="21.0" />
-         </font>
-      </Text>
-      <Text layoutX="59.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kaasim Shaikh" wrappingWidth="176.13671875">
-         <font>
-            <Font name="Georgia Italic" size="21.0" />
-         </font>
-      </Text>
-      <Text layoutX="59.0" layoutY="323.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bart Gisone" wrappingWidth="176.13671875">
-         <font>
-            <Font name="Georgia Italic" size="21.0" />
-         </font>
-      </Text>
-      <Text layoutX="59.0" layoutY="374.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jorra Singh " wrappingWidth="176.13671875">
-         <font>
-            <Font name="Georgia Italic" size="21.0" />
-         </font>
-      </Text>
       <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="742.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                  <MenuItem fx:id="newFile" mnemonicParsing="false" text="New" />
-                  <MenuItem fx:id="openFile" mnemonicParsing="false" text="Open" />
-                  <MenuItem fx:id="saveFile" mnemonicParsing="false" text="Save" />
-              <MenuItem fx:id="quitProgram" mnemonicParsing="false" onAction="#menuButtonClose" text="Quit" />
+                  <MenuItem mnemonicParsing="false" text="New" />
+                  <MenuItem mnemonicParsing="false" text="Open" />
+                  <MenuItem mnemonicParsing="false" text="Save" />
+              <MenuItem mnemonicParsing="false" onAction="#menuButtonClose" text="Quit" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
@@ -57,10 +29,48 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#aboutUs" text="About Our Program " />
+              <MenuItem mnemonicParsing="false" onAction="#aboutUs" text="About Our Program" />
             </items>
           </Menu>
         </menus>
       </MenuBar>
+      <Pane layoutX="31.0" layoutY="27.0" prefHeight="138.0" prefWidth="693.0">
+         <children>
+            <Text fill="#d30909" layoutX="74.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to the Venn Diagram App!" textAlignment="CENTER" underline="true" wrappingWidth="516.13671875">
+               <font>
+                  <Font name="Matura MT Script Capitals" size="31.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+      <Pane layoutX="31.0" layoutY="165.0" prefHeight="389.0" prefWidth="362.0">
+         <children>
+            <Text fill="#067eff" layoutX="51.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contributors:" underline="true">
+               <font>
+                  <Font name="Bell MT Bold" size="22.0" />
+               </font>
+            </Text>
+            <Text layoutX="51.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Brian Wong">
+               <font>
+                  <Font name="Bell MT Italic" size="22.0" />
+               </font>
+            </Text>
+            <Text layoutX="51.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bart Gisone" wrappingWidth="111.0205078125">
+               <font>
+                  <Font name="Bell MT Italic" size="22.0" />
+               </font>
+            </Text>
+            <Text layoutX="53.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kaasim Shaikh">
+               <font>
+                  <Font name="Bell MT Italic" size="22.0" />
+               </font>
+            </Text>
+            <Text layoutX="52.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jorra Singh">
+               <font>
+                  <Font name="Bell MT Italic" size="22.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

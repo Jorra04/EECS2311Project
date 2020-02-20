@@ -2,15 +2,12 @@ package controller;
 import VennDiagram.clearAllAlert;
 
 import java.io.File;
-import java.net.URI;
 import java.util.*;
 
-import com.sun.jdi.event.Event;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.*;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -35,8 +32,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import model.VennModel;
 import model.Group;
 import model.Item;
@@ -68,6 +63,8 @@ public class Controller {
 
     @FXML
     private MenuItem quitProgram;
+    @FXML
+    private MenuItem aboutUs;
 	@FXML
 	Circle leftCircle;
 	@FXML
@@ -372,7 +369,7 @@ public class Controller {
 	
 	@FXML
 	protected void menuButtonClose(ActionEvent event) {
-		VennDiagram.quitProgram.display("Confirm Exit", "You are about to end the program, do you wish to proceed?");
+		VennDiagram.quitProgram.display("Confirm Exit", "Are you sure you want to exit?");
 		if(VennDiagram.quitProgram.closePressed) {
 			View.primaryStage.close();
 		}

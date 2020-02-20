@@ -2,9 +2,7 @@ package VennDiagram;
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
-import javafx.scene.text.TextAlignment;
 import javafx.scene.control.*;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.*;
 
 public class clearAllAlert {

@@ -2,7 +2,7 @@ package controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
@@ -26,9 +26,20 @@ public class startPageController {
     @FXML
     private ImageView imView;
 	
+    
+    @FXML
+    private MenuItem newFile;
+
+    @FXML
+    private MenuItem openFile;
+
+    @FXML
+    private MenuItem saveFile;
+
+    @FXML
+    private MenuItem quitProgram;
 	
-	
-	
+
 	
 	
 	
@@ -37,17 +48,17 @@ public class startPageController {
 		View.primaryStage.setScene(View.scene);
 	}
 	
-	
 	@FXML
 	protected void menuButtonClose(ActionEvent event) {
-		VennDiagram.quitProgram.display("Confirm Exit", "You are about to end the program, do you wish to proceed?");
+		VennDiagram.quitProgram.display("Confirm Exit", "Are you sure you want to exit?");
 		if(VennDiagram.quitProgram.closePressed) {
 			View.primaryStage.close();
 		}
 		event.consume();
+		
 	}
 	
-	@FXML
+	@FXML 
 	protected void aboutUs(ActionEvent event) {
 		try {
 
@@ -65,8 +76,13 @@ public class startPageController {
 		  } catch (Exception ex) {
 			ex.printStackTrace();
 		  }
+		
 		event.consume();
 	}
+	
+	
+	
+	
 	
 	
 	
