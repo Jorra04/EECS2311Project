@@ -223,8 +223,8 @@ public class Controller {
 		splitMenu.setText("Left Circle");
 
 		diagram_pane.getChildren().add(Controller.box);
-		box.setLayoutX(14);
-		box.setLayoutY(splitMenu.getLayoutY() + 30);
+		box.setLayoutX(splitMenu.getLayoutX());
+		box.setLayoutY(splitMenu.getLayoutY() + 40);
 
 		colorPicker.setOnAction(new EventHandler() {
 			@Override
@@ -249,8 +249,8 @@ public class Controller {
 		splitMenu.setText("Right Circle");
 
 		diagram_pane.getChildren().add(Controller.box);
-		box.setLayoutX(14);
-		box.setLayoutY(splitMenu.getLayoutY() + 30);
+		box.setLayoutX(splitMenu.getLayoutX());
+		box.setLayoutY(splitMenu.getLayoutY() + 40);
 		colorPicker.setOnAction(new EventHandler() {
 			public void handle(javafx.event.Event event) {
 				rightCircle.setFill(colorPicker.getValue());
