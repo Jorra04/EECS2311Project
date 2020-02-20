@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="anchorpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="583.0" prefWidth="742.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.startPage">
+<AnchorPane fx:id="anchorpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="583.0" prefWidth="742.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.startPageController">
    <children>
       <Text fx:id="title" fill="#b50808" layoutX="17.0" layoutY="59.0" stroke="#0a0a0a" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to Group 3's Venn Diagram Application!" textAlignment="CENTER" underline="true" wrappingWidth="708.13671875">
          <font>
@@ -37,5 +40,27 @@
             <Font name="Georgia Italic" size="21.0" />
          </font>
       </Text>
+      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="742.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+                  <MenuItem fx:id="newFile" mnemonicParsing="false" text="New" />
+                  <MenuItem fx:id="openFile" mnemonicParsing="false" text="Open" />
+                  <MenuItem fx:id="saveFile" mnemonicParsing="false" text="Save" />
+              <MenuItem fx:id="quitProgram" mnemonicParsing="false" onAction="#menuButtonClose" text="Quit" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#aboutUs" text="About Our Program " />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
    </children>
 </AnchorPane>

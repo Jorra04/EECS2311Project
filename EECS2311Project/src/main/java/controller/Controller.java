@@ -105,7 +105,10 @@ public class Controller {
 	// use this to help setup the fxml components, initialize is called as soon as
 	// app starts up. Similar to a constructor.
 	public void initialize() {
+		
 		splitMenu.setOnAction(e -> {
+			//keep this empty, it basically removes the functionality of the root button in the split
+			//button button. Keeps the dropdown functionality.
 		});
 		model = new VennModel();
 		clearAll.requestFocus();
