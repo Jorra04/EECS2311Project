@@ -187,9 +187,6 @@ public class Controller {
 			}
 			create_text.clear();
 			create_text.requestFocus();
-			
-			
-
 		}
 		create_text.requestFocus();
 		event.consume();
@@ -419,6 +416,7 @@ public class Controller {
 		}
 		return false;
 	}
+	
 	
 
 }
