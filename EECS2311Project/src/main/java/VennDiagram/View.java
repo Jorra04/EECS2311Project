@@ -36,7 +36,7 @@ public class View extends Application{
 		Parent root = FXMLLoader.load(getClass().getResource("/views/View.fxml"));
 		Parent root2 = FXMLLoader.load(getClass().getResource("/views/openingPage.fxml"));
 		   
-	    scene = new Scene(root, 800, 600);
+	    scene = new Scene(root, 900, 650);
 	    
 		promptWindow = new Scene(root2,750,550);
 		

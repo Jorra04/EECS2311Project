@@ -63,10 +63,10 @@
                         <Text fx:id="middleSetText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" StackPane.alignment="CENTER" />
                      </children>
                   </StackPane>
-                  <Button fx:id="clearAll" layoutX="399.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleClearAllButtonAction" prefHeight="14.0" prefWidth="82.0" text="CLEAR ALL!"> </Button>
+                  <Button fx:id="clearAll" layoutX="342.0" layoutY="16.0" mnemonicParsing="false" onAction="#handleClearAllButtonAction" prefHeight="32.0" prefWidth="97.0" text="CLEAR ALL!"> </Button>
                   <Label fx:id="Label1" layoutX="51.0" layoutY="93.0" prefHeight="25.0" prefWidth="71.0" text="Set 1" />
                   <Label fx:id="Label2" layoutX="446.0" layoutY="93.0" prefHeight="25.0" prefWidth="71.0" text="Set 2" textAlignment="RIGHT" />
-                  <Button fx:id="clearSelButton" layoutX="240.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleClearSelectedButtonAction" prefHeight="25.0" prefWidth="105.0" text="Clear selected" />
+                  <Button fx:id="clearSelButton" layoutX="178.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleClearSelectedButtonAction" prefHeight="32.0" prefWidth="126.0" text="Clear selected" />
                   <StackPane alignment="BOTTOM_CENTER" layoutX="209.0" layoutY="129.0" prefHeight="185.0" prefWidth="200.0">
                      <children>
                         <Circle fx:id="rightCircle" fill="DODGERBLUE" opacity="0.2" radius="159.0" stroke="BLACK" strokeType="INSIDE" StackPane.alignment="CENTER" />
@@ -93,12 +93,13 @@
                         </StackPane>
                      </children>
                   </StackPane>
-                  <SplitMenuButton fx:id="splitMenu" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#menuClick" text="Change Colour">
+                  <SplitMenuButton fx:id="splitMenu" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#menuClick" prefHeight="32.0" prefWidth="136.0" text="Change Colour">
                     <items>
                       <MenuItem fx:id="lButton" mnemonicParsing="false" onAction="#leftCircleColour" text="Left Circle" />
                       <MenuItem fx:id="rButton" mnemonicParsing="false" onAction="#rightCircleColour" text="Right Circle" />
                     </items>
                   </SplitMenuButton>
+                  <Button fx:id="addCirc" layoutX="482.0" layoutY="16.0" mnemonicParsing="false" onAction="#addCirc" prefHeight="32.0" prefWidth="108.0" text="Add Circle" />
                </children>
             </Pane>
          </children>

@@ -37,12 +37,14 @@ import model.Group;
 import model.Item;
 import VennDiagram.TagAlreadyExistsAlert;
 import VennDiagram.View;
+import VennDiagram.tooManyCirclesAlert;
 
 public class Controller {
 
 	//View.primaryStage.setScene(View.promptWindow); --> code to switch windows.
 	// create venn diagram instance
 	int removed = 0;
+	private static int numCirc = 2;
 	private VennModel model;
 
 	ObservableList<Item> itemsContent = FXCollections.observableArrayList();
@@ -54,6 +56,9 @@ public class Controller {
 	
 	private ArrayList<String> itemText = new ArrayList<>();
 	// fxml components
+	
+	@FXML
+	Button addCirc;
 	@FXML
     private MenuItem newFile;
 
@@ -415,6 +420,35 @@ public class Controller {
 			return true;
 		}
 		return false;
+	}
+	
+	@FXML
+	protected void addCirc(ActionEvent event) {
+		if(Controller.numCirc == 2) {
+			numCirc++;
+			circleCreator(leftCircle.getRadius(),280,400);
+		}
+		else if(Controller.numCirc == 3) {
+			numCirc++;
+			circleCreator(leftCircle.getRadius(),280,200);
+
+			
+		}
+		else {
+			tooManyCirclesAlert.display("Exceeded Number of Allowed Circles!", "You have exceeded the "
+					+ "number of allowed cirlces.");
+		}
+	}
+	
+	private void circleCreator(double radius, int startX, int startY) {
+		Circle circle = new Circle();
+		circle.setFill(leftCircle.getFill());
+		circle.setOpacity(leftCircle.getOpacity());
+		circle.setRadius(radius);
+		circle.setLayoutX(startX);
+		circle.setLayoutY(startY);
+		diagram_pane.getChildren().add(circle);
+		
 	}
 	
 	
