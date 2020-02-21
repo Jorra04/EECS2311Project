@@ -20,7 +20,7 @@ public class tooManyCirclesAlert {
 		window.initModality(Modality.APPLICATION_MODAL); //stops interaction with the other scene while this scene is open.
 		window.setTitle(title);
 		window.setMinHeight(100);
-		window.setMinWidth(400);
+		window.setMinWidth(320);
 		
 		Label label = new Label();
 		label.setText(message);

@@ -88,7 +88,7 @@ public class Controller {
 	@FXML
 	Button clearSelButton;
 	@FXML
-	Button clearAll; // trying to use this clear button
+	Button clearData; // trying to use this clear button
 
 	@FXML
 	SplitMenuButton splitMenu = new SplitMenuButton();
@@ -97,6 +97,11 @@ public class Controller {
 	MenuItem lButton = new MenuItem();
 	@FXML
 	MenuItem rButton = new MenuItem();
+	
+	MenuItem tButton = new MenuItem();
+	
+	MenuItem bButton = new MenuItem();
+	
 
 	@FXML
 	TextField create_text;
@@ -118,13 +123,15 @@ public class Controller {
 	// use this to help setup the fxml components, initialize is called as soon as
 	// app starts up. Similar to a constructor.
 	public void initialize() {
+		tButton.setId("Top button");
+		bButton.setId("Bottom Button");
 		
 		splitMenu.setOnAction(e -> {
 			//keep this empty, it basically removes the functionality of the root button in the split
 			//button button. Keeps the dropdown functionality.
 		});
 		model = new VennModel();
-		clearAll.requestFocus();
+		clearData.requestFocus();
 		// setup content list, item_list reflects the observable list itemsContent
 		itemsContent.setAll(model.getItemList());
 		item_list.setItems(itemsContent);
@@ -210,6 +217,7 @@ public class Controller {
 	protected void menuClick() {
 		splitMenu.getItems().add(lButton);
 		splitMenu.getItems().add(rButton);
+		
 	}
 
 	@SuppressWarnings("unchecked")
@@ -237,7 +245,7 @@ public class Controller {
 
 	}
 
-	// to change the colour of the right circle;
+	// to change the color of the right circle;
 	@SuppressWarnings("unchecked")
 	@FXML
 	protected void rightCircleColour() {
@@ -263,11 +271,14 @@ public class Controller {
 
 	@FXML
 	protected void handleClearAllButtonAction(ActionEvent event) {
-		clearAllAlert.display("ALERT", "You are about to delete all data, do you wish to proceed?");
-		if(clearAllAlert.closePressed) {
-			remover();
-			event.consume();
+		if(!model.getItemList().isEmpty()) {
+			clearAllAlert.display("ALERT", "You are about to delete all data, do you wish to proceed?");
+			if(clearAllAlert.closePressed) {
+				remover();
+			}
 		}
+		
+		event.consume();
 		
 		
 		
@@ -423,14 +434,15 @@ public class Controller {
 	@FXML
 	protected void addCirc(ActionEvent event) {
 		if(Controller.numCirc == 2) {
-			numCirc++;
+			
 			circleCreator(leftCircle.getRadius(),280,400);
+			numCirc++;
 		}
 		else if(Controller.numCirc == 3) {
-			numCirc++;
-			circleCreator(leftCircle.getRadius(),280,200);
-
 			
+			circleCreator(leftCircle.getRadius(),280,200);
+			numCirc++;
+
 		}
 		else {
 			tooManyCirclesAlert.display("Exceeded Number of Allowed Circles!", "You have exceeded the "
@@ -440,14 +452,13 @@ public class Controller {
 	
 	private void circleCreator(double radius, int startX, int startY) {
 		circle = new Circle();
-		circle.setFill(leftCircle.getFill());
+		circle.setFill(Color.DODGERBLUE);
 		circle.setOpacity(leftCircle.getOpacity());
 		circle.setRadius(radius);
 		circle.setLayoutX(startX);
 		circle.setLayoutY(startY);
 		circles.add(circle);
 		diagram_pane.getChildren().add(circle);
-		System.out.println(circles);
 		
 	}
 	
@@ -465,12 +476,21 @@ public class Controller {
 	
 	@FXML
 	protected void restoreDefault(ActionEvent event) {
-		restoreDefaultsAlert.display("Alert", "You've selected to delete all data, do you"
-				+ " wish to continue?");
+		restoreDefaultsAlert.display("Restore Settings", "Restore settings to their factory default?");
 		if(restoreDefaultsAlert.deletePressed) {
 			remover();
 			circleDestroyer(this.circles);
-			this.numCirc = 2;
+			Controller.numCirc = 2;
+			leftCircle.setFill(Color.DODGERBLUE);
+			rightCircle.setFill(Color.DODGERBLUE);
+			Color colorVal = (Color)rightCircle.getFill();
+			colorPicker.setValue(colorVal);
+			
+
+			
+			
+			
+			
 			event.consume();
 		}
 		
@@ -486,7 +506,7 @@ public class Controller {
 		model.getItemList().clear();
 		item_list.getItems().clear();
 		create_text.requestFocus();
-		itemText.clear(); //this is needed, as if we dont have this, the program thinks we have duplicate items present.
+		itemText.clear(); //this is needed, as if we don't have this, the program thinks we have duplicate items present.
 		Item.uid = 0;
 		clearAllAlert.cancelPressed = false;
 		clearAllAlert.closePressed = false;
