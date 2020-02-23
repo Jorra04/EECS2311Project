@@ -39,8 +39,8 @@ public class Group {
 		this.items.clear();
 	}
 	
-	public int getTitle() {
-		return this.getTitle();
+	public String getTitle() {
+		return this.title;
 	}
 	public boolean isEmpty() {
 		return items.size() == 0;

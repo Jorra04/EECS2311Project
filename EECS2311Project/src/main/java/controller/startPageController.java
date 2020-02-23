@@ -42,7 +42,7 @@ public class startPageController {
 
 	
 	@FXML
-	protected void nextScene(ActionEvent event) {
+	public void nextScene(ActionEvent event) {
 		createTitleAndEnter();
 		event.consume();
 	}
