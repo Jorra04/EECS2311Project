@@ -123,8 +123,6 @@ public class Controller {
 	// use this to help setup the fxml components, initialize is called as soon as
 	// app starts up. Similar to a constructor.
 	public void initialize() {
-		tButton.setId("Top button");
-		bButton.setId("Bottom Button");
 		
 		splitMenu.setOnAction(e -> {
 			//keep this empty, it basically removes the functionality of the root button in the split
@@ -173,43 +171,14 @@ public class Controller {
 	protected void handleCreateTextFieldAction(KeyEvent event) {
 		// methods, they both do the same stuff.
 		if (event.getCode().equals(KeyCode.ENTER)) {
-			if (create_text.getLength() != 0) {
-				if(!tagAlreadyExists(create_text.getText())) {
-					Item item = new Item(create_text.getText());
-					String adder = create_text.getText().replaceAll(" ", "");
-					itemText.add(adder);
-					model.getItemList().add(item);
-					itemsContent.setAll(model.getItemList());
-				}
-				else {
-					TagAlreadyExistsAlert.display("Alert", "Tag Already Exists!");
-				}
-				
-				create_text.clear();
-				create_text.requestFocus();
-				
-			}
+			createData();
 		}
 		event.consume();
 	}
 
 	@FXML
 	protected void handleCreateButtonAction(ActionEvent event) {
-		if (create_text.getLength() != 0) {
-			if(!tagAlreadyExists(create_text.getText())) {
-				Item item = new Item(create_text.getText());
-				String adder = create_text.getText().replaceAll(" ", "");
-				itemText.add(adder);
-				model.getItemList().add(item);
-				itemsContent.setAll(model.getItemList());
-			}
-			else {
-				TagAlreadyExistsAlert.display("Alert", "Tag Already Exists!");
-			}
-			create_text.clear();
-			create_text.requestFocus();
-		}
-		create_text.requestFocus();
+		createData();
 		event.consume();
 	}
 
@@ -511,6 +480,24 @@ public class Controller {
 		clearAllAlert.cancelPressed = false;
 		clearAllAlert.closePressed = false;
 		
+	}
+	private void createData() {
+		if (create_text.getLength() != 0) {
+			if(!tagAlreadyExists(create_text.getText())) {
+				Item item = new Item(create_text.getText());
+				String adder = create_text.getText().replaceAll(" ", "");
+				itemText.add(adder);
+				model.getItemList().add(item);
+				itemsContent.setAll(model.getItemList());
+			}
+			else {
+				TagAlreadyExistsAlert.display("Alert", "Tag Already Exists!");
+			}
+			
+			create_text.clear();
+			create_text.requestFocus();
+			
+		}
 	}
 	
 	
