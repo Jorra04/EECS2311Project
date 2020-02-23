@@ -33,7 +33,7 @@ public class ItemTest {
 	
 	@Test
 	public void testGetID() {
-		assertEquals(5, item.getID());
+		assertEquals(1, item.getID());
 	}
 	
 	@Test
