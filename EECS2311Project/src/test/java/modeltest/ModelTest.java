@@ -8,6 +8,8 @@ import static org.junit.Assert.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import model.Group;
+import model.Item;
 
 /**
  * @author Brian
@@ -30,8 +32,15 @@ public class ModelTest {
 	}
 
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void titleTest() {
+		Group group = new Group("my group");
+		assertEquals("my group",group.getTitle());
+	}
+	@Test
+	public void setTitleTest() {
+		Group group = new Group("my group");
+		group.setTitle("title 2");
+		assertEquals("title 2",group.getTitle());
 	}
 
 }
