@@ -15,6 +15,15 @@ public class Group {
 		
 	}
 	
+	public Item getItem(int ID) {
+		Item item = items.get(ID);
+		return item;
+	}
+	
+	public int getSize() {
+		return items.size();
+	}
+	
 	public void insertItem(Item item) {
 		items.put(Integer.valueOf(item.getID()), item);
 	}
@@ -34,6 +43,7 @@ public class Group {
 			this.removeItem(item);
 		}
 	}
+	
 	public void removeAll() {
 		this.items.clear();
 	}
@@ -41,6 +51,7 @@ public class Group {
 	public String getTitle() {
 		return this.title;
 	}
+	
 	public boolean isEmpty() {
 		return items.size() == 0;
 	}
