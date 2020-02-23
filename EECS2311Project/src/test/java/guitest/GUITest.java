@@ -1,7 +1,7 @@
 /**
  * 
  */
-package gui;
+package guitest;
 
 import static org.junit.Assert.*;
 
