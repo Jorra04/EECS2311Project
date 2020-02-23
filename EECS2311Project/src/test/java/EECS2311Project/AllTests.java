@@ -7,7 +7,7 @@ import guitest.GUITest;
 import modeltest.ModelTest;
 
 @RunWith(Suite.class)
-@SuiteClasses({})
+@SuiteClasses({GUITest.class, ModelTest.class})
 public class AllTests {
 
 }
