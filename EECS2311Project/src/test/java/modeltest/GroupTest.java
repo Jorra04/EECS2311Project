@@ -78,6 +78,7 @@ public class GroupTest {
 		group.removeAll();
 		assertTrue(group.isEmpty());
 	}
+	@Test
 	public void testInsertItem() {
 		Item item = new Item("apple");
 		group.insertItem(item);
