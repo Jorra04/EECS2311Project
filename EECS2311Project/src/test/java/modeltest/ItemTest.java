@@ -33,7 +33,7 @@ public class ItemTest {
 	
 	@Test
 	public void testGetID() {
-		assertEquals(1, item.getID());
+		assertEquals(5, item.getID());
 	}
 	
 	@Test
@@ -53,6 +53,19 @@ public class ItemTest {
 		Item item2 = new Item("apple");
 		assertEquals(true, item.equals(item2));
 	}
+	
+	@Test
+	public void testToString() {
+		assertEquals("Item [id=1, text=apple]", item.toString());
+		
+	}
+	
+	@Test
+	public void testHashCode() {
+		assertNotEquals(0, item.hashCode());
+	}
+	
+	
 	
 	@After
 	public void tearDown() {
