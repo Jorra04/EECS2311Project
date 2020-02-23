@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 
 import java.io.File;
 
+import VennDiagram.DiagramTitleTooSmallAlert;
 import VennDiagram.View;
 
 public class startPageController {
@@ -42,7 +43,7 @@ public class startPageController {
 
 	
 	@FXML
-	protected void nextScene(ActionEvent event) {
+	public void nextScene(ActionEvent event) {
 		createTitleAndEnter();
 		event.consume();
 	}
@@ -92,7 +93,11 @@ public class startPageController {
 			View.primaryStage.setScene(View.scene);	
 		}
 		else {
-			VennDiagram.DiagramTitleTooSmallAlert.display("ALERT","Length of title is too small");
+			VennDiagram.DiagramTitleTooSmallAlert.display("Default title","Do you want to create project with default title?");
+			if(DiagramTitleTooSmallAlert.confirmPressed) {
+				View.primaryStage.setScene(View.scene);	
+			}
+			
 		}
 	}
 	

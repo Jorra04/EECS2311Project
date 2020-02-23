@@ -9,6 +9,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import VennDiagram.View;
+import controller.startPageController;
+
 /**
  * @author Brian
  *
@@ -30,8 +33,9 @@ public class GUITest {
 	}
 
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void setTitle() throws Exception{
+		
+		
 	}
 
 }

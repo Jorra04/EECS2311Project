@@ -264,7 +264,7 @@ public class Controller {
 
 		diagram_pane.getChildren().add(Controller.box);
 		box.setLayoutX(splitMenu.getLayoutX());
-		box.setLayoutY(splitMenu.getLayoutY() + 40);
+		box.setLayoutY(splitMenu.getLayoutY() - 40);
 
 		colorPicker.setOnAction(new EventHandler() {
 			@Override
@@ -290,7 +290,7 @@ public class Controller {
 
 		diagram_pane.getChildren().add(Controller.box);
 		box.setLayoutX(splitMenu.getLayoutX());
-		box.setLayoutY(splitMenu.getLayoutY() + 40);
+		box.setLayoutY(splitMenu.getLayoutY() -40);
 		colorPicker.setOnAction(new EventHandler() {
 			public void handle(javafx.event.Event event) {
 				rightCircle.setFill(colorPicker.getValue());
