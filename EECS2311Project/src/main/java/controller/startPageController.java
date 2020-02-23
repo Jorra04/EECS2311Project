@@ -25,11 +25,7 @@ public class startPageController {
 
     @FXML
     private Button next;
-    
-    @FXML
-    private ImageView imView;
 	
-    
     @FXML
     private MenuItem newFile;
 
