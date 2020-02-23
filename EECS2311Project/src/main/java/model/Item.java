@@ -61,8 +61,8 @@ public class Item implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Item other = (Item) obj;
-		if (id != other.id)
-			return false;
+//		if (id != other.id)
+//			return false;
 		if (text == null) {
 			if (other.text != null)
 				return false;
@@ -77,6 +77,8 @@ public class Item implements Serializable{
 		return "Item [id=" + id + ", text=" + text + "]";
 	}
 	
-	
+	public static void resetUID() {
+		uid = 0;
+	}
 	
 }

@@ -23,7 +23,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                  <MenuItem fx:id="newFile" mnemonicParsing="false" text="New" />
+                  <MenuItem fx:id="newFile" mnemonicParsing="false" onAction="#checker" text="New" />
                   <MenuItem fx:id="openFile" mnemonicParsing="false" text="Open" />
                   <MenuItem fx:id="saveFile" mnemonicParsing="false" text="Save" />
                   <MenuItem fx:id="switchScene" mnemonicParsing="false" onAction="#backToMenu" text="Back to Menu" />
@@ -102,6 +102,8 @@
                     </items>
                   </SplitMenuButton>
                   <Button fx:id="addCirc" layoutX="482.0" layoutY="16.0" mnemonicParsing="false" onAction="#addCirc" prefHeight="32.0" prefWidth="108.0" text="Add Circle" />
+                  <Button fx:id="identify" layoutX="52.0" layoutY="503.0" mnemonicParsing="false" onAction="#identifyGroup" text="Identify" />
+                  <TextField fx:id="groupIdentifier" layoutX="135.0" layoutY="503.0" prefHeight="32.0" prefWidth="169.0" promptText="Identify Group" />
                </children>
             </Pane>
          </children>

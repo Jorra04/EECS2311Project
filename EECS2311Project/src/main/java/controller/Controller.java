@@ -55,8 +55,11 @@ public class Controller {
 	Group rightGroup;
 	Group matchGroup;
 	private static final DataFormat itemFormat = new DataFormat("item");
+//	private static final String DEFAULT_CONTROL_INNER_BACKGROUND = "derive(red,80%)";
+//    private static final String HIGHLIGHTED_CONTROL_INNER_BACKGROUND = "derive(palegreen, 50%)";
+
 	
-	private ArrayList<String> itemText = new ArrayList<>();
+	private ArrayList<Item> itemText = new ArrayList<>();
 	
 	private ArrayList<Circle> circles = new ArrayList<>();
 	// fxml components
@@ -88,6 +91,8 @@ public class Controller {
 	@FXML
 	Button clearSelButton;
 	@FXML
+	Button identify;
+	@FXML
 	Button clearData; // trying to use this clear button
 
 	@FXML
@@ -106,7 +111,15 @@ public class Controller {
 	@FXML
 	TextField create_text;
 	@FXML
+	TextField groupIdentifier;
+	@FXML
 	Button create_button;
+//	@FXML
+//	ListView<Item> leftGroupList;
+//	@FXML
+//	ListView<Item> rightGroupList;
+//	@FXML
+//	ListView<Item> midGroupList;
 	@FXML
 	ListView<Item> item_list;
 	@FXML
@@ -120,16 +133,17 @@ public class Controller {
 	private static ColorPicker colorPicker = new ColorPicker(Color.DODGERBLUE);
 	private static VBox box = new VBox(colorPicker);
 
+
+
 	// use this to help setup the fxml components, initialize is called as soon as
 	// app starts up. Similar to a constructor.
 	public void initialize() {
-		tButton.setId("Top button");
-		bButton.setId("Bottom Button");
-		
+		groupIdentifier.setEditable(false);
 		splitMenu.setOnAction(e -> {
 			//keep this empty, it basically removes the functionality of the root button in the split
 			//button button. Keeps the dropdown functionality.
 		});
+		
 		model = new VennModel();
 		clearData.requestFocus();
 		// setup content list, item_list reflects the observable list itemsContent
@@ -159,8 +173,55 @@ public class Controller {
 				} else {
 					setText(item.getText());
 				}
+//				if(finder(leftGroup,item)) {
+//					setStyle("-fx-control-inner-background: " + HIGHLIGHTED_CONTROL_INNER_BACKGROUND + ";");
+//				}
+//				else if(finder(rightGroup,item)) {
+//					setStyle("-fx-control-inner-background: " + DEFAULT_CONTROL_INNER_BACKGROUND + ";");
+//				}
+				
 			}
-		});
+		}); 
+//		rightGroupList.setCellFactory(param -> new ListCell<Item>() {
+//			@Override
+//			protected void updateItem(Item item, boolean empty) {
+//				super.updateItem(item, empty);
+//
+//				if (empty || item == null || item.getText() == null) {
+//					setText(null);
+//				} else {
+//					setText(item.getText());
+//				}
+//				
+//			}
+//		}); 
+//		leftGroupList.setCellFactory(param -> new ListCell<Item>() {
+//			@Override
+//			protected void updateItem(Item item, boolean empty) {
+//				super.updateItem(item, empty);
+//
+//				if (empty || item == null || item.getText() == null) {
+//					setText(null);
+//				} else {
+//					setText(item.getText());
+//				}
+//				
+//			}
+//		});
+//		midGroupList.setCellFactory(param -> new ListCell<Item>() {
+//			@Override
+//			protected void updateItem(Item item, boolean empty) {
+//				super.updateItem(item, empty);
+//
+//				if (empty || item == null || item.getText() == null) {
+//					setText(null);
+//				} else {
+//					setText(item.getText());
+//				}
+//				
+//			}
+//		});
+
 	}
 
 	// listview is not serializable, so convert to arraylist which is.
@@ -173,43 +234,14 @@ public class Controller {
 	protected void handleCreateTextFieldAction(KeyEvent event) {
 		// methods, they both do the same stuff.
 		if (event.getCode().equals(KeyCode.ENTER)) {
-			if (create_text.getLength() != 0) {
-				if(!tagAlreadyExists(create_text.getText())) {
-					Item item = new Item(create_text.getText());
-					String adder = create_text.getText().replaceAll(" ", "");
-					itemText.add(adder);
-					model.getItemList().add(item);
-					itemsContent.setAll(model.getItemList());
-				}
-				else {
-					TagAlreadyExistsAlert.display("Alert", "Tag Already Exists!");
-				}
-				
-				create_text.clear();
-				create_text.requestFocus();
-				
-			}
+			createData();
 		}
 		event.consume();
 	}
 
 	@FXML
 	protected void handleCreateButtonAction(ActionEvent event) {
-		if (create_text.getLength() != 0) {
-			if(!tagAlreadyExists(create_text.getText())) {
-				Item item = new Item(create_text.getText());
-				String adder = create_text.getText().replaceAll(" ", "");
-				itemText.add(adder);
-				model.getItemList().add(item);
-				itemsContent.setAll(model.getItemList());
-			}
-			else {
-				TagAlreadyExistsAlert.display("Alert", "Tag Already Exists!");
-			}
-			create_text.clear();
-			create_text.requestFocus();
-		}
-		create_text.requestFocus();
+		createData();
 		event.consume();
 	}
 
@@ -295,8 +327,14 @@ public class Controller {
 		leftSetText.setText(leftGroup.toVisualList());
 		rightSetText.setText(rightGroup.toVisualList());
 		middleSetText.setText(matchGroup.toVisualList());
+		groupIdentifier.clear();
 		removed++;
 		model.getItemList().removeAll(copyList);
+		itemText.removeAll(copyList);
+		
+//		leftGroupList.getItems().removeAll(copyList);
+//		rightGroupList.getItems().removeAll(copyList);
+//		midGroupList.getItems().removeAll(copyList);
 
 		if (leftGroup.isEmpty()) {
 			leftSetText.setText("Text");
@@ -339,8 +377,10 @@ public class Controller {
 		boolean isCompleted = false;
 		Dragboard db = event.getDragboard();
 		if (db.hasContent(itemFormat)) {
-			leftGroup.insertItems((ArrayList<Item>) db.getContent(itemFormat));
+			List<Item> arr = (ArrayList<Item>) db.getContent(itemFormat);
+			leftGroup.insertItems(arr);
 			Set<Integer> match = leftGroup.findMatching(rightGroup);
+			
 			// ArrayList<Item> temp = new ArrayList<Item>();
 			for (Item item : itemsContent) {
 				if (match.contains(item.getID())) {
@@ -348,10 +388,14 @@ public class Controller {
 					leftGroup.removeItem(item);
 					rightGroup.removeItem(item);
 				}
+
 			}
 			middleSetText.setText(matchGroup.toVisualList());
 			leftSetText.setText(leftGroup.toVisualList());
 			rightSetText.setText(rightGroup.toVisualList());
+//			setMatcher(rightGroupList,leftGroupList,midGroupList,arr);
+
+			
 			isCompleted = true;
 		}
 		event.setDropCompleted(isCompleted);
@@ -372,8 +416,10 @@ public class Controller {
 		boolean isCompleted = false;
 		Dragboard db = event.getDragboard();
 		if (db.hasContent(itemFormat)) {
-			rightGroup.insertItems((ArrayList<Item>) db.getContent(itemFormat));
+			List<Item> arr = (ArrayList<Item>) db.getContent(itemFormat);
+			rightGroup.insertItems(arr);
 			Set<Integer> match = rightGroup.findMatching(leftGroup);
+			
 			// ArrayList<Item> temp = new ArrayList<Item>();
 			for (Item item : itemsContent) {
 				if (match.contains(item.getID())) {
@@ -382,11 +428,15 @@ public class Controller {
 					leftGroup.removeItem(item);
 				}
 			}
+	
 			middleSetText.setText(matchGroup.toVisualList());
 			leftSetText.setText(leftGroup.toVisualList());
 			rightSetText.setText(rightGroup.toVisualList());
+//			setMatcher(rightGroupList,leftGroupList,midGroupList,arr);
+			
 			isCompleted = true;
 		}
+		
 		event.setDropCompleted(isCompleted);
 		event.consume();
 	}
@@ -432,7 +482,7 @@ public class Controller {
 	}
 	
 	@FXML
-	protected void addCirc(ActionEvent event) {
+	public void addCirc(ActionEvent event) {
 		if(Controller.numCirc == 2) {
 			
 			circleCreator(leftCircle.getRadius(),280,400);
@@ -485,12 +535,6 @@ public class Controller {
 			rightCircle.setFill(Color.DODGERBLUE);
 			Color colorVal = (Color)rightCircle.getFill();
 			colorPicker.setValue(colorVal);
-			
-
-			
-			
-			
-			
 			event.consume();
 		}
 		
@@ -505,6 +549,7 @@ public class Controller {
 		matchGroup.removeAll();
 		model.getItemList().clear();
 		item_list.getItems().clear();
+		groupIdentifier.clear();
 		create_text.requestFocus();
 		itemText.clear(); //this is needed, as if we don't have this, the program thinks we have duplicate items present.
 		Item.uid = 0;
@@ -512,7 +557,87 @@ public class Controller {
 		clearAllAlert.closePressed = false;
 		
 	}
+	private void createData() {
+		if (create_text.getLength() != 0) {
+			if(!tagAlreadyExists(create_text.getText())) {
+				Item item = new Item(create_text.getText());
+				String adder = create_text.getText().replaceAll(" ", "");
+				itemText.add(new Item(adder));
+				model.getItemList().add(item);
+				itemsContent.setAll(model.getItemList());
+			}
+			else {
+				TagAlreadyExistsAlert.display("Alert", "Tag Already Exists!");
+			}
+			
+			create_text.clear();
+			create_text.requestFocus();
+			
+			
+		}
+	}
+	
+	@FXML
+	protected void checker(ActionEvent e) {
+	
+	}
 	
 	
+	protected String groupFinder(Item item) {
+		Set<String> left = leftGroup.toSet();
+		Set<String> right = rightGroup.toSet();
+		Set<String> mid = matchGroup.toSet();
+		if(mid.contains(item.text)) {
+			return "Middle Set";
+		}
+		if(left.contains(item.text)) {
+			return "Left Set";
+		}
+		if(right.contains(item.text)) {
+			return "Right Set";
+		}
+		return "Not Assigned";
+	}
+	
+//	private void setMatcher(ListView<Item> right, ListView<Item> left, ListView<Item> mid, List<Item> arr) {
+//		if(groupFinder(arr.get(0)).equals("right") && !right.getItems().contains(arr.get(0))) {
+//			right.getItems().add(arr.get(0));
+//			System.out.println("right");
+//		}
+//		else if(groupFinder(arr.get(0)).equals("left") &&!left.getItems().contains(arr.get(0)) ) {
+//			left.getItems().add(arr.get(0));
+//			System.out.println("left");
+//		}
+//		else if((groupFinder(arr.get(0)).equals("mid") && !mid.getItems().contains(arr.get(0)))) {
+//			right.getItems().remove(arr.get(0));
+//			left.getItems().remove(arr.get(0));
+//			mid.getItems().add(arr.get(0));
+//			System.out.println("mid");
+//		}
+//	}
+	
+	
+	@FXML
+	protected void identifyGroup(ActionEvent event) {
+		List<Item> copyList = new ArrayList<>(item_list.getSelectionModel().getSelectedItems());
+		for(Item item :copyList) {
+			groupIdentifier.setText(item.text+ ": " + groupFinder(item));
+			if(groupFinder(item).equals("Left Set")) {
+				groupIdentifier.setStyle("-fx-text-fill: green;");
+			}
+			else if(groupFinder(item).equals("Right Set")) {
+				groupIdentifier.setStyle("-fx-text-fill: red;");
+			}
+			else if(groupFinder(item).equals("Middle Set")) {
+				groupIdentifier.setStyle("-fx-text-fill: blue;");
+			}
+			else {
+				groupIdentifier.setStyle("-fx-text-fill: black;");
+			}
+			
+			
+			
+		}
+	}
 
 }
