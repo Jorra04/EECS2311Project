@@ -91,6 +91,8 @@ public class Controller {
 	@FXML
 	Button clearSelButton;
 	@FXML
+	Button identify;
+	@FXML
 	Button clearData; // trying to use this clear button
 
 	@FXML
@@ -109,13 +111,15 @@ public class Controller {
 	@FXML
 	TextField create_text;
 	@FXML
+	TextField groupIdentifier;
+	@FXML
 	Button create_button;
-	@FXML
-	ListView<String> leftGroupList;
-	@FXML
-	ListView<String> rightGroupList;
-	@FXML
-	ListView<String> midGroupList;
+//	@FXML
+//	ListView<Item> leftGroupList;
+//	@FXML
+//	ListView<Item> rightGroupList;
+//	@FXML
+//	ListView<Item> midGroupList;
 	@FXML
 	ListView<Item> item_list;
 	@FXML
@@ -125,7 +129,6 @@ public class Controller {
 	StackPane leftSet, rightSet, middleSet;
 	@FXML
 	Text leftSetText, rightSetText, middleSetText;
-	private static boolean tf = false;
 
 	private static ColorPicker colorPicker = new ColorPicker(Color.DODGERBLUE);
 	private static VBox box = new VBox(colorPicker);
@@ -135,7 +138,7 @@ public class Controller {
 	// use this to help setup the fxml components, initialize is called as soon as
 	// app starts up. Similar to a constructor.
 	public void initialize() {
-		
+		groupIdentifier.setEditable(false);
 		splitMenu.setOnAction(e -> {
 			//keep this empty, it basically removes the functionality of the root button in the split
 			//button button. Keeps the dropdown functionality.
@@ -178,7 +181,47 @@ public class Controller {
 //				}
 				
 			}
-		});
+		}); 
+//		rightGroupList.setCellFactory(param -> new ListCell<Item>() {
+//			@Override
+//			protected void updateItem(Item item, boolean empty) {
+//				super.updateItem(item, empty);
+//
+//				if (empty || item == null || item.getText() == null) {
+//					setText(null);
+//				} else {
+//					setText(item.getText());
+//				}
+//				
+//			}
+//		}); 
+//		leftGroupList.setCellFactory(param -> new ListCell<Item>() {
+//			@Override
+//			protected void updateItem(Item item, boolean empty) {
+//				super.updateItem(item, empty);
+//
+//				if (empty || item == null || item.getText() == null) {
+//					setText(null);
+//				} else {
+//					setText(item.getText());
+//				}
+//				
+//			}
+//		});
+//		midGroupList.setCellFactory(param -> new ListCell<Item>() {
+//			@Override
+//			protected void updateItem(Item item, boolean empty) {
+//				super.updateItem(item, empty);
+//
+//				if (empty || item == null || item.getText() == null) {
+//					setText(null);
+//				} else {
+//					setText(item.getText());
+//				}
+//				
+//			}
+//		});
+
 	}
 
 	// listview is not serializable, so convert to arraylist which is.
@@ -284,10 +327,13 @@ public class Controller {
 		leftSetText.setText(leftGroup.toVisualList());
 		rightSetText.setText(rightGroup.toVisualList());
 		middleSetText.setText(matchGroup.toVisualList());
+		groupIdentifier.clear();
 		removed++;
 		model.getItemList().removeAll(copyList);
 		
-		leftGroupList.getItems().removeAll(copyList);
+//		leftGroupList.getItems().removeAll(copyList);
+//		rightGroupList.getItems().removeAll(copyList);
+//		midGroupList.getItems().removeAll(copyList);
 
 		if (leftGroup.isEmpty()) {
 			leftSetText.setText("Text");
@@ -330,8 +376,10 @@ public class Controller {
 		boolean isCompleted = false;
 		Dragboard db = event.getDragboard();
 		if (db.hasContent(itemFormat)) {
-			leftGroup.insertItems((ArrayList<Item>) db.getContent(itemFormat));
+			List<Item> arr = (ArrayList<Item>) db.getContent(itemFormat);
+			leftGroup.insertItems(arr);
 			Set<Integer> match = leftGroup.findMatching(rightGroup);
+			
 			// ArrayList<Item> temp = new ArrayList<Item>();
 			for (Item item : itemsContent) {
 				if (match.contains(item.getID())) {
@@ -339,13 +387,14 @@ public class Controller {
 					leftGroup.removeItem(item);
 					rightGroup.removeItem(item);
 				}
+
 			}
 			middleSetText.setText(matchGroup.toVisualList());
 			leftSetText.setText(leftGroup.toVisualList());
 			rightSetText.setText(rightGroup.toVisualList());
-			
-		
+//			setMatcher(rightGroupList,leftGroupList,midGroupList,arr);
 
+			
 			isCompleted = true;
 		}
 		event.setDropCompleted(isCompleted);
@@ -366,8 +415,10 @@ public class Controller {
 		boolean isCompleted = false;
 		Dragboard db = event.getDragboard();
 		if (db.hasContent(itemFormat)) {
-			rightGroup.insertItems((ArrayList<Item>) db.getContent(itemFormat));
+			List<Item> arr = (ArrayList<Item>) db.getContent(itemFormat);
+			rightGroup.insertItems(arr);
 			Set<Integer> match = rightGroup.findMatching(leftGroup);
+			
 			// ArrayList<Item> temp = new ArrayList<Item>();
 			for (Item item : itemsContent) {
 				if (match.contains(item.getID())) {
@@ -376,10 +427,11 @@ public class Controller {
 					leftGroup.removeItem(item);
 				}
 			}
+	
 			middleSetText.setText(matchGroup.toVisualList());
 			leftSetText.setText(leftGroup.toVisualList());
 			rightSetText.setText(rightGroup.toVisualList());
-			
+//			setMatcher(rightGroupList,leftGroupList,midGroupList,arr);
 			
 			isCompleted = true;
 		}
@@ -496,6 +548,7 @@ public class Controller {
 		matchGroup.removeAll();
 		model.getItemList().clear();
 		item_list.getItems().clear();
+		groupIdentifier.clear();
 		create_text.requestFocus();
 		itemText.clear(); //this is needed, as if we don't have this, the program thinks we have duplicate items present.
 		Item.uid = 0;
@@ -525,19 +578,65 @@ public class Controller {
 	
 	@FXML
 	protected void checker(ActionEvent e) {
-		Controller.tf = true;
-		
+	
 	}
-	private boolean finder(Group group, Item item) {
-		for(Map.Entry<Integer, Item> entry : group.items.entrySet()) {
-			if(entry.getValue().equals(item)) {
-				return true;
+	
+	
+	protected String groupFinder(Item item) {
+		Set<String> left = leftGroup.toSet();
+		Set<String> right = rightGroup.toSet();
+		Set<String> mid = matchGroup.toSet();
+		if(mid.contains(item.text)) {
+			return "mid";
+		}
+		if(left.contains(item.text)) {
+			return "left";
+		}
+		if(right.contains(item.text)) {
+			return "right";
+		}
+		return "Not Assigned";
+	}
+	
+//	private void setMatcher(ListView<Item> right, ListView<Item> left, ListView<Item> mid, List<Item> arr) {
+//		if(groupFinder(arr.get(0)).equals("right") && !right.getItems().contains(arr.get(0))) {
+//			right.getItems().add(arr.get(0));
+//			System.out.println("right");
+//		}
+//		else if(groupFinder(arr.get(0)).equals("left") &&!left.getItems().contains(arr.get(0)) ) {
+//			left.getItems().add(arr.get(0));
+//			System.out.println("left");
+//		}
+//		else if((groupFinder(arr.get(0)).equals("mid") && !mid.getItems().contains(arr.get(0)))) {
+//			right.getItems().remove(arr.get(0));
+//			left.getItems().remove(arr.get(0));
+//			mid.getItems().add(arr.get(0));
+//			System.out.println("mid");
+//		}
+//	}
+	
+	
+	@FXML
+	protected void identifyGroup(ActionEvent event) {
+		List<Item> copyList = new ArrayList<>(item_list.getSelectionModel().getSelectedItems());
+		for(Item item :copyList) {
+			groupIdentifier.setText(item.text+ " -> " + groupFinder(item));
+			if(groupFinder(item).equals("left")) {
+				groupIdentifier.setStyle("-fx-text-fill: green;");
 			}
-    	}
-		return false;
+			else if(groupFinder(item).equals("right")) {
+				groupIdentifier.setStyle("-fx-text-fill: red;");
+			}
+			else if(groupFinder(item).equals("mid")) {
+				groupIdentifier.setStyle("-fx-text-fill: blue;");
+			}
+			else {
+				
+			}
+			
+			
+			
+		}
 	}
-	
-	
-	
 
 }
