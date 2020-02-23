@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
@@ -33,17 +34,16 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Button fx:id="next" layoutX="533.0" layoutY="182.0" mnemonicParsing="false" onAction="#nextScene" prefHeight="37.0" prefWidth="134.0" text="Enter Our App" />
-      <Pane layoutX="31.0" layoutY="27.0" prefHeight="138.0" prefWidth="693.0">
+      <Pane layoutX="9.0" layoutY="27.0" prefHeight="138.0" prefWidth="726.0">
          <children>
-            <Text fill="#d30909" layoutX="74.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to the Venn Diagram App!" textAlignment="CENTER" underline="true" wrappingWidth="516.13671875">
+            <Text fill="#d30909" layoutX="9.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to the Venn Diagram App!" textAlignment="CENTER" underline="true" wrappingWidth="708.63671875">
                <font>
-                  <Font name="Matura MT Script Capitals" size="31.0" />
+                  <Font name="Matura MT Script Capitals" size="42.0" />
                </font>
             </Text>
          </children>
       </Pane>
-      <Pane layoutX="31.0" layoutY="165.0" prefHeight="389.0" prefWidth="362.0">
+      <Pane layoutX="31.0" layoutY="165.0" prefHeight="389.0" prefWidth="700.0">
          <children>
             <Text fill="#067eff" layoutX="51.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contributors:" underline="true">
                <font>
@@ -70,6 +70,8 @@
                   <Font name="Bell MT Italic" size="22.0" />
                </font>
             </Text>
+            <Button fx:id="next" layoutX="583.0" layoutY="19.0" mnemonicParsing="false" onAction="#nextScene" prefHeight="37.0" prefWidth="111.0" text="Enter Our App" />
+            <TextField fx:id="diagramTitle" layoutX="307.0" layoutY="19.0" onKeyReleased="#handleCreateTextFieldAction" prefHeight="37.0" prefWidth="262.0" promptText="Enter Venn Diagram Title." />
          </children>
       </Pane>
    </children>

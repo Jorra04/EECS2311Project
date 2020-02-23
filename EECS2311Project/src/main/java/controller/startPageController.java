@@ -3,7 +3,9 @@ package controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.event.ActionEvent;
@@ -22,11 +24,7 @@ public class startPageController {
 
     @FXML
     private Button next;
-    
-    @FXML
-    private ImageView imView;
 	
-    
     @FXML
     private MenuItem newFile;
 
@@ -38,14 +36,22 @@ public class startPageController {
 
     @FXML
     private MenuItem quitProgram;
+    @FXML
+    private TextField diagramTitle;
 	
 
 	
-	
-	
 	@FXML
-	protected void nextScene() {
-		View.primaryStage.setScene(View.scene);
+	protected void nextScene(ActionEvent event) {
+		createTitleAndEnter();
+		event.consume();
+	}
+	@FXML
+	protected void handleCreateTextFieldAction(KeyEvent event) {
+		if (event.getCode().equals(KeyCode.ENTER)) {
+			createTitleAndEnter();
+		}
+		event.consume();
 	}
 	
 	@FXML
@@ -80,13 +86,15 @@ public class startPageController {
 		event.consume();
 	}
 	
-	
-	
-	
-	
-	
-	
-	
+	private void createTitleAndEnter() {
+		if( diagramTitle.getText().length() != 0 ) {
+			View.primaryStage.setTitle(diagramTitle.getText());
+			View.primaryStage.setScene(View.scene);	
+		}
+		else {
+			VennDiagram.DiagramTitleTooSmallAlert.display("ALERT","Length of title is too small");
+		}
+	}
 	
 	
 }

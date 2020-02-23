@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 public class Group {
-	TreeMap<Integer, Item> items; // Id, Item
+	public TreeMap<Integer, Item> items; // Id, Item
 	String title;
 	public Group(String title) {
 		this.title = title;
@@ -58,6 +58,14 @@ public class Group {
     	}
     	return visualString;
     }
+	public Set<String> toSet(){
+		Set<String> returner = new HashSet<>();
+		for(Map.Entry<Integer, Item> entry : items.entrySet()) {
+ 
+    		returner.add(entry.getValue().getText());
+    	}
+		return returner;
+	}
 	
 	public Set<Integer> findMatching(Group other) {
 		Set<Integer> temp = new HashSet<Integer>(items.keySet());
@@ -65,5 +73,6 @@ public class Group {
 		System.out.println(temp);
 		return temp;
 	}
+	
 	
 }
