@@ -621,7 +621,7 @@ public class Controller {
 	protected void identifyGroup(ActionEvent event) {
 		List<Item> copyList = new ArrayList<>(item_list.getSelectionModel().getSelectedItems());
 		for(Item item :copyList) {
-			groupIdentifier.setText(item.text+ " -> " + groupFinder(item));
+			groupIdentifier.setText(item.text+ ": " + groupFinder(item));
 			if(groupFinder(item).equals("Left Set")) {
 				groupIdentifier.setStyle("-fx-text-fill: green;");
 			}
@@ -632,7 +632,7 @@ public class Controller {
 				groupIdentifier.setStyle("-fx-text-fill: blue;");
 			}
 			else {
-				
+				groupIdentifier.setStyle("-fx-text-fill: black;");
 			}
 			
 			
