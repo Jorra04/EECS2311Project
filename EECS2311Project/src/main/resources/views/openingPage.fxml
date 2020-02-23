@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="anchorpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="583.0" prefWidth="742.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.startPageController">
+   <children>
+      <MenuBar prefHeight="583.0" prefWidth="742.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+                  <MenuItem mnemonicParsing="false" text="New" />
+                  <MenuItem mnemonicParsing="false" text="Open" />
+                  <MenuItem mnemonicParsing="false" text="Save" />
+              <MenuItem mnemonicParsing="false" onAction="#menuButtonClose" text="Quit" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#aboutUs" text="About Our Program" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <Button fx:id="next" layoutX="533.0" layoutY="182.0" mnemonicParsing="false" onAction="#nextScene" prefHeight="37.0" prefWidth="134.0" text="Enter Our App" />
+      <Pane layoutX="31.0" layoutY="27.0" prefHeight="138.0" prefWidth="693.0">
+         <children>
+            <Text fill="#d30909" layoutX="74.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to the Venn Diagram App!" textAlignment="CENTER" underline="true" wrappingWidth="516.13671875">
+               <font>
+                  <Font name="Matura MT Script Capitals" size="31.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+      <Pane layoutX="31.0" layoutY="165.0" prefHeight="389.0" prefWidth="362.0">
+         <children>
+            <Text fill="#067eff" layoutX="51.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contributors:" underline="true">
+               <font>
+                  <Font name="Bell MT Bold" size="22.0" />
+               </font>
+            </Text>
+            <Text layoutX="51.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Brian Wong">
+               <font>
+                  <Font name="Bell MT Italic" size="22.0" />
+               </font>
+            </Text>
+            <Text layoutX="51.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bart Gisone" wrappingWidth="111.0205078125">
+               <font>
+                  <Font name="Bell MT Italic" size="22.0" />
+               </font>
+            </Text>
+            <Text layoutX="53.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kaasim Shaikh">
+               <font>
+                  <Font name="Bell MT Italic" size="22.0" />
+               </font>
+            </Text>
+            <Text layoutX="52.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jorra Singh">
+               <font>
+                  <Font name="Bell MT Italic" size="22.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

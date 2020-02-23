@@ -14,6 +14,15 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.0.8'	
 }
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'VennDiagram.App'
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
 repositories {
     // Use jcenter for resolving dependencies.
     // You can declare any Maven/Ivy/file repository here.
@@ -41,4 +50,7 @@ dependencies {
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
+    compile "org.apache.poi:poi:3.17"	     // For `.xls` files
+    
+	compile "org.apache.poi:poi-ooxml:3.17"	 // For `.xlsx` files
 }

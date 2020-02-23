@@ -1,6 +1,5 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
@@ -36,9 +35,15 @@ public class Group {
 			this.removeItem(item);
 		}
 	}
+	public void removeAll() {
+		this.items.clear();
+	}
 	
 	public int getTitle() {
 		return this.getTitle();
+	}
+	public boolean isEmpty() {
+		return items.size() == 0;
 	}
 	
 	public void setTitle(String title) {
