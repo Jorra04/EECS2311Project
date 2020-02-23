@@ -21,7 +21,6 @@ public class Group {
 	
 	public void insertItems(Collection<Item> items) {
 		for(Item item: items) {
-			System.out.println(item.toString());
 			this.insertItem(item);
 		}
 	}
@@ -58,6 +57,7 @@ public class Group {
     	}
     	return visualString;
     }
+	
 	public Set<String> toSet(){
 		Set<String> returner = new HashSet<>();
 		for(Map.Entry<Integer, Item> entry : items.entrySet()) {
@@ -70,7 +70,6 @@ public class Group {
 	public Set<Integer> findMatching(Group other) {
 		Set<Integer> temp = new HashSet<Integer>(items.keySet());
 		temp.retainAll(other.items.keySet());
-		System.out.println(temp);
 		return temp;
 	}
 	
