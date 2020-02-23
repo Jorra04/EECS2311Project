@@ -55,6 +55,9 @@ public class Controller {
 	Group rightGroup;
 	Group matchGroup;
 	private static final DataFormat itemFormat = new DataFormat("item");
+//	private static final String DEFAULT_CONTROL_INNER_BACKGROUND = "derive(red,80%)";
+//    private static final String HIGHLIGHTED_CONTROL_INNER_BACKGROUND = "derive(palegreen, 50%)";
+
 	
 	private ArrayList<String> itemText = new ArrayList<>();
 	
@@ -108,6 +111,12 @@ public class Controller {
 	@FXML
 	Button create_button;
 	@FXML
+	ListView<String> leftGroupList;
+	@FXML
+	ListView<String> rightGroupList;
+	@FXML
+	ListView<String> midGroupList;
+	@FXML
 	ListView<Item> item_list;
 	@FXML
 	Pane diagram_pane; // venn diagram is here
@@ -116,9 +125,12 @@ public class Controller {
 	StackPane leftSet, rightSet, middleSet;
 	@FXML
 	Text leftSetText, rightSetText, middleSetText;
+	private static boolean tf = false;
 
 	private static ColorPicker colorPicker = new ColorPicker(Color.DODGERBLUE);
 	private static VBox box = new VBox(colorPicker);
+
+
 
 	// use this to help setup the fxml components, initialize is called as soon as
 	// app starts up. Similar to a constructor.
@@ -128,6 +140,7 @@ public class Controller {
 			//keep this empty, it basically removes the functionality of the root button in the split
 			//button button. Keeps the dropdown functionality.
 		});
+		
 		model = new VennModel();
 		clearData.requestFocus();
 		// setup content list, item_list reflects the observable list itemsContent
@@ -157,6 +170,13 @@ public class Controller {
 				} else {
 					setText(item.getText());
 				}
+//				if(finder(leftGroup,item)) {
+//					setStyle("-fx-control-inner-background: " + HIGHLIGHTED_CONTROL_INNER_BACKGROUND + ";");
+//				}
+//				else if(finder(rightGroup,item)) {
+//					setStyle("-fx-control-inner-background: " + DEFAULT_CONTROL_INNER_BACKGROUND + ";");
+//				}
+				
 			}
 		});
 	}
@@ -266,6 +286,8 @@ public class Controller {
 		middleSetText.setText(matchGroup.toVisualList());
 		removed++;
 		model.getItemList().removeAll(copyList);
+		
+		leftGroupList.getItems().removeAll(copyList);
 
 		if (leftGroup.isEmpty()) {
 			leftSetText.setText("Text");
@@ -321,6 +343,9 @@ public class Controller {
 			middleSetText.setText(matchGroup.toVisualList());
 			leftSetText.setText(leftGroup.toVisualList());
 			rightSetText.setText(rightGroup.toVisualList());
+			
+		
+
 			isCompleted = true;
 		}
 		event.setDropCompleted(isCompleted);
@@ -354,8 +379,11 @@ public class Controller {
 			middleSetText.setText(matchGroup.toVisualList());
 			leftSetText.setText(leftGroup.toVisualList());
 			rightSetText.setText(rightGroup.toVisualList());
+			
+			
 			isCompleted = true;
 		}
+		
 		event.setDropCompleted(isCompleted);
 		event.consume();
 	}
@@ -401,7 +429,7 @@ public class Controller {
 	}
 	
 	@FXML
-	protected void addCirc(ActionEvent event) {
+	public void addCirc(ActionEvent event) {
 		if(Controller.numCirc == 2) {
 			
 			circleCreator(leftCircle.getRadius(),280,400);
@@ -454,12 +482,6 @@ public class Controller {
 			rightCircle.setFill(Color.DODGERBLUE);
 			Color colorVal = (Color)rightCircle.getFill();
 			colorPicker.setValue(colorVal);
-			
-
-			
-			
-			
-			
 			event.consume();
 		}
 		
@@ -497,8 +519,24 @@ public class Controller {
 			create_text.clear();
 			create_text.requestFocus();
 			
+			
 		}
 	}
+	
+	@FXML
+	protected void checker(ActionEvent e) {
+		Controller.tf = true;
+		
+	}
+	private boolean finder(Group group, Item item) {
+		for(Map.Entry<Integer, Item> entry : group.items.entrySet()) {
+			if(entry.getValue().equals(item)) {
+				return true;
+			}
+    	}
+		return false;
+	}
+	
 	
 	
 

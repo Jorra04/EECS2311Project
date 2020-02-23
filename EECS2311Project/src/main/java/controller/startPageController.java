@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -42,8 +41,6 @@ public class startPageController {
 	
 
 	
-	
-
 	@FXML
 	protected void nextScene(ActionEvent event) {
 		createTitleAndEnter();
@@ -98,14 +95,6 @@ public class startPageController {
 			VennDiagram.DiagramTitleTooSmallAlert.display("ALERT","Length of title is too small");
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 }
