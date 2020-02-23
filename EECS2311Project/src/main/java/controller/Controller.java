@@ -59,7 +59,7 @@ public class Controller {
 //    private static final String HIGHLIGHTED_CONTROL_INNER_BACKGROUND = "derive(palegreen, 50%)";
 
 	
-	private ArrayList<String> itemText = new ArrayList<>();
+	private ArrayList<Item> itemText = new ArrayList<>();
 	
 	private ArrayList<Circle> circles = new ArrayList<>();
 	// fxml components
@@ -330,6 +330,7 @@ public class Controller {
 		groupIdentifier.clear();
 		removed++;
 		model.getItemList().removeAll(copyList);
+		itemText.removeAll(copyList);
 		
 //		leftGroupList.getItems().removeAll(copyList);
 //		rightGroupList.getItems().removeAll(copyList);
@@ -561,7 +562,7 @@ public class Controller {
 			if(!tagAlreadyExists(create_text.getText())) {
 				Item item = new Item(create_text.getText());
 				String adder = create_text.getText().replaceAll(" ", "");
-				itemText.add(adder);
+				itemText.add(new Item(adder));
 				model.getItemList().add(item);
 				itemsContent.setAll(model.getItemList());
 			}
@@ -587,13 +588,13 @@ public class Controller {
 		Set<String> right = rightGroup.toSet();
 		Set<String> mid = matchGroup.toSet();
 		if(mid.contains(item.text)) {
-			return "mid";
+			return "Middle Set";
 		}
 		if(left.contains(item.text)) {
-			return "left";
+			return "Left Set";
 		}
 		if(right.contains(item.text)) {
-			return "right";
+			return "Right Set";
 		}
 		return "Not Assigned";
 	}
@@ -621,13 +622,13 @@ public class Controller {
 		List<Item> copyList = new ArrayList<>(item_list.getSelectionModel().getSelectedItems());
 		for(Item item :copyList) {
 			groupIdentifier.setText(item.text+ " -> " + groupFinder(item));
-			if(groupFinder(item).equals("left")) {
+			if(groupFinder(item).equals("Left Set")) {
 				groupIdentifier.setStyle("-fx-text-fill: green;");
 			}
-			else if(groupFinder(item).equals("right")) {
+			else if(groupFinder(item).equals("Right Set")) {
 				groupIdentifier.setStyle("-fx-text-fill: red;");
 			}
-			else if(groupFinder(item).equals("mid")) {
+			else if(groupFinder(item).equals("Middle Set")) {
 				groupIdentifier.setStyle("-fx-text-fill: blue;");
 			}
 			else {
