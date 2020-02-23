@@ -3,7 +3,6 @@ package VennDiagram;
 
 import static org.junit.Assert.*;
 
-import junit.framework.TestCase;
 
 import java.util.*;
 import org.junit.Test;
