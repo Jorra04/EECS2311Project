@@ -34,7 +34,7 @@ public class GUITest {
 
 	@Test
 	public void setTitle() throws Exception{
-	
+		
 		
 	}
 
