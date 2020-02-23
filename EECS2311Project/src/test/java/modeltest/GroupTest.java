@@ -36,30 +36,30 @@ public class GroupTest {
 	}
 
 	@Test
-	public void groupNameTest() {
+	public void testGroupName() {
 		assertSame("test", group.getTitle());
 	}
 	
 	@Test
-	public void groupNameTest2() {
+	public void testGroupName2() {
 		group.setTitle("newTitle");
 		assertSame("newTitle", group.getTitle());
 	}
 	
 	@Test
-	public void groupEmptyTest() {
+	public void testGroupEmpty() {
 		assertTrue(group.isEmpty());	
 	}
 	
 	@Test
-	public void groupEmptyTest2() {
+	public void testGroupEmpty2() {
 		Item item = new Item("item");
 		group.insertItem(item);
 		assertFalse(group.isEmpty());	
 	}
 	
 	@Test
-	public void addAndRemoveTest() {
+	public void testAddAndRemove() {
 		Item item = new Item("item");
 		group.insertItem(item);
 		group.removeItem(item);
@@ -67,7 +67,7 @@ public class GroupTest {
 	}
 	
 	@Test
-	public void addAndRemoveTest2() {
+	public void testAddAndRemove2() {
 		Item item1 = new Item("item1");
 		Item item2 = new Item("item2");
 		group.insertItem(item1);
