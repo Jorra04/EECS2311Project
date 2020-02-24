@@ -31,5 +31,9 @@ public class VennModel {
 	public HashMap<String, Group> getGroupMap() {
 		return groupMap;
 	}
+	
+	public int groupMapSize() {
+		return groupMap.size();
+	}
 
 }
