@@ -377,8 +377,7 @@ public class Controller {
 		boolean isCompleted = false;
 		Dragboard db = event.getDragboard();
 		if (db.hasContent(itemFormat)) {
-			List<Item> arr = (ArrayList<Item>) db.getContent(itemFormat);
-			leftGroup.insertItems(arr);
+			leftGroup.insertItems((ArrayList<Item>) db.getContent(itemFormat));
 			Set<Integer> match = leftGroup.findMatching(rightGroup);
 			
 			// ArrayList<Item> temp = new ArrayList<Item>();
@@ -416,8 +415,8 @@ public class Controller {
 		boolean isCompleted = false;
 		Dragboard db = event.getDragboard();
 		if (db.hasContent(itemFormat)) {
-			List<Item> arr = (ArrayList<Item>) db.getContent(itemFormat);
-			rightGroup.insertItems(arr);
+			rightGroup.insertItems((ArrayList<Item>) db.getContent(itemFormat));
+			
 			Set<Integer> match = rightGroup.findMatching(leftGroup);
 			
 			// ArrayList<Item> temp = new ArrayList<Item>();
@@ -562,7 +561,8 @@ public class Controller {
 			if(!tagAlreadyExists(create_text.getText())) {
 				Item item = new Item(create_text.getText());
 				String adder = create_text.getText().replaceAll(" ", "");
-				itemText.add(new Item(adder));
+				itemText.add(new Item(adder)); //Look for a way around this, i feel like there is potential for error here.
+				Item.uid--; //correcting for the new item made.
 				model.getItemList().add(item);
 				itemsContent.setAll(model.getItemList());
 			}
