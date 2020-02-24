@@ -14,6 +14,7 @@ public class DiagramTitleTooSmallAlert {
 	private static Button confirm = new Button("Yes, start");
 	private static Button cancel = new Button("Cancel");
 	public static boolean confirmPressed;
+	private static boolean cancelPressed;
 	
 	
 	public static void display(String title, String message) {
@@ -28,10 +29,12 @@ public class DiagramTitleTooSmallAlert {
 
 		confirm.setOnAction(e-> {
 			confirmPressed = true;
+			cancelPressed = true;
 			window.close();
 		});
 		cancel.setOnAction(e-> {
-			confirmPressed = true;
+			cancelPressed = true;
+			confirmPressed = false;
 			window.close();
 		});
 		
