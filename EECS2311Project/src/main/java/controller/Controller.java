@@ -452,6 +452,25 @@ public class Controller {
 	
 	@FXML 
 	protected void aboutUs(ActionEvent event) {
+		int FileNotFoundCount = 0;
+		try {
+
+			File pdfFile = new File("EECS2311Project\\resources\\userMan\\manual.pdf");
+			if (pdfFile.exists()) {
+
+				if (java.awt.Desktop.isDesktopSupported()) {
+					java.awt.Desktop.getDesktop().open(pdfFile);
+				} else {
+					System.out.println("Awt Desktop is not supported!");
+				}
+			}
+			else {
+				FileNotFoundCount++;
+			}
+		  } catch (Exception ex) {
+			ex.printStackTrace();
+		  }
+		
 		try {
 
 			File pdfFile = new File("src\\main\\resources\\userMan\\manual.pdf");
@@ -463,11 +482,15 @@ public class Controller {
 					System.out.println("Awt Desktop is not supported!");
 				}
 			} else {
-				System.out.println("File is not exists!");
+				FileNotFoundCount++;
 			}
 		  } catch (Exception ex) {
 			ex.printStackTrace();
 		  }
+		if(FileNotFoundCount > 1 ) {
+			System.out.println(FileNotFoundCount);
+			System.out.println("File Not Found");
+		}
 		
 		event.consume();
 	}
@@ -552,6 +575,7 @@ public class Controller {
 		create_text.requestFocus();
 		itemText.clear(); //this is needed, as if we don't have this, the program thinks we have duplicate items present.
 		Item.uid = 0;
+		diagram_pane.getChildren().remove(Controller.box);
 		clearAllAlert.cancelPressed = false;
 		clearAllAlert.closePressed = false;
 		
