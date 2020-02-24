@@ -667,15 +667,21 @@ public class Controller {
 
 	@FXML
 	protected void handleSaveMenuButton(ActionEvent event) {
-		System.out.println("writing to excel");
-		try {
-			Save.writeExcel(model);
-		} catch (InvalidFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(!item_list.getItems().isEmpty()) {
+			System.out.println("writing to excel");
+			try {
+				Save.writeExcel(model);
+			} catch (InvalidFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		else {
+			TagAlreadyExistsAlert.display("Save", "Make Changes Before Saving!");
+		}
+		
 	}
 }
