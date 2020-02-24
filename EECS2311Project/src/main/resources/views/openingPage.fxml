@@ -70,7 +70,7 @@
                   <Font name="Bell MT Italic" size="22.0" />
                </font>
             </Text>
-            <Button fx:id="next" layoutX="583.0" layoutY="19.0" mnemonicParsing="false" onAction="#nextScene" prefHeight="37.0" prefWidth="111.0" text="Enter Our App" />
+            <Button fx:id="next" layoutX="583.0" layoutY="19.0" mnemonicParsing="false" onAction="#nextScene" prefHeight="37.0" prefWidth="111.0" text="Create" />
             <TextField fx:id="diagramTitle" layoutX="307.0" layoutY="19.0" onKeyReleased="#handleCreateTextFieldAction" prefHeight="37.0" prefWidth="262.0" promptText="Enter Venn Diagram Title." />
          </children>
       </Pane>
