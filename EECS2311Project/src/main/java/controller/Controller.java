@@ -3,8 +3,10 @@ import VennDiagram.clearAllAlert;
 import VennDiagram.restoreDefaultsAlert;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,6 +36,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import model.VennModel;
+import util.Save;
 import model.Group;
 import model.Item;
 import VennDiagram.TagAlreadyExistsAlert;
@@ -635,9 +638,20 @@ public class Controller {
 				groupIdentifier.setStyle("-fx-text-fill: black;");
 			}
 			
-			
-			
 		}
 	}
 
+	@FXML
+	protected void handleSaveMenuButton(ActionEvent event) {
+		System.out.println("writing to excel");
+		try {
+			Save.writeExcel(model);
+		} catch (InvalidFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

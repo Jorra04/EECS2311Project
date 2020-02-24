@@ -20,6 +20,10 @@ public class Group {
 		return item;
 	}
 	
+	public TreeMap<Integer, Item> getItems() {
+		return this.items;
+	}
+	
 	public int getSize() {
 		return items.size();
 	}
