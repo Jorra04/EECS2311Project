@@ -3,8 +3,10 @@ import VennDiagram.clearAllAlert;
 import VennDiagram.restoreDefaultsAlert;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,6 +36,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import model.VennModel;
+import util.Save;
 import model.Group;
 import model.Item;
 import VennDiagram.TagAlreadyExistsAlert;
@@ -452,6 +455,25 @@ public class Controller {
 	
 	@FXML 
 	protected void aboutUs(ActionEvent event) {
+		int FileNotFoundCount = 0;
+		try {
+
+			File pdfFile = new File("EECS2311Project\\resources\\userMan\\manual.pdf");
+			if (pdfFile.exists()) {
+
+				if (java.awt.Desktop.isDesktopSupported()) {
+					java.awt.Desktop.getDesktop().open(pdfFile);
+				} else {
+					System.out.println("Awt Desktop is not supported!");
+				}
+			}
+			else {
+				FileNotFoundCount++;
+			}
+		  } catch (Exception ex) {
+			ex.printStackTrace();
+		  }
+		
 		try {
 
 			File pdfFile = new File("src\\main\\resources\\userMan\\manual.pdf");
@@ -463,11 +485,15 @@ public class Controller {
 					System.out.println("Awt Desktop is not supported!");
 				}
 			} else {
-				System.out.println("File is not exists!");
+				FileNotFoundCount++;
 			}
 		  } catch (Exception ex) {
 			ex.printStackTrace();
 		  }
+		if(FileNotFoundCount > 1 ) {
+			System.out.println(FileNotFoundCount);
+			System.out.println("File Not Found");
+		}
 		
 		event.consume();
 	}
@@ -552,6 +578,7 @@ public class Controller {
 		create_text.requestFocus();
 		itemText.clear(); //this is needed, as if we don't have this, the program thinks we have duplicate items present.
 		Item.uid = 0;
+		diagram_pane.getChildren().remove(Controller.box);
 		clearAllAlert.cancelPressed = false;
 		clearAllAlert.closePressed = false;
 		
@@ -635,9 +662,26 @@ public class Controller {
 				groupIdentifier.setStyle("-fx-text-fill: black;");
 			}
 			
-			
-			
 		}
 	}
 
+	@FXML
+	protected void handleSaveMenuButton(ActionEvent event) {
+		if(!item_list.getItems().isEmpty()) {
+			System.out.println("writing to excel");
+			try {
+				Save.writeExcel(model);
+			} catch (InvalidFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else {
+			TagAlreadyExistsAlert.display("Save", "Make Changes Before Saving!");
+		}
+		
+	}
 }

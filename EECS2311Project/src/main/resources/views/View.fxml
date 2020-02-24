@@ -25,7 +25,7 @@
             <items>
                   <MenuItem fx:id="newFile" mnemonicParsing="false" onAction="#checker" text="New" />
                   <MenuItem fx:id="openFile" mnemonicParsing="false" text="Open" />
-                  <MenuItem fx:id="saveFile" mnemonicParsing="false" text="Save" />
+                  <MenuItem fx:id="saveFile" mnemonicParsing="false" text="Save" onAction="#handleSaveMenuButton" />
                   <MenuItem fx:id="switchScene" mnemonicParsing="false" onAction="#backToMenu" text="Back to Menu" />
               <MenuItem fx:id="quitProgram" mnemonicParsing="false" onAction="#menuButtonClose" text="Quit" />
             </items>
