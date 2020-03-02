@@ -17,8 +17,6 @@ public class View extends Application{
 	public static Stage primaryStage;
 	public static Scene promptWindow;
 	public static Scene scene;
-	
-	//private FXMLLoader loader;
 
 
 	public static void main(String[] args) {
