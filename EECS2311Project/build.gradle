@@ -11,16 +11,16 @@ plugins {
     id 'java-library'
     id 'eclipse'
     id 'application'
-    //id 'org.openjfx.javafxplugin' version '0.0.8'	
+    id 'org.openjfx.javafxplugin' version '0.0.8'	
 }
 
 jar {
     manifest {
         attributes 'Main-Class': 'VennDiagram.App'
     }
-    //from {
-    //    configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    //}
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
 
 repositories {
