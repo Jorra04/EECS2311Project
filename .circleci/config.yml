@@ -41,7 +41,8 @@ jobs:
           key: v1-dependencies-{{ checksum "EECS2311Project/build.gradle" }}
 
       # run tests!
-      #- run: gradle test
+      - run: cd EECS2311Project && gradle test
+
       - run: 
           name: "Build and Publish Release on GitHub"
           command: |
@@ -50,9 +51,12 @@ jobs:
             TAG=Release-$(date '+%Y-%m-%d-%H-%M-%S')
             cd EECS2311Project
             gradle jar
+
             cd ./build/libs/
             zip ${ZIP_FILE_NAME}.zip EECS2311Project.jar 
-            ghr upload --token ${GITHUB_TOKEN} --owner ${PROJECT_USERNAME} --repo ${PROJECT_REPONAME} --tag ${TAG} --name ${TAG} --body "Release date: ${NOW}" ${ZIP_FILE_NAME}.zip
+
+            github-release upload --token ${GITHUB_TOKEN} --owner ${PROJECT_USERNAME} --repo ${PROJECT_REPONAME} --tag ${TAG} --name ${TAG} --body "Release date: ${NOW}" ${ZIP_FILE_NAME}.zip
+
 workflows:
   version: 2
   build:
