@@ -54,4 +54,9 @@ dependencies {
     compile "org.apache.poi:poi:3.17"	     // For `.xls` files
     
 	compile "org.apache.poi:poi-ooxml:3.17"	 // For `.xlsx` files
+	
+	//for crossplatform
+	runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:win"
+	runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:linux"
+	runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:mac"
 }
