@@ -67,11 +67,11 @@ public class Controller {
 	Group rightGroup;
 	Group matchGroup;
 	private static final DataFormat itemFormat = new DataFormat("item");
-//	private static final String DEFAULT_CONTROL_INNER_BACKGROUND = "derive(red,80%)";
-//    private static final String HIGHLIGHTED_CONTROL_INNER_BACKGROUND = "derive(palegreen, 50%)";
+
 
 	
 	private ArrayList<Item> itemText = new ArrayList<>();
+
 	
 	private ArrayList<Circle> circles = new ArrayList<>();
 >>>>>>> refs/remotes/origin/develop
@@ -106,7 +106,7 @@ public class Controller {
 	@FXML
 	Button identify;
 	@FXML
-	Button clearData; // trying to use this clear button
+	Button clearData; 
 
 	@FXML
 	SplitMenuButton splitMenu = new SplitMenuButton();
@@ -129,12 +129,7 @@ public class Controller {
 <<<<<<< HEAD
 =======
 	Button create_button;
-//	@FXML
-//	ListView<Item> leftGroupList;
-//	@FXML
-//	ListView<Item> rightGroupList;
-//	@FXML
-//	ListView<Item> midGroupList;
+
 	@FXML
 >>>>>>> refs/remotes/origin/develop
 	ListView<Item> item_list;
@@ -201,54 +196,10 @@ public class Controller {
 				} else {
 					setText(item.getText());
 				}
-//				if(finder(leftGroup,item)) {
-//					setStyle("-fx-control-inner-background: " + HIGHLIGHTED_CONTROL_INNER_BACKGROUND + ";");
-//				}
-//				else if(finder(rightGroup,item)) {
-//					setStyle("-fx-control-inner-background: " + DEFAULT_CONTROL_INNER_BACKGROUND + ";");
-//				}
+
 				
 			}
 		}); 
-//		rightGroupList.setCellFactory(param -> new ListCell<Item>() {
-//			@Override
-//			protected void updateItem(Item item, boolean empty) {
-//				super.updateItem(item, empty);
-//
-//				if (empty || item == null || item.getText() == null) {
-//					setText(null);
-//				} else {
-//					setText(item.getText());
-//				}
-//				
-//			}
-//		}); 
-//		leftGroupList.setCellFactory(param -> new ListCell<Item>() {
-//			@Override
-//			protected void updateItem(Item item, boolean empty) {
-//				super.updateItem(item, empty);
-//
-//				if (empty || item == null || item.getText() == null) {
-//					setText(null);
-//				} else {
-//					setText(item.getText());
-//				}
-//				
-//			}
-//		});
-//		midGroupList.setCellFactory(param -> new ListCell<Item>() {
-//			@Override
-//			protected void updateItem(Item item, boolean empty) {
-//				super.updateItem(item, empty);
-//
-//				if (empty || item == null || item.getText() == null) {
-//					setText(null);
-//				} else {
-//					setText(item.getText());
-//				}
-//				
-//			}
-//		});
 
 	}
 
@@ -391,9 +342,6 @@ public class Controller {
 		model.getItemList().removeAll(copyList);
 		itemText.removeAll(copyList);
 		
-//		leftGroupList.getItems().removeAll(copyList);
-//		rightGroupList.getItems().removeAll(copyList);
-//		midGroupList.getItems().removeAll(copyList);
 
 		if (leftGroup.isEmpty()) {
 			leftSetText.setText("Text");
@@ -576,8 +524,11 @@ public class Controller {
 	
 	protected boolean tagAlreadyExists(String tag) {
 		String checker = tag.replaceAll(" ", "");
-		if(itemText.contains(checker)) {
-			return true;
+//		System.out.println(itemText);
+		for(Item item : itemText) {
+			if(item.getText().equals(checker)) {
+				return true;
+			}
 		}
 		return false;
 	}
@@ -679,6 +630,27 @@ public class Controller {
 			
 		}
 	}
+	@FXML
+	protected void refactor(ActionEvent event)throws Exception {
+		List<Item> copyList = new ArrayList<>(item_list.getSelectionModel().getSelectedItems());
+		if(copyList.size() == 0) {
+			VennDiagram.TagAlreadyExistsAlert.display("ERROR", "Select some items before trying to rename them.");
+			return;
+		}
+		VennDiagram.refactorWindow.display("Window");
+		if(!controller.refactorController.buttonPressed) {
+			return;
+		}
+		
+		for(Item item : copyList) {
+			item.ChangeText(controller.refactorController.text);
+		}
+		for(Item item: itemText) {
+			item.ChangeText(controller.refactorController.text);
+		}
+		System.out.println(model.getItemList());
+		item_list.refresh();
+	}
 	
 	@FXML
 	protected void checker(ActionEvent e) {
@@ -701,23 +673,7 @@ public class Controller {
 		}
 		return "Not Assigned";
 	}
-	
-//	private void setMatcher(ListView<Item> right, ListView<Item> left, ListView<Item> mid, List<Item> arr) {
-//		if(groupFinder(arr.get(0)).equals("right") && !right.getItems().contains(arr.get(0))) {
-//			right.getItems().add(arr.get(0));
-//			System.out.println("right");
-//		}
-//		else if(groupFinder(arr.get(0)).equals("left") &&!left.getItems().contains(arr.get(0)) ) {
-//			left.getItems().add(arr.get(0));
-//			System.out.println("left");
-//		}
-//		else if((groupFinder(arr.get(0)).equals("mid") && !mid.getItems().contains(arr.get(0)))) {
-//			right.getItems().remove(arr.get(0));
-//			left.getItems().remove(arr.get(0));
-//			mid.getItems().add(arr.get(0));
-//			System.out.println("mid");
-//		}
-//	}
+
 	
 	
 	@FXML
