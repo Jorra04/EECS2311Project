@@ -1,6 +1,13 @@
 package model;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public static int uid = 0; //keep track of each item created, qualitative or quantitative
 	
 	public int id;
@@ -12,13 +19,17 @@ public class Item {
 	 */
 	
 	public Item(String text) {
-		this.id	 = getUID(); //unique to all items
+		this.id	 = generateID(); //unique to all items
 		this.text = text;
 	}
 	
 	
-	public int getUID() {
+	public int getID() {
 		//TODO: if we save items, we need to save highest uid and load it here before assigning UIDs to more items.
+		return id;
+	}
+	
+	public int generateID() {
 		uid += 1;
 		return uid;
 	}
@@ -50,8 +61,8 @@ public class Item {
 		if (getClass() != obj.getClass())
 			return false;
 		Item other = (Item) obj;
-		if (id != other.id)
-			return false;
+//		if (id != other.id)
+//			return false;
 		if (text == null) {
 			if (other.text != null)
 				return false;
@@ -60,11 +71,14 @@ public class Item {
 		return true;
 	}
 
+
 	@Override
 	public String toString() {
 		return "Item [id=" + id + ", text=" + text + "]";
 	}
 	
-	
+	public static void resetUID() {
+		uid = 0;
+	}
 	
 }

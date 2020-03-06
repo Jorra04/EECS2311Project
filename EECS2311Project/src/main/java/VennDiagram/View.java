@@ -6,35 +6,57 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.shape.Circle;
 
 //merged
 
 public class View extends Application{
 	public static Stage primaryStage;
+<<<<<<< HEAD
 	private AnchorPane anchorPane;
 	//private FXMLLoader loader;
 	
+=======
+	public static Scene promptWindow;
+	public static Scene scene;
+
+
+>>>>>>> refs/remotes/origin/develop
 	public static void main(String[] args) {
 		launch(args);
 	}
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> refs/remotes/origin/develop
 	@Override
 	public void start(Stage stage) throws Exception{
 //		System.out.printf("root = %s\n", getClass().getResource("/views/View.fxml"));
+		
+		
+		primaryStage = stage;
 		Parent root = FXMLLoader.load(getClass().getResource("/views/View.fxml"));
-	   
-	    Scene scene = new Scene(root, 800, 600);
+		Parent root2 = FXMLLoader.load(getClass().getResource("/views/openingPage.fxml"));
+		   
+	    scene = new Scene(root, 900, 650);
+	    
+		promptWindow = new Scene(root2,750,550);
+		
+		primaryStage.setOnCloseRequest(event ->{
+			quitProgramAlert.display("Confirm Exit", "Are you sure you want to exit?");
+			if(!quitProgramAlert.closePressed) {
+				event.consume();
+			}
+			
+		});
+		
 	
-	    stage.setTitle("VennDiagram Creator");
-	    stage.setScene(scene);
-	    stage.setResizable(true);
-	    stage.show();
+	    primaryStage.setTitle("VennDiagram Creator");
+	    primaryStage.setScene(promptWindow);
+	    primaryStage.setResizable(true);
+	    primaryStage.show();
 	}
 	
 }
