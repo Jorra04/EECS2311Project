@@ -41,9 +41,6 @@ public class Item implements Serializable{
 	public String getText() {
 		return this.text;
 	}
-	public void ChangeText(String text) {
-		this.text = text;
-	}
 	
 	@Override
 	public int hashCode() {

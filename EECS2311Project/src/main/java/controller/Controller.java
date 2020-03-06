@@ -567,10 +567,10 @@ public class Controller {
 		}
 		
 		for(Item item : copyList) {
-			item.ChangeText(controller.refactorController.text);
+			item.setText(controller.refactorController.text);
 		}
 		for(Item item: itemText) {
-			item.ChangeText(controller.refactorController.text);
+			item.setText(controller.refactorController.text);
 		}
 		System.out.println(model.getItemList());
 		item_list.refresh();
