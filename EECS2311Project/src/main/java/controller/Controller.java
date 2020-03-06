@@ -63,6 +63,8 @@ public class Controller {
 
 	
 	private ArrayList<Item> itemText = new ArrayList<>();
+//	private ArrayList<String> undo = new ArrayList<>();
+//	private ArrayList<String> redo = new ArrayList<>();
 	
 	private ArrayList<Circle> circles = new ArrayList<>();
 	// fxml components
@@ -500,8 +502,11 @@ public class Controller {
 	
 	protected boolean tagAlreadyExists(String tag) {
 		String checker = tag.replaceAll(" ", "");
-		if(itemText.contains(checker)) {
-			return true;
+//		System.out.println(itemText);
+		for(Item item : itemText) {
+			if(item.getText().equals(checker)) {
+				return true;
+			}
 		}
 		return false;
 	}
@@ -602,6 +607,35 @@ public class Controller {
 			
 			
 		}
+	}
+	@FXML
+	protected void undo(ActionEvent event) {
+		List<Item> copyList = new ArrayList<>(item_list.getSelectionModel().getSelectedItems());
+		System.out.println(copyList);
+		
+		
+//		System.out.println(model.getItemList());
+//		int count = 0;
+//		for(Item item : model.getItemList()) {
+//			if(undo.get(undo.size()-1).contentEquals(item.getText())) {
+//				item_list.getItems().remove(item);
+//				System.out.println(undo.get(undo.size()-1) + "---->" +item.getText());
+//				break;	
+//			}
+//			count++;
+//			
+//			
+//		}
+//		try {
+//			model.getItemList().remove(count);
+//			undo.remove(undo.get(undo.size()-1));
+//		}
+//		catch(Exception e) {
+//			System.out.println("There is a problem");
+//		}
+//			
+//		System.out.println(model.getItemList());
+
 	}
 	
 	@FXML
