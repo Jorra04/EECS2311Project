@@ -117,7 +117,7 @@ public class Controller {
 	TextField groupIdentifier;
 	@FXML
 	Button create_button;
-/
+
 	@FXML
 	ListView<Item> item_list;
 	@FXML
