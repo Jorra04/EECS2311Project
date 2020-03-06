@@ -4,11 +4,7 @@
 package EECS2311Project;
 
 import org.junit.Test;
-<<<<<<< HEAD
-=======
 
-
->>>>>>> develop
 import static org.junit.Assert.*;
 
 public class LibraryTest {
