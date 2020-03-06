@@ -566,6 +566,11 @@ public class Controller {
 			return;
 		}
 		
+		if(tagAlreadyExists(controller.refactorController.text)) {
+			VennDiagram.TagAlreadyExistsAlert.display("ERROR", "Tag Already Exists");
+			return;
+		}
+		
 		for(Item item : copyList) {
 			item.setText(controller.refactorController.text);
 		}
