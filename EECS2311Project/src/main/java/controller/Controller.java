@@ -58,13 +58,11 @@ public class Controller {
 	Group rightGroup;
 	Group matchGroup;
 	private static final DataFormat itemFormat = new DataFormat("item");
-//	private static final String DEFAULT_CONTROL_INNER_BACKGROUND = "derive(red,80%)";
-//    private static final String HIGHLIGHTED_CONTROL_INNER_BACKGROUND = "derive(palegreen, 50%)";
+
 
 	
 	private ArrayList<Item> itemText = new ArrayList<>();
-//	private ArrayList<String> undo = new ArrayList<>();
-//	private ArrayList<String> redo = new ArrayList<>();
+
 	
 	private ArrayList<Circle> circles = new ArrayList<>();
 	// fxml components
@@ -98,7 +96,7 @@ public class Controller {
 	@FXML
 	Button identify;
 	@FXML
-	Button clearData; // trying to use this clear button
+	Button clearData; 
 
 	@FXML
 	SplitMenuButton splitMenu = new SplitMenuButton();
@@ -119,12 +117,7 @@ public class Controller {
 	TextField groupIdentifier;
 	@FXML
 	Button create_button;
-//	@FXML
-//	ListView<Item> leftGroupList;
-//	@FXML
-//	ListView<Item> rightGroupList;
-//	@FXML
-//	ListView<Item> midGroupList;
+/
 	@FXML
 	ListView<Item> item_list;
 	@FXML
@@ -178,54 +171,10 @@ public class Controller {
 				} else {
 					setText(item.getText());
 				}
-//				if(finder(leftGroup,item)) {
-//					setStyle("-fx-control-inner-background: " + HIGHLIGHTED_CONTROL_INNER_BACKGROUND + ";");
-//				}
-//				else if(finder(rightGroup,item)) {
-//					setStyle("-fx-control-inner-background: " + DEFAULT_CONTROL_INNER_BACKGROUND + ";");
-//				}
+
 				
 			}
 		}); 
-//		rightGroupList.setCellFactory(param -> new ListCell<Item>() {
-//			@Override
-//			protected void updateItem(Item item, boolean empty) {
-//				super.updateItem(item, empty);
-//
-//				if (empty || item == null || item.getText() == null) {
-//					setText(null);
-//				} else {
-//					setText(item.getText());
-//				}
-//				
-//			}
-//		}); 
-//		leftGroupList.setCellFactory(param -> new ListCell<Item>() {
-//			@Override
-//			protected void updateItem(Item item, boolean empty) {
-//				super.updateItem(item, empty);
-//
-//				if (empty || item == null || item.getText() == null) {
-//					setText(null);
-//				} else {
-//					setText(item.getText());
-//				}
-//				
-//			}
-//		});
-//		midGroupList.setCellFactory(param -> new ListCell<Item>() {
-//			@Override
-//			protected void updateItem(Item item, boolean empty) {
-//				super.updateItem(item, empty);
-//
-//				if (empty || item == null || item.getText() == null) {
-//					setText(null);
-//				} else {
-//					setText(item.getText());
-//				}
-//				
-//			}
-//		});
 
 	}
 
@@ -337,9 +286,6 @@ public class Controller {
 		model.getItemList().removeAll(copyList);
 		itemText.removeAll(copyList);
 		
-//		leftGroupList.getItems().removeAll(copyList);
-//		rightGroupList.getItems().removeAll(copyList);
-//		midGroupList.getItems().removeAll(copyList);
 
 		if (leftGroup.isEmpty()) {
 			leftSetText.setText("Text");
