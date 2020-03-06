@@ -10,21 +10,34 @@ import javafx.stage.Stage;
 
 //merged
 
-
-
-
 public class View extends Application{
 	public static Stage primaryStage;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+	private AnchorPane anchorPane;
+	//private FXMLLoader loader;
+	
+=======
+>>>>>>> 6297cd7a58683e872bf3d4fa9da005dae0254868
 	public static Scene promptWindow;
 	public static Scene scene;
 
 
+>>>>>>> refs/remotes/origin/develop
 	public static void main(String[] args) {
 		launch(args);
 	}
 
+<<<<<<< HEAD
+
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> 6297cd7a58683e872bf3d4fa9da005dae0254868
 
 
+>>>>>>> refs/remotes/origin/develop
 	@Override
 	public void start(Stage stage) throws Exception{
 //		System.out.printf("root = %s\n", getClass().getResource("/views/View.fxml"));
@@ -53,5 +66,4 @@ public class View extends Application{
 	    primaryStage.show();
 	}
 	
-
 }

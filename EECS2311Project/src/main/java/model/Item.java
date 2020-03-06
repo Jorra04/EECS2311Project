@@ -41,6 +41,9 @@ public class Item implements Serializable{
 	public String getText() {
 		return this.text;
 	}
+	public void ChangeText(String text) {
+		this.text = text;
+	}
 	
 	@Override
 	public int hashCode() {
@@ -51,7 +54,7 @@ public class Item implements Serializable{
 		return result;
 	}
 
-
+	//SOMEONE TOOK 2030 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
