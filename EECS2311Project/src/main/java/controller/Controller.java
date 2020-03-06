@@ -609,8 +609,19 @@ public class Controller {
 		}
 	}
 	@FXML
-	protected void undo(ActionEvent event) {
+	protected void refactor(ActionEvent event)throws Exception {
+		VennDiagram.refactorWindow.display("Window");
+
+		
 		List<Item> copyList = new ArrayList<>(item_list.getSelectionModel().getSelectedItems());
+		for(Item item : copyList) {
+			item.ChangeText(controller.refactorController.text);
+		}
+		for(Item item: itemText) {
+			item.ChangeText(controller.refactorController.text);
+		}
+		item_list.refresh();
+		
 		System.out.println(copyList);
 		
 		
