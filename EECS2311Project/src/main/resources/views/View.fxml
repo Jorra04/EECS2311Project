@@ -4,21 +4,51 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="503.0" prefWidth="784.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="898.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
     <children>
-      <BorderPane>
+      <MenuBar prefHeight="30.0" prefWidth="898.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+                  <MenuItem fx:id="newFile" mnemonicParsing="false" onAction="#checker" text="New" />
+                  <MenuItem fx:id="openFile" mnemonicParsing="false" text="Open" />
+                  <MenuItem fx:id="saveFile" mnemonicParsing="false" text="Save" onAction="#handleSaveMenuButton" />
+                  <MenuItem fx:id="switchScene" mnemonicParsing="false" onAction="#backToMenu" text="Back to Menu" />
+              <MenuItem fx:id="quitProgram" mnemonicParsing="false" onAction="#menuButtonClose" text="Quit" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+                  <MenuItem fx:id="restoreDef" mnemonicParsing="false" onAction="#restoreDefault" text="Restore Default" />
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem fx:id="aboutUs" mnemonicParsing="false" onAction="#aboutUs" text="About Our Program" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <BorderPane prefWidth="898.0">
          <right>
             <Button fx:id="create_button" mnemonicParsing="false" onAction="#handleCreateButtonAction" text="Create" BorderPane.alignment="TOP_RIGHT"> </Button>
          </right>
          <center>
-            <TextField fx:id="create_text" promptText="Item name here" BorderPane.alignment="TOP_CENTER" onKeyReleased='#handleCreateTextFieldAction'>
+            <TextField fx:id="create_text" onKeyReleased="#handleCreateTextFieldAction" prefHeight="16.0" prefWidth="843.0" promptText="Item name here" BorderPane.alignment="TOP_CENTER">
                <BorderPane.margin>
                   <Insets />
                </BorderPane.margin>
@@ -27,15 +57,53 @@
       </BorderPane>
       <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>
-            <ListView fx:id="item_list"/>
-            <Pane fx:id="diagram_pane" prefHeight="477.0" prefWidth="560.0" HBox.hgrow="ALWAYS">
+            <ListView fx:id="item_list" onDragDetected="#handleItemListDragDetection" prefHeight="615.0" prefWidth="248.0" />
+            <Pane fx:id="diagram_pane" prefHeight="647.0" prefWidth="650.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Circle fill="DODGERBLUE" layoutX="201.0" layoutY="239.0" opacity="0.21" radius="150.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Circle fill="DODGERBLUE" layoutX="340.0" layoutY="239.0" opacity="0.21" radius="150.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Button fx:id="clearButton" layoutX="399.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleClearAllButtonAction" prefHeight="14.0" prefWidth="82.0" text="CLEAR ALL!"> </Button>
-                  <Label fx:id="Label1" layoutX="51.0" layoutY="93.0" prefHeight="25.0" prefWidth="71.0" text="Set 1" />
-                  <Label fx:id="Label2" layoutX="446.0" layoutY="93.0" prefHeight="25.0" prefWidth="71.0" text="Set 2" textAlignment="RIGHT" />
-                  <Button fx:id="ClearAll" layoutX="240.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleClearSelectedButtonAction" prefHeight="25.0" prefWidth="105.0" text="Clear selected" />
+                  <StackPane fx:id="middleSet" layoutX="206.0" layoutY="159.0" prefHeight="256.0" prefWidth="136.0">
+                     <children>
+                        <Text fx:id="middleSetText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" StackPane.alignment="CENTER" />
+                     </children>
+                  </StackPane>
+                  <Button fx:id="clearData" layoutX="541.0" layoutY="186.0" mnemonicParsing="false" onAction="#handleClearAllButtonAction" prefHeight="32.0" prefWidth="95.0" text="Clear Data"> </Button>
+                  <Label fx:id="Label1" layoutX="94.0" layoutY="97.0" prefHeight="25.0" prefWidth="71.0" text="Set 1" />
+                  <Label fx:id="Label2" layoutX="415.0" layoutY="97.0" prefHeight="25.0" prefWidth="71.0" text="Set 2" textAlignment="RIGHT" />
+                  <Button fx:id="clearSelButton" layoutX="541.0" layoutY="129.0" mnemonicParsing="false" onAction="#handleClearSelectedButtonAction" prefHeight="32.0" prefWidth="95.0" text="Clear selected" />
+                  <StackPane alignment="BOTTOM_CENTER" layoutX="209.0" layoutY="129.0" prefHeight="185.0" prefWidth="200.0">
+                     <children>
+                        <Circle fx:id="rightCircle" fill="DODGERBLUE" opacity="0.2" radius="159.0" stroke="BLACK" strokeType="INSIDE" StackPane.alignment="CENTER" />
+                        <StackPane fx:id="rightSet" onDragDropped="#handleRightSetDrop" onDragOver="#handleRightSetDragOver" prefHeight="150.0" prefWidth="200.0">
+                           <StackPane.margin>
+                              <Insets left="65.0" />
+                           </StackPane.margin>
+                           <children>
+                              <Text fx:id="rightSetText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                           </children>
+                        </StackPane>
+                     </children>
+                  </StackPane>
+                  <StackPane alignment="BOTTOM_CENTER" layoutX="19.0" layoutY="129.0" prefHeight="185.0" prefWidth="200.0">
+                     <children>
+                        <Circle fx:id="leftCircle" fill="DODGERBLUE" opacity="0.2" radius="159.0" stroke="BLACK" strokeType="INSIDE" StackPane.alignment="CENTER" />
+                        <StackPane fx:id="leftSet" onDragDropped="#handleLeftSetDrop" onDragOver="#handleLeftSetDragOver" prefHeight="150.0" prefWidth="200.0">
+                           <StackPane.margin>
+                              <Insets right="65.0" />
+                           </StackPane.margin>
+                           <children>
+                              <Text fx:id="leftSetText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                           </children>
+                        </StackPane>
+                     </children>
+                  </StackPane>
+                  <SplitMenuButton fx:id="splitMenu" layoutX="500.0" layoutY="78.0" mnemonicParsing="false" onAction="#menuClick" prefHeight="32.0" prefWidth="136.0" text="Change Colour">
+                    <items>
+                      <MenuItem fx:id="lButton" mnemonicParsing="false" onAction="#leftCircleColour" text="Left Circle" />
+                      <MenuItem fx:id="rButton" mnemonicParsing="false" onAction="#rightCircleColour" text="Right Circle" />
+                    </items>
+                  </SplitMenuButton>
+                  <Button fx:id="addCirc" layoutX="541.0" layoutY="242.0" mnemonicParsing="false" onAction="#addCirc" prefHeight="32.0" prefWidth="95.0" text="Add Circle" />
+                  <Button fx:id="identify" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#identifyGroup" prefHeight="32.0" prefWidth="71.0" text="Identify" />
+                  <TextField fx:id="groupIdentifier" layoutX="97.0" layoutY="14.0" prefHeight="32.0" prefWidth="136.0" promptText="Identify Group" />
                </children>
             </Pane>
          </children>

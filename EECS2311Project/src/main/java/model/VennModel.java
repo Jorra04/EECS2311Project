@@ -1,40 +1,39 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class VennModel {
-	List<Item> itemList;
-	List<Group> groupList;
+	ObservableList<Item> itemList;
+	HashMap<String, Group> groupMap;
 	public VennModel() {
-		this.itemList = new ArrayList<Item>();
-		this.groupList = new ArrayList<Group>();
+//		this.itemList = new ArrayList<Item>();
+//		this.groupList = new ArrayList<Group>();
+		itemList = FXCollections.observableArrayList();
+		groupMap = new HashMap<String, Group>();
 	}
-	public List<Item> getItemList() {
+	
+	public ObservableList<Item> getItemList() {
 		return itemList;
 	}
-	public void setItemList(List<Item> itemList) {
+
+	public void setItemList(ObservableList<Item> itemList) {
 		this.itemList = itemList;
 	}
-	public List<Group> getGroupList() {
-		return groupList;
-	}
-	public void setGroupList(List<Group> groupList) {
-		this.groupList = groupList;
+	
+	public void createGroup(String title) {
+		groupMap.put(title, new Group(title));
 	}
 
-	public void addGroup(Group group) {
-		this.groupList.add(group);
+	public HashMap<String, Group> getGroupMap() {
+		return groupMap;
 	}
 	
-	public void addItem(Item item) {
-		this.itemList.add(item);
+	public int groupMapSize() {
+		return groupMap.size();
 	}
-	public void clear() {
-		List<Item> copyList = new ArrayList<>(this.itemList);
-		this.itemList.removeAll(copyList);
-	}
-	
-	
-	
+
 }
