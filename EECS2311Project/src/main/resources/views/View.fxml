@@ -25,11 +25,7 @@
             <items>
                   <MenuItem fx:id="newFile" mnemonicParsing="false" onAction="#checker" text="New" />
                   <MenuItem fx:id="openFile" mnemonicParsing="false" text="Open" />
-<<<<<<< HEAD
-                  <MenuItem fx:id="saveFile" mnemonicParsing="false" text="Save" onAction="#handleSaveMenuButton" />
-=======
                   <MenuItem fx:id="saveFile" mnemonicParsing="false" onAction="#handleSaveMenuButton" text="Save" />
->>>>>>> 6297cd7a58683e872bf3d4fa9da005dae0254868
                   <MenuItem fx:id="switchScene" mnemonicParsing="false" onAction="#backToMenu" text="Back to Menu" />
               <MenuItem fx:id="quitProgram" mnemonicParsing="false" onAction="#menuButtonClose" text="Quit" />
             </items>
@@ -37,12 +33,9 @@
           <Menu mnemonicParsing="false" text="Edit">
             <items>
                   <MenuItem fx:id="restoreDef" mnemonicParsing="false" onAction="#restoreDefault" text="Restore Default" />
-<<<<<<< HEAD
-=======
                   <MenuItem fx:id="refactor" mnemonicParsing="false" onAction="#refactor" text="Refactor" />
                   <MenuItem fx:id="undo" mnemonicParsing="false" text="Undo" />
                   <MenuItem fx:id="redo" mnemonicParsing="false" text="Redo" />
->>>>>>> 6297cd7a58683e872bf3d4fa9da005dae0254868
               <MenuItem mnemonicParsing="false" text="Delete" />
             </items>
           </Menu>
@@ -70,19 +63,6 @@
             <ListView fx:id="item_list" onDragDetected="#handleItemListDragDetection" prefHeight="615.0" prefWidth="248.0" />
             <Pane fx:id="diagram_pane" prefHeight="647.0" prefWidth="650.0" HBox.hgrow="ALWAYS">
                <children>
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-                  <Circle fx:id= "c_Set1" fill="DODGERBLUE" layoutX="201.0" layoutY="239.0" opacity="0.21" radius="150.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Circle fill="DODGERBLUE" layoutX="340.0" layoutY="239.0" opacity="0.21" radius="150.0" stroke="BLACK" strokeType="INSIDE"  />
-                  <Button fx:id="clearButton" layoutX="399.0" layoutY="500.0" mnemonicParsing="false" onAction="#handleClearAllButtonAction" prefHeight="14.0" prefWidth="82.0" text="Clear All"> </Button>
-                  <Label fx:id="Label1" layoutX="51.0" layoutY="93.0" prefHeight="25.0" prefWidth="71.0" text="Set 1" />
-                  <Label fx:id="Label2" layoutX="446.0" layoutY="93.0" prefHeight="25.0" prefWidth="71.0" text="Set 2" textAlignment="RIGHT" />
-                  <Button fx:id="ClearAll" layoutX="40.0" layoutY="500.0" mnemonicParsing="false" onAction="#handleClearSelectedButtonAction" prefHeight="25.0" prefWidth="105.0" text="Clear selected" />
-                  <Button fx:id="addValues" layoutX="40.0" layoutY="20.0" mnemonicParsing="false" onAction="#handleaddValues1ButtonAction" prefHeight="25.0" prefWidth="105.0" text="Add To Set 1" />
-                  <Button fx:id="addValues2" layoutX="399.0" layoutY="20.0" mnemonicParsing="false" onAction="#handleaddValues2ButtonAction" prefHeight="25.0" prefWidth="105.0" text="Add To Set 2" />
-=======
->>>>>>> 6297cd7a58683e872bf3d4fa9da005dae0254868
                   <StackPane fx:id="middleSet" layoutX="206.0" layoutY="159.0" prefHeight="256.0" prefWidth="136.0">
                      <children>
                         <Text fx:id="middleSetText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" StackPane.alignment="CENTER" />
@@ -127,10 +107,6 @@
                   <Button fx:id="addCirc" layoutX="541.0" layoutY="242.0" mnemonicParsing="false" onAction="#addCirc" prefHeight="32.0" prefWidth="95.0" text="Add Circle" />
                   <Button fx:id="identify" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#identifyGroup" prefHeight="32.0" prefWidth="71.0" text="Identify" />
                   <TextField fx:id="groupIdentifier" layoutX="97.0" layoutY="14.0" prefHeight="32.0" prefWidth="136.0" promptText="Identify Group" />
-<<<<<<< HEAD
-=======
->>>>>>> refs/remotes/origin/develop
->>>>>>> 6297cd7a58683e872bf3d4fa9da005dae0254868
                </children>
             </Pane>
          </children>
