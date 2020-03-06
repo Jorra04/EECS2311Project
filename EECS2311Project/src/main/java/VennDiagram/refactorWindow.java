@@ -19,7 +19,7 @@ public class refactorWindow {
 	public static void display(String title) throws Exception{
 		Parent root = FXMLLoader.load(refactorWindow.class.getResource("/views/refactorUI.fxml"));
 		window = new Stage();
-//		window.initModality(Modality.APPLICATION_MODAL); //stops interaction with the other scene while this scene is open.
+		window.initModality(Modality.APPLICATION_MODAL); //stops interaction with the other scene while this scene is open.
 		window.setTitle(title);
 		window.setMinHeight(250);
 		window.setMinWidth(300);

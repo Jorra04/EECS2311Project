@@ -25,9 +25,8 @@ public class refactorController {
 	    @FXML
 	    void refactor(ActionEvent event) {
 	    	text = name.getText();
-	    	refactor.setOnAction(e ->{
-	    		buttonPressed = true;
-	    	});
+	    	buttonPressed = true;
+	    	System.out.println(buttonPressed);
 	    	VennDiagram.refactorWindow.window.close();
 	    }
 }
