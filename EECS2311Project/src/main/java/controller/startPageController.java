@@ -8,15 +8,14 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.event.ActionEvent;
-
 import java.io.File;
-
-import VennDiagram.DiagramTitleTooSmallAlert;
 import VennDiagram.View;
 
-public class startPageController {
 
+public class startPageController {
     @FXML
     private AnchorPane anchorpane;
 
@@ -31,18 +30,23 @@ public class startPageController {
 
     @FXML
     private MenuItem openFile;
-
+    
     @FXML
     private MenuItem saveFile;
-
+    
     @FXML
     private MenuItem quitProgram;
+    
     @FXML
     private TextField diagramTitle;
-	
-
-	
-	@FXML
+    
+    @FXML
+    private Button loadNew;
+    
+    @FXML
+    private Button loadPrev;
+    
+    @FXML
 	public void nextScene(ActionEvent event) {
 		createTitleAndEnter();
 		event.consume();
@@ -111,18 +115,23 @@ public class startPageController {
 	}
 	
 	private void createTitleAndEnter() {
-		if( diagramTitle.getText().length() != 0 ) {
-			View.primaryStage.setTitle(diagramTitle.getText());
+			View.primaryStage.setTitle("Venn Diagram");
 			View.primaryStage.setScene(View.scene);	
 		}
-		else {
-			VennDiagram.DiagramTitleTooSmallAlert.display("Default title","Do you want to create project with default title?");
-			if(DiagramTitleTooSmallAlert.confirmPressed) {
-				View.primaryStage.setScene(View.scene);	
-			}
+	
+	@FXML
+	public void loadFile(ActionEvent event) {
+			FileChooser fileChooser = new FileChooser();
+			ExtensionFilter filter = new ExtensionFilter("Text Files","*.txt");
+			File selectedFile = fileChooser.showOpenDialog(null);
+			fileChooser.setTitle("Select a Text File");
+			fileChooser.setSelectedExtensionFilter(filter);
 			
+			if(selectedFile != null) {
+				System.out.println(selectedFile.getName());
+			}
+			event.consume();
 		}
+	
 	}
 	
-	
-}
