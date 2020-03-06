@@ -21,8 +21,8 @@ public class refactorWindow {
 		window = new Stage();
 //		window.initModality(Modality.APPLICATION_MODAL); //stops interaction with the other scene while this scene is open.
 		window.setTitle(title);
-		window.setMinHeight(350);
-		window.setMinWidth(500);
+		window.setMinHeight(250);
+		window.setMinWidth(300);
 		
 		
 

@@ -15,12 +15,19 @@ public class refactorController {
 	    private Button refactor;
 	    
 	    public static String text = "";
+	    public static boolean buttonPressed;
+	    
+	    public void initialize() {
+	    	buttonPressed = false;
+	    }
 	    
 	    
 	    @FXML
 	    void refactor(ActionEvent event) {
 	    	text = name.getText();
-	    	
+	    	refactor.setOnAction(e ->{
+	    		buttonPressed = true;
+	    	});
 	    	VennDiagram.refactorWindow.window.close();
 	    }
 }

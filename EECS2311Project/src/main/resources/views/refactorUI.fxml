@@ -6,15 +6,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="264.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.refactorController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.refactorController">
    <children>
-      <Text layoutX="122.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Refactor" textAlignment="CENTER" wrappingWidth="116.126953125">
+      <Text layoutX="92.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Refactor" textAlignment="CENTER" wrappingWidth="116.126953125">
          <font>
             <Font size="31.0" />
          </font>
       </Text>
-      <TextField fx:id="name" layoutX="48.0" layoutY="120.0" promptText="new name" />
-      <Button fx:id="refactor" layoutX="228.0" layoutY="120.0" mnemonicParsing="false" onAction="#refactor" text="Change" />
+      <TextField fx:id="name" layoutX="55.0" layoutY="113.0" promptText="new name" />
+      <Button fx:id="refactor" layoutX="229.0" layoutY="113.0" mnemonicParsing="false" onAction="#refactor" text="Change" />
    </children>
 </AnchorPane>

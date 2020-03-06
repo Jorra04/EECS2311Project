@@ -610,10 +610,18 @@ public class Controller {
 	}
 	@FXML
 	protected void refactor(ActionEvent event)throws Exception {
-		VennDiagram.refactorWindow.display("Window");
-
-		
 		List<Item> copyList = new ArrayList<>(item_list.getSelectionModel().getSelectedItems());
+		if(copyList.size() == 0) {
+			VennDiagram.TagAlreadyExistsAlert.display("ERROR", "Select some items before trying to rename them.");
+			return;
+		}
+		VennDiagram.refactorWindow.display("Window");
+		if(!controller.refactorController.buttonPressed) {
+			return;
+		}
+		
+		
+		
 		for(Item item : copyList) {
 			item.ChangeText(controller.refactorController.text);
 		}
@@ -621,31 +629,6 @@ public class Controller {
 			item.ChangeText(controller.refactorController.text);
 		}
 		item_list.refresh();
-		
-		System.out.println(copyList);
-		
-		
-//		System.out.println(model.getItemList());
-//		int count = 0;
-//		for(Item item : model.getItemList()) {
-//			if(undo.get(undo.size()-1).contentEquals(item.getText())) {
-//				item_list.getItems().remove(item);
-//				System.out.println(undo.get(undo.size()-1) + "---->" +item.getText());
-//				break;	
-//			}
-//			count++;
-//			
-//			
-//		}
-//		try {
-//			model.getItemList().remove(count);
-//			undo.remove(undo.get(undo.size()-1));
-//		}
-//		catch(Exception e) {
-//			System.out.println("There is a problem");
-//		}
-//			
-//		System.out.println(model.getItemList());
 
 	}
 	
@@ -670,23 +653,7 @@ public class Controller {
 		}
 		return "Not Assigned";
 	}
-	
-//	private void setMatcher(ListView<Item> right, ListView<Item> left, ListView<Item> mid, List<Item> arr) {
-//		if(groupFinder(arr.get(0)).equals("right") && !right.getItems().contains(arr.get(0))) {
-//			right.getItems().add(arr.get(0));
-//			System.out.println("right");
-//		}
-//		else if(groupFinder(arr.get(0)).equals("left") &&!left.getItems().contains(arr.get(0)) ) {
-//			left.getItems().add(arr.get(0));
-//			System.out.println("left");
-//		}
-//		else if((groupFinder(arr.get(0)).equals("mid") && !mid.getItems().contains(arr.get(0)))) {
-//			right.getItems().remove(arr.get(0));
-//			left.getItems().remove(arr.get(0));
-//			mid.getItems().add(arr.get(0));
-//			System.out.println("mid");
-//		}
-//	}
+
 	
 	
 	@FXML
