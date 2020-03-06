@@ -33,7 +33,7 @@
           <Menu mnemonicParsing="false" text="Edit">
             <items>
                   <MenuItem fx:id="restoreDef" mnemonicParsing="false" onAction="#restoreDefault" text="Restore Default" />
-                  <MenuItem fx:id="refactor" mnemonicParsing="false" onAction="#refactor" text="Refactor" />
+                   <MenuItem fx:id="refactor" mnemonicParsing="false" onAction="#refactor" text="Refactor" />
                   <MenuItem fx:id="undo" mnemonicParsing="false" text="Undo" />
                   <MenuItem fx:id="redo" mnemonicParsing="false" text="Redo" />
               <MenuItem mnemonicParsing="false" text="Delete" />
