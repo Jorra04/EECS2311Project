@@ -306,6 +306,7 @@ public class Controller {
 
 	@FXML
 	protected void handleClearAllButtonAction(ActionEvent event) {
+		//gives a popup that the user is about to delete all info.
 		if(!model.getItemList().isEmpty()) {
 			clearAllAlert.display("ALERT", "You are about to delete all data, do you wish to proceed?");
 			if(clearAllAlert.closePressed) {
@@ -321,19 +322,21 @@ public class Controller {
 
 	@FXML
 	protected void handleClearSelectedButtonAction(ActionEvent event) {
+		//the following line takes the selected items and makes them into a list.
 		List<Item> copyList = new ArrayList<>(item_list.getSelectionModel().getSelectedItems());
 		item_list.getItems().removeAll(copyList);
-
+		//remove what is selected.
 		leftGroup.removeItems(copyList);
 		rightGroup.removeItems(copyList);
 		matchGroup.removeItems(copyList);
+		//reset the group text accordingly.
 		leftSetText.setText(leftGroup.toVisualList());
 		rightSetText.setText(rightGroup.toVisualList());
 		middleSetText.setText(matchGroup.toVisualList());
 		groupIdentifier.clear();
-		removed++;
-		model.getItemList().removeAll(copyList);
-		itemText.removeAll(copyList);
+		removed++; // increment the number of removed items.
+		model.getItemList().removeAll(copyList); //update the item list
+		itemText.removeAll(copyList); // update the checker list.
 		
 //		leftGroupList.getItems().removeAll(copyList);
 //		rightGroupList.getItems().removeAll(copyList);
@@ -455,6 +458,7 @@ public class Controller {
 	
 	@FXML 
 	protected void aboutUs(ActionEvent event) {
+		//Whole thing is a try catch, it tries to find the location of the embedded file.
 		int FileNotFoundCount = 0;
 		try {
 
@@ -499,33 +503,38 @@ public class Controller {
 	}
 	
 	protected boolean tagAlreadyExists(String tag) {
-		String checker = tag.replaceAll(" ", "");
-		if(itemText.contains(checker)) {
-			return true;
+		String checker = tag.replaceAll(" ", ""); //strip the item of its white space
+		//		System.out.println(itemText);
+		for(Item item : itemText) {
+			if(item.getText().equals(checker)) {
+				return true;
+			}
 		}
 		return false;
 	}
 	
 	@FXML
 	public void addCirc(ActionEvent event) {
-		if(Controller.numCirc == 2) {
+		if(Controller.numCirc == 2) { // if the numCircles is 2, then we put the 3rd in a specific place.
 			
 			circleCreator(leftCircle.getRadius(),280,400);
-			numCirc++;
+			numCirc++; // inc the number of circles.
 		}
-		else if(Controller.numCirc == 3) {
+		else if(Controller.numCirc == 3) {// if the numCircles is 3,then we put the 4th in a specific place.
 			
 			circleCreator(leftCircle.getRadius(),280,200);
-			numCirc++;
+			numCirc++; // inc the num of cirlces.
 
 		}
 		else {
+			// >4 cicles is not allowed, this will check any circle creation beyond 4.
 			tooManyCirclesAlert.display("Exceeded Number of Allowed Circles!", "You have exceeded the "
 					+ "number of allowed cirlces.");
 		}
 	}
 	
 	private void circleCreator(double radius, int startX, int startY) {
+		//making the circles
 		circle = new Circle();
 		circle.setFill(Color.DODGERBLUE);
 		circle.setOpacity(leftCircle.getOpacity());
@@ -538,11 +547,14 @@ public class Controller {
 	}
 	
 	private void circleDestroyer(List<Circle> circle) {
+		//delete the circles.
 		diagram_pane.getChildren().removeAll(circles);
 	}
 	
 	@FXML
 	protected void backToMenu(ActionEvent event) {
+		//Prompt asking if the user wants to go back to the menu.
+		//Looks at which button is pressed, makes its decision based on that.
 		backToMenuAlert.display("Alert", "Back to menu?");
 		if(backToMenuAlert.confirmPressed) {
 			View.primaryStage.setScene(View.promptWindow);
@@ -553,9 +565,10 @@ public class Controller {
 	protected void restoreDefault(ActionEvent event) {
 		restoreDefaultsAlert.display("Restore Settings", "Restore settings to their factory default?");
 		if(restoreDefaultsAlert.deletePressed) {
-			remover();
-			circleDestroyer(this.circles);
-			Controller.numCirc = 2;
+			remover(); // calls fucntion that removes all.
+			circleDestroyer(this.circles); //removes additional circles
+			Controller.numCirc = 2; // resets the value of numCirc, allows for the other functions to work.
+			//the rest is resetting original vals.
 			leftCircle.setFill(Color.DODGERBLUE);
 			rightCircle.setFill(Color.DODGERBLUE);
 			Color colorVal = (Color)rightCircle.getFill();
@@ -566,19 +579,21 @@ public class Controller {
 	}
 	
 	private void remover() { //function to remove all items, used in multiple places.
+		//setting the text of each group to its default value.
 		leftSetText.setText("Text");
 		rightSetText.setText("Text");
 		middleSetText.setText("Text");
+		//removing from the groups.
 		rightGroup.removeAll();
 		leftGroup.removeAll();
 		matchGroup.removeAll();
 		model.getItemList().clear();
-		item_list.getItems().clear();
-		groupIdentifier.clear();
+		item_list.getItems().clear(); // clearing the listview.
+		groupIdentifier.clear(); // clearing the group identifiers.
 		create_text.requestFocus();
 		itemText.clear(); //this is needed, as if we don't have this, the program thinks we have duplicate items present.
 		Item.uid = 0;
-		diagram_pane.getChildren().remove(Controller.box);
+		diagram_pane.getChildren().remove(Controller.box); // remove the extra items.
 		clearAllAlert.cancelPressed = false;
 		clearAllAlert.closePressed = false;
 		
@@ -594,16 +609,54 @@ public class Controller {
 				itemsContent.setAll(model.getItemList());
 			}
 			else {
-				TagAlreadyExistsAlert.display("Alert", "Tag Already Exists!");
+				TagAlreadyExistsAlert.display("Alert", "Tag Already Exists!"); 
 			}
 			
-			create_text.clear();
-			create_text.requestFocus();
+			create_text.clear(); //reset textfield
+			create_text.requestFocus(); //get the textfield to listen for the next input.
 			
 			
 		}
 	}
-	
+	@FXML
+	protected void refactor(ActionEvent event)throws Exception {
+		List<Item> copyList = new ArrayList<>(item_list.getSelectionModel().getSelectedItems());
+		if(copyList.size() == 0) { // no selected items.
+			VennDiagram.TagAlreadyExistsAlert.display("ERROR", "Select some items before trying to rename them.");
+			return;
+		}
+		
+		if(copyList.size() > 1) { // more than 1 selected items, shouldn't be able to do this.
+			VennDiagram.TagAlreadyExistsAlert.display("Too Many Items", "You've selected more than one item to refactor!");
+			/*
+			 * using "return" in the void method, means we dont have to reset
+			 * the values of copylist, because it's a local variable and gets reinitialized every
+			 * time the method is called.
+			 */
+			return;
+		}
+		
+		
+		VennDiagram.refactorWindow.display("Window");
+		if(!controller.refactorController.buttonPressed) { //checks if the exit button is pressed
+			//or if the refactor button is pressed.
+			return;
+		}
+		
+		if(tagAlreadyExists(controller.refactorController.text)) { //stops duplicates.
+			VennDiagram.TagAlreadyExistsAlert.display("ERROR", "Tag Already Exists");
+			return;
+		}
+		
+		for(Item item : copyList) {
+			item.setText(controller.refactorController.text); //set the text.
+		}
+		for(Item item: itemText) {
+			item.setText(controller.refactorController.text); // set the text in the checket list.
+		}
+		System.out.println(model.getItemList());
+		item_list.refresh(); //refresh the listView to show us the current values.
+	}
 	@FXML
 	protected void checker(ActionEvent e) {
 	
