@@ -135,8 +135,7 @@ public class Controller {
 
 	private static ColorPicker colorPicker = new ColorPicker(Color.DODGERBLUE);
 	private static VBox box = new VBox(colorPicker);
-
-
+	startPageController ld = new startPageController();
 
 	// use this to help setup the fxml components, initialize is called as soon as
 	// app starts up. Similar to a constructor.
@@ -245,6 +244,7 @@ public class Controller {
 	@FXML
 	protected void handleCreateButtonAction(ActionEvent event) {
 		createData();
+		System.out.println(ld.getIsClicked());
 		event.consume();
 	}
 
