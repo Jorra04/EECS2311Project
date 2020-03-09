@@ -557,6 +557,7 @@ public class Controller {
 		if(backToMenuAlert.confirmPressed) {
 			startPageController.load = false; // Ensures the Controller knows that we are going back to the beginning.
 			startPageController.selectedFile = null; //Make the userFile Load to null
+			remover();
 			View.primaryStage.setScene(View.promptWindow);
 		}
 	}

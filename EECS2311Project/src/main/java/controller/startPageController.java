@@ -134,19 +134,21 @@ public class startPageController {
 	 */
 	@FXML
 	public void loadFile(ActionEvent event) throws IOException {
+		
 			FileChooser fileChooser = new FileChooser();
 			ExtensionFilter filter = new ExtensionFilter("Text Files","*.txt");
 			selectedFile = fileChooser.showOpenDialog(null);
 			fileChooser.setTitle("Select a Text File");
 			fileChooser.setSelectedExtensionFilter(filter);
 			
+			
 			if(selectedFile != null) {
+				
 				BufferedReader br = new BufferedReader(new FileReader(selectedFile));
 				startPageController.load = true;
 				String st;
 				System.out.println(selectedFile.getName());
 				while((st = br.readLine()) != null){
-					System.out.println(st);
 					Controller.loadData(st);
 				}
 				br.close();
