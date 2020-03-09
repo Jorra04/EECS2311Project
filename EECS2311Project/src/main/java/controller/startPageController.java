@@ -46,7 +46,7 @@ public class startPageController {
     @FXML
     private Button loadPrev;
     
-    public boolean load;
+    public boolean load = false;
     
     @FXML
 	public void nextScene(ActionEvent event) {
@@ -119,13 +119,16 @@ public class startPageController {
 	private void createTitleAndEnter() {
 			View.primaryStage.setTitle("Venn Diagram");
 			View.primaryStage.setScene(View.scene);	
+			if (load == true) {
+				View.load = true;
+			}
 		}
 	protected boolean getIsClicked() {
 		return load;
 	}
 	
 	protected void setIsClicked(boolean t) {
-		load = t;
+		load = true;
 	}
 	
 	@FXML
@@ -139,6 +142,7 @@ public class startPageController {
 			if(selectedFile != null) {
 				System.out.println(selectedFile.getName());
 			}
+			View.load = true;
 			createTitleAndEnter();
 			event.consume();
 		}

@@ -44,7 +44,7 @@ import VennDiagram.View;
 import VennDiagram.backToMenuAlert;
 import VennDiagram.tooManyCirclesAlert;
 
-public class Controller {
+public class Controller extends startPageController {
 
 	//View.primaryStage.setScene(View.promptWindow); --> code to switch windows.
 	// create venn diagram instance
@@ -137,6 +137,9 @@ public class Controller {
 	private static VBox box = new VBox(colorPicker);
 	startPageController ld = new startPageController();
 
+	public Controller() {
+		super();
+	}
 	// use this to help setup the fxml components, initialize is called as soon as
 	// app starts up. Similar to a constructor.
 	public void initialize() {
@@ -659,7 +662,8 @@ public class Controller {
 	}
 	@FXML
 	protected void checker(ActionEvent e) {
-	
+		System.out.println(View.load);
+		
 	}
 	
 	
