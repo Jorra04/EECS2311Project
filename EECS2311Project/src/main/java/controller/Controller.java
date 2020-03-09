@@ -50,9 +50,9 @@ public class Controller {
 	// create venn diagram instance
 	int removed = 0;
 	private static int numCirc = 2;
-	private VennModel model;
+	private static VennModel model;
 
-	ObservableList<Item> itemsContent = FXCollections.observableArrayList();
+	static ObservableList<Item> itemsContent = FXCollections.observableArrayList();
 	ObservableList<Item> selectedItems;
 	Group leftGroup;
 	Group rightGroup;
@@ -62,7 +62,7 @@ public class Controller {
 //    private static final String HIGHLIGHTED_CONTROL_INNER_BACKGROUND = "derive(palegreen, 50%)";
 
 	
-	private ArrayList<Item> itemText = new ArrayList<>();
+	protected static ArrayList<Item> itemText = new ArrayList<>();
 	
 	private ArrayList<Circle> circles = new ArrayList<>();
 	// fxml components
@@ -618,8 +618,16 @@ public class Controller {
 		}
 	}
 	
-	protected static void loadData() {
-		System.out.println("Lets go boyszzz");
+	protected static void loadData(String st) {
+			Item item = new Item(st);
+			String adder = st;
+			itemText.add(new Item(adder)); //Look for a way around this, i feel like there is potential for error here.
+			Item.uid--; //correcting for the new item made.
+			model.getItemList().add(item);
+			itemsContent.setAll(model.getItemList());
+			if(startPageController.load == false) {
+				System.out.println("false");
+			}
 	}
 	
 	@FXML

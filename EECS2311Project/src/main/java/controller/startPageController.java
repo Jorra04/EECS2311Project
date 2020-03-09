@@ -142,13 +142,14 @@ public class startPageController {
 			
 			if(selectedFile != null) {
 				BufferedReader br = new BufferedReader(new FileReader(selectedFile));
+				startPageController.load = true;
 				String st;
 				System.out.println(selectedFile.getName());
 				while((st = br.readLine()) != null){
 					System.out.println(st);
+					Controller.loadData(st);
 				}
-				//this.loadData();
-				startPageController.load = true;
+				br.close();
 				createTitleAndEnter();
 				event.consume();
 			}
