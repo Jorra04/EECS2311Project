@@ -2,6 +2,8 @@ package VennDiagram;
 
 
 
+import java.io.File;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,7 +19,6 @@ public class View extends Application{
 	public static Stage primaryStage;
 	public static Scene promptWindow;
 	public static Scene scene;
-	public static boolean load;
 
 
 	public static void main(String[] args) {

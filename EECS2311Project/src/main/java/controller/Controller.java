@@ -44,7 +44,7 @@ import VennDiagram.View;
 import VennDiagram.backToMenuAlert;
 import VennDiagram.tooManyCirclesAlert;
 
-public class Controller extends startPageController {
+public class Controller {
 
 	//View.primaryStage.setScene(View.promptWindow); --> code to switch windows.
 	// create venn diagram instance
@@ -135,11 +135,7 @@ public class Controller extends startPageController {
 
 	private static ColorPicker colorPicker = new ColorPicker(Color.DODGERBLUE);
 	private static VBox box = new VBox(colorPicker);
-	startPageController ld = new startPageController();
 
-	public Controller() {
-		super();
-	}
 	// use this to help setup the fxml components, initialize is called as soon as
 	// app starts up. Similar to a constructor.
 	public void initialize() {
@@ -247,7 +243,6 @@ public class Controller extends startPageController {
 	@FXML
 	protected void handleCreateButtonAction(ActionEvent event) {
 		createData();
-		System.out.println(ld.getIsClicked());
 		event.consume();
 	}
 
@@ -560,6 +555,8 @@ public class Controller extends startPageController {
 		//Looks at which button is pressed, makes its decision based on that.
 		backToMenuAlert.display("Alert", "Back to menu?");
 		if(backToMenuAlert.confirmPressed) {
+			startPageController.load = false; // Ensures the Controller knows that we are going back to the beginning.
+			startPageController.selectedFile = null; //Make the userFile Load to null
 			View.primaryStage.setScene(View.promptWindow);
 		}
 	}
@@ -601,7 +598,8 @@ public class Controller extends startPageController {
 		clearAllAlert.closePressed = false;
 		
 	}
-	private void createData() {
+	
+	protected void createData() {
 		if (create_text.getLength() != 0) {
 			if(!tagAlreadyExists(create_text.getText())) {
 				Item item = new Item(create_text.getText());
@@ -617,10 +615,13 @@ public class Controller extends startPageController {
 			
 			create_text.clear(); //reset textfield
 			create_text.requestFocus(); //get the textfield to listen for the next input.
-			
-			
 		}
 	}
+	
+	protected static void loadData() {
+		System.out.println("Lets go boyszzz");
+	}
+	
 	@FXML
 	protected void refactor(ActionEvent event)throws Exception {
 		List<Item> copyList = new ArrayList<>(item_list.getSelectionModel().getSelectedItems());
@@ -662,9 +663,9 @@ public class Controller extends startPageController {
 	}
 	@FXML
 	protected void checker(ActionEvent e) {
-		System.out.println(View.load);
-		
+		System.out.println(startPageController.load);
 	}
+	
 	
 	
 	protected String groupFinder(Item item) {

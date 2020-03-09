@@ -11,7 +11,12 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.event.ActionEvent;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
 import VennDiagram.View;
 
 
@@ -46,7 +51,9 @@ public class startPageController {
     @FXML
     private Button loadPrev;
     
-    public boolean load = false;
+    public static boolean load = false;
+    
+    public static File selectedFile;
     
     @FXML
 	public void nextScene(ActionEvent event) {
@@ -119,33 +126,36 @@ public class startPageController {
 	private void createTitleAndEnter() {
 			View.primaryStage.setTitle("Venn Diagram");
 			View.primaryStage.setScene(View.scene);	
-			if (load == true) {
-				View.load = true;
-			}
 		}
-	protected boolean getIsClicked() {
-		return load;
-	}
 	
-	protected void setIsClicked(boolean t) {
-		load = true;
-	}
-	
+	/*
+	 * Method activates when the folder is clicked on the startpage. The user will be prompted
+	 * to select a file to load into the program. 
+	 */
 	@FXML
-	public void loadFile(ActionEvent event) {
+	public void loadFile(ActionEvent event) throws IOException {
 			FileChooser fileChooser = new FileChooser();
 			ExtensionFilter filter = new ExtensionFilter("Text Files","*.txt");
-			File selectedFile = fileChooser.showOpenDialog(null);
+			selectedFile = fileChooser.showOpenDialog(null);
 			fileChooser.setTitle("Select a Text File");
 			fileChooser.setSelectedExtensionFilter(filter);
-			setIsClicked(true);
+			
 			if(selectedFile != null) {
+				BufferedReader br = new BufferedReader(new FileReader(selectedFile));
+				String st;
 				System.out.println(selectedFile.getName());
+				while((st = br.readLine()) != null){
+					System.out.println(st);
+				}
+				//this.loadData();
+				startPageController.load = true;
+				createTitleAndEnter();
+				event.consume();
 			}
-			View.load = true;
-			createTitleAndEnter();
-			event.consume();
+			
+			else {
+				//Do nothing if no file is selected
+			}
+			
 		}
-	
-	}
-	
+}
