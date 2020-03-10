@@ -14,8 +14,18 @@ import javafx.event.ActionEvent;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Iterator;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;  
+import org.apache.poi.xssf.usermodel.XSSFWorkbook; 
 
 import VennDiagram.View;
 
@@ -137,12 +147,28 @@ public class startPageController {
 		
 			FileChooser fileChooser = new FileChooser();
 			ExtensionFilter filter = new ExtensionFilter("Text Files","*.txt");
+			filter.getExtensions();
 			selectedFile = fileChooser.showOpenDialog(null);
 			fileChooser.setTitle("Select a Text File");
 			fileChooser.setSelectedExtensionFilter(filter);
 			
+			if(selectedFile == null) {
+				//Do nothing
+			}
+			else {
+				
+			String fileExtension = selectedFile.getName().substring(selectedFile.getName().lastIndexOf("."),selectedFile.getName().length());
+				
+			if(!fileExtension.equals(".txt") && !fileExtension.equals(".xlx") && !fileExtension.equals(".xlsx")) {
+				VennDiagram.invalidFileFormatAlert.display("Invalid File", "Select a .txt .xlx or .xlsx file.");
+			}
 			
-			if(selectedFile != null) {
+			else if(fileExtension.equals(".xlx") || fileExtension.equals(".xlsx")) {
+				parseXLSX();
+				createTitleAndEnter();
+				event.consume();
+			}
+			else {
 				
 				BufferedReader br = new BufferedReader(new FileReader(selectedFile));
 				startPageController.load = true;
@@ -151,14 +177,39 @@ public class startPageController {
 				while((st = br.readLine()) != null){
 					Controller.loadData(st);
 				}
+				
 				br.close();
 				createTitleAndEnter();
 				event.consume();
-			}
-			
-			else {
-				//Do nothing if no file is selected
+				}
 			}
 			
 		}
+	
+	public void parseXLSX() throws IOException {
+		FileInputStream fis = new FileInputStream(selectedFile);
+		XSSFWorkbook wb = new XSSFWorkbook(fis);
+		XSSFSheet sheet = wb.getSheetAt(0);
+		XSSFRow row = sheet.getRow(0);
+		Cell c;
+		Row r;
+	
+		for(int i = 0; i < row.getLastCellNum(); i++) {
+			r = sheet.getRow(i);
+			for(int j = 0; j < row.getLastCellNum(); j++) {
+				c = r.getCell(j);
+				
+				if(c == null) {
+					//Dont fill the listview
+				}
+				else {
+					Controller.loadData(c.getStringCellValue());
+				}
+			}
+		}
+		
+		
+		wb.close();
+		
+	}
 }

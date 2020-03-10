@@ -22,6 +22,7 @@ public class quitProgramAlert {
 		window.setTitle(title);
 		window.setMinHeight(100);
 		window.setMinWidth(280);
+		window.setResizable(false);
 		
 		Label label = new Label();
 		label.setText(message);
