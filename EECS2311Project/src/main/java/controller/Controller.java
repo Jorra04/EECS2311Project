@@ -54,6 +54,7 @@ public class Controller {
 
 	static ObservableList<Item> itemsContent = FXCollections.observableArrayList();
 	ObservableList<Item> selectedItems;
+	
 	Group leftGroup;
 	Group rightGroup;
 	Group matchGroup;
@@ -61,7 +62,7 @@ public class Controller {
 //	private static final String DEFAULT_CONTROL_INNER_BACKGROUND = "derive(red,80%)";
 //    private static final String HIGHLIGHTED_CONTROL_INNER_BACKGROUND = "derive(palegreen, 50%)";
 
-	
+	protected static TreeSet<String> loadList = new TreeSet<>();
 	protected static ArrayList<Item> itemText = new ArrayList<>();
 	
 	private ArrayList<Circle> circles = new ArrayList<>();
@@ -620,14 +621,12 @@ public class Controller {
 	}
 	
 	protected static void loadData(String st) {
-			Item item = new Item(st);
-			String adder = st;
-			itemText.add(new Item(adder)); //Look for a way around this, i feel like there is potential for error here.
-			Item.uid--; //correcting for the new item made.
-			model.getItemList().add(item);
-			itemsContent.setAll(model.getItemList());
-			if(startPageController.load == false) {
-				System.out.println("false");
+			
+			if(!(loadList.contains(st))) {
+				Item item = new Item(st);
+				loadList.add(st);
+				model.getItemList().add(item);
+				itemsContent.setAll(model.getItemList());
 			}
 	}
 	

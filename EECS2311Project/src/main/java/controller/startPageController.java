@@ -64,6 +64,8 @@ public class startPageController {
     
     public static File selectedFile;
     
+    public static boolean isFinishedLoading = false;
+    
     @FXML
 	public void nextScene(ActionEvent event) {
 		createTitleAndEnter();
@@ -182,7 +184,7 @@ public class startPageController {
 				while((st = br.readLine()) != null){
 					Controller.loadData(st);
 				}
-				
+				isFinishedLoading = true;
 				br.close();
 				createTitleAndEnter();
 				event.consume();
