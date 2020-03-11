@@ -34,7 +34,8 @@ public class View extends Application{
 		Parent root = FXMLLoader.load(getClass().getResource("/views/View.fxml"));
 		Parent root2 = FXMLLoader.load(getClass().getResource("/views/openingPage.fxml"));
 		   
-	    scene = new Scene(root, 900, 650);
+	    //scene = new Scene(root, 900, 650);
+	    scene = new Scene(root);
 	    
 		promptWindow = new Scene(root2,750,550);
 		
@@ -46,7 +47,6 @@ public class View extends Application{
 			
 		});
 		
-	
 	    primaryStage.setTitle("VennDiagram Creator");
 	    primaryStage.setScene(promptWindow);
 	    primaryStage.setResizable(true);

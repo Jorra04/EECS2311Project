@@ -113,12 +113,18 @@ public class startPageController {
 	private void createTitleAndEnter() {
 		if( diagramTitle.getText().length() != 0 ) {
 			View.primaryStage.setTitle(diagramTitle.getText());
-			View.primaryStage.setScene(View.scene);	
+			View.primaryStage.setScene(View.scene);
+			//hide and show otherwise full screen will bug
+			View.primaryStage.hide();
+			View.primaryStage.show();
 		}
 		else {
 			VennDiagram.DiagramTitleTooSmallAlert.display("Default title","Do you want to create project with default title?");
 			if(DiagramTitleTooSmallAlert.confirmPressed) {
 				View.primaryStage.setScene(View.scene);	
+				//hide and show otherwise full screen will bug
+				View.primaryStage.hide();
+				View.primaryStage.show();
 			}
 			
 		}

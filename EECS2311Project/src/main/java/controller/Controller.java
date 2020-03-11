@@ -20,6 +20,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.SplitMenuButton;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
@@ -343,9 +344,12 @@ public class Controller {
 				}
 
 			}
-			middleSetText.setText(matchGroup.toVisualList());
-			leftSetText.setText(leftGroup.toVisualList());
-			rightSetText.setText(rightGroup.toVisualList());
+			
+			event.getSceneX();
+			event.getSceneY();
+//			middleSetText.setText(matchGroup.toVisualList());
+//			leftSetText.setText(leftGroup.toVisualList());
+//			rightSetText.setText(rightGroup.toVisualList());
 //			setMatcher(rightGroupList,leftGroupList,midGroupList,arr);
 
 			
@@ -670,4 +674,6 @@ public class Controller {
 		}
 		
 	}
+	
+
 }
