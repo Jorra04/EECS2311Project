@@ -9,21 +9,20 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.event.ActionEvent;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Iterator;
 
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;  
 import org.apache.poi.xssf.usermodel.XSSFWorkbook; 
 
@@ -141,16 +140,17 @@ public class startPageController {
 	/*
 	 * Method activates when the folder is clicked on the startpage. The user will be prompted
 	 * to select a file to load into the program. 
+	 * FileChooser -> opens up a prompt for users to select a file
+	 * selectedFile -> is the actual file
+	 * load -> records the state of the program. True if a file has been loaded
 	 */
 	@FXML
 	public void loadFile(ActionEvent event) throws IOException {
 		
 			FileChooser fileChooser = new FileChooser();
-			ExtensionFilter filter = new ExtensionFilter("Text Files","*.txt");
-			filter.getExtensions();
 			selectedFile = fileChooser.showOpenDialog(null);
 			fileChooser.setTitle("Select a Text File");
-			fileChooser.setSelectedExtensionFilter(filter);
+			load = true;
 			
 			if(selectedFile == null) {
 				//Do nothing
@@ -159,12 +159,18 @@ public class startPageController {
 				
 			String fileExtension = selectedFile.getName().substring(selectedFile.getName().lastIndexOf("."),selectedFile.getName().length());
 				
-			if(!fileExtension.equals(".txt") && !fileExtension.equals(".xlx") && !fileExtension.equals(".xlsx")) {
-				VennDiagram.invalidFileFormatAlert.display("Invalid File", "Select a .txt .xlx or .xlsx file.");
+			if(!fileExtension.equals(".txt") && !fileExtension.equals(".xls") && !fileExtension.equals(".xlsx")) {
+				VennDiagram.invalidFileFormatAlert.display("Invalid File", "Select a .txt .xls or .xlsx file.");
 			}
 			
-			else if(fileExtension.equals(".xlx") || fileExtension.equals(".xlsx")) {
+			else if(fileExtension.equals(".xlsx")) {
 				parseXLSX();
+				createTitleAndEnter();
+				event.consume();
+			}
+			
+			else if(fileExtension.equals(".xls")) {
+				parseXLS();
 				createTitleAndEnter();
 				event.consume();
 			}
@@ -173,7 +179,6 @@ public class startPageController {
 				BufferedReader br = new BufferedReader(new FileReader(selectedFile));
 				startPageController.load = true;
 				String st;
-				System.out.println(selectedFile.getName());
 				while((st = br.readLine()) != null){
 					Controller.loadData(st);
 				}
@@ -186,30 +191,60 @@ public class startPageController {
 			
 		}
 	
+	/*
+	 * Reads an XLSX file and iterates over all rows an columns. Only accepts numeric and string characters.
+	 */
+	
 	public void parseXLSX() throws IOException {
 		FileInputStream fis = new FileInputStream(selectedFile);
 		XSSFWorkbook wb = new XSSFWorkbook(fis);
 		XSSFSheet sheet = wb.getSheetAt(0);
-		XSSFRow row = sheet.getRow(0);
-		Cell c;
-		Row r;
-	
-		for(int i = 0; i < row.getLastCellNum(); i++) {
-			r = sheet.getRow(i);
-			for(int j = 0; j < row.getLastCellNum(); j++) {
-				c = r.getCell(j);
-				
-				if(c == null) {
-					//Dont fill the listview
+		for(Row row : sheet) {
+			for(Cell cell : row) {
+				if(cell == null) {
+					//Do nothing
 				}
+				
+				else if (cell.getCellType() == CellType.NUMERIC) {
+					DataFormatter df = new DataFormatter();
+					String input = df.formatCellValue(cell);
+					Controller.loadData(input);
+				}
+				
 				else {
-					Controller.loadData(c.getStringCellValue());
+					Controller.loadData(cell.getStringCellValue());
+				}
+			}
+		}
+		wb.close();
+	}
+	
+	/*
+	 * Reads an XLSX file and iterates over all rows an columns. Only accepts numeric and string characters.
+	 */
+	
+	public void parseXLS() throws IOException {
+		FileInputStream fis = new FileInputStream(selectedFile);
+		HSSFWorkbook wb = new HSSFWorkbook(fis);
+		HSSFSheet sheet = wb.getSheetAt(0);
+		for(Row row : sheet) {
+			for(Cell cell : row) {
+				if(cell == null) {
+					//Do nothing
+				}
+				
+				else if (cell.getCellType() == CellType.NUMERIC) {
+					DataFormatter df = new DataFormatter();
+					String input = df.formatCellValue(cell);
+					Controller.loadData(input);
+				}
+				
+				else {
+					Controller.loadData(cell.getStringCellValue());
 				}
 			}
 		}
 		
-		
 		wb.close();
-		
 	}
 }

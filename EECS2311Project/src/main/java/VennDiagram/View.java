@@ -12,9 +12,6 @@ import javafx.stage.Stage;
 
 //merged
 
-
-
-
 public class View extends Application{
 	public static Stage primaryStage;
 	public static Scene promptWindow;
