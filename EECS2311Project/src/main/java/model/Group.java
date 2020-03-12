@@ -39,7 +39,7 @@ public class Group {
 	}
 	
 	public void removeItem(Item item) {
-		items.remove(Integer.valueOf(item.getID()));
+		items.remove(item.getID());
 	}
 	
 	public void removeItems(Collection<Item> items) {
@@ -54,6 +54,10 @@ public class Group {
 	
 	public String getTitle() {
 		return this.title;
+	}
+	
+	public boolean contains(Item item) {
+		return items.containsKey(item.getID());
 	}
 	
 	public boolean isEmpty() {

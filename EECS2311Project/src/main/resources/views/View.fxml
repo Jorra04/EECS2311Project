@@ -24,7 +24,6 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                  <MenuItem fx:id="newFile" mnemonicParsing="false" onAction="#checker" text="New" />
                   <MenuItem fx:id="openFile" mnemonicParsing="false" text="Open" />
                   <MenuItem fx:id="saveFile" mnemonicParsing="false" onAction="#handleSaveMenuButton" text="Save" />
                   <MenuItem fx:id="switchScene" mnemonicParsing="false" onAction="#backToMenu" text="Back to Menu" />
@@ -61,7 +60,7 @@
       </BorderPane>
       <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>
-            <ListView fx:id="item_list" onDragDetected="#handleItemListDragDetection" prefHeight="615.0" prefWidth="248.0" />
+            <ListView fx:id="item_list" onDragDetected="#handleItemListDragDetection" onMouseClicked="#testMouse" prefHeight="615.0" prefWidth="248.0" />
             <Pane fx:id="diagram_pane" prefHeight="647.0" prefWidth="650.0" HBox.hgrow="ALWAYS">
                <children>
                   <StackPane fx:id="middleSet" layoutX="206.0" layoutY="159.0" prefHeight="256.0" prefWidth="136.0">

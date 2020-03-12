@@ -26,7 +26,6 @@ public class refactorController {
 	    void refactor(ActionEvent event) {
 	    	text = name.getText();
 	    	buttonPressed = true;
-	    	System.out.println(buttonPressed);
 	    	VennDiagram.refactorWindow.window.close();
 	    }
 }
