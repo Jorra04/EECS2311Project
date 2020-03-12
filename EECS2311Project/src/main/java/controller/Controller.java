@@ -20,7 +20,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.SplitMenuButton;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
@@ -31,10 +30,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import model.VennModel;
 import util.Save;
@@ -52,6 +53,13 @@ public class Controller {
 	int removed = 0;
 	private static int numCirc = 2;
 	private VennModel model;
+	
+	//-----------------for tracking diagram_pane's dimensions.--------------------------------------------------------
+	double paneX;
+	double paneY;
+	//-----------------draggable item variables------------------------------------------------------------------------
+	double spaceY = 50;
+	double spaceX = 100;
 
 	ObservableList<Item> itemsContent = FXCollections.observableArrayList();
 	ObservableList<Item> selectedItems;
@@ -98,6 +106,8 @@ public class Controller {
 	Button identify;
 	@FXML
 	Button clearData; 
+	@FXML
+	Button createDraggableItemButton;
 
 	@FXML
 	SplitMenuButton splitMenu = new SplitMenuButton();
@@ -139,26 +149,19 @@ public class Controller {
 	public void initialize() {
 		//create listeners on the diagram_pane's dimensions so its components can resize as well
 		diagram_pane.widthProperty().addListener((obs, oldVal, newVal) -> {
-			double paneX = newVal.doubleValue();
-			System.out.println(paneX);
+			paneX = newVal.doubleValue();
 			leftCircle.setLayoutX(paneX/2);
 			//move right circle to the right for intersection
 			rightCircle.setLayoutX(paneX/2 + paneX/4);
+			//TODO: scale circle size
 		});
 		diagram_pane.heightProperty().addListener((obs,oldVal, newVal) -> {
-			double paneY = newVal.doubleValue();
-			System.out.println(paneY);
+			paneY = newVal.doubleValue();
 			leftCircle.setLayoutY(paneY/2);
 			rightCircle.setLayoutY(paneY/2);
+			//TODO: scale circle size
 		});
-//		double paneX = diagram_pane.getBoundsInLocal().getWidth();
-//		double paneY = diagram_pane.getBoundsInLocal().getHeight();
-		//move circles to the center at the beginning of opening the main View
-//		leftCircle.setCenterX(paneX/2);
-//		leftCircle.setCenterY(paneY/2);
-//		rightCircle.setCenterX(paneX/2);
-//		rightCircle.setCenterY(paneY/2);
-//		
+	
 		groupIdentifier.setEditable(false);
 		splitMenu.setOnAction(e -> {
 			//keep this empty, it basically removes the functionality of the root button in the split
@@ -485,6 +488,35 @@ public class Controller {
 			}
 		}
 		return false;
+	}
+	
+	@FXML
+	public void handleCreateDraggableItemButton(ActionEvent event) {
+		//if the selected items in the item list is 0, dont do anything
+		if (selectedItems.size() <= 0) {
+			event.consume();
+			return;
+		}
+		double itemPositionY = 0;
+		double itemPositionX = 0;
+		for(Item item : selectedItems) {
+			//provide each item with a reference to the controller class itself, so it can compare the item with the circle positions for intersection.
+			DraggableItem tempItem = new DraggableItem(item, this);
+			tempItem.getLabel().setTextFill(Color.BLACK); //tbh it looks gray but w.e.
+			tempItem.getLabel().setFont(new Font("Arial", 18));
+			tempItem.setPrefSize(Region.USE_COMPUTED_SIZE + 50,Region.USE_COMPUTED_SIZE + 50);
+			//set position within diagram pane
+			itemPositionY += spaceY;
+			if(itemPositionY >= paneY - 100) {
+				itemPositionX += spaceX; // if current "column" goes past the diagram dimensions, go to the next "column"
+				itemPositionY = 0 + spaceY;
+			}
+			tempItem.setLayoutX(itemPositionX); //set to the left
+			tempItem.setLayoutY(itemPositionY); //space between each item
+			diagram_pane.getChildren().add(tempItem);
+		}
+		
+		event.consume();
 	}
 	
 	@FXML

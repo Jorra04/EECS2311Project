@@ -69,7 +69,7 @@
                   </ToolBar>
                   <ToolBar>
                     <items>
-                        <Button fx:id="createDraggableItemButton" mnemonicParsing="false" text="Create Diagram Item" />
+                        <Button fx:id="createDraggableItemButton" mnemonicParsing="false" onAction="#handleCreateDraggableItemButton" text="Create Diagram Item" />
                         <SplitMenuButton fx:id="splitMenu" mnemonicParsing="false" onAction="#menuClick" text="Change Colour">
                           <items>
                             <MenuItem fx:id="lButton" mnemonicParsing="false" onAction="#leftCircleColour" text="Left Circle" />
