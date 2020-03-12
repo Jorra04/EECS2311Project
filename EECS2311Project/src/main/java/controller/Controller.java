@@ -137,6 +137,28 @@ public class Controller {
 	// use this to help setup the fxml components, initialize is called as soon as
 	// app starts up. Similar to a constructor.
 	public void initialize() {
+		//create listeners on the diagram_pane's dimensions so its components can resize as well
+		diagram_pane.widthProperty().addListener((obs, oldVal, newVal) -> {
+			double paneX = newVal.doubleValue();
+			System.out.println(paneX);
+			leftCircle.setLayoutX(paneX/2);
+			//move right circle to the right for intersection
+			rightCircle.setLayoutX(paneX/2 + paneX/4);
+		});
+		diagram_pane.heightProperty().addListener((obs,oldVal, newVal) -> {
+			double paneY = newVal.doubleValue();
+			System.out.println(paneY);
+			leftCircle.setLayoutY(paneY/2);
+			rightCircle.setLayoutY(paneY/2);
+		});
+//		double paneX = diagram_pane.getBoundsInLocal().getWidth();
+//		double paneY = diagram_pane.getBoundsInLocal().getHeight();
+		//move circles to the center at the beginning of opening the main View
+//		leftCircle.setCenterX(paneX/2);
+//		leftCircle.setCenterY(paneY/2);
+//		rightCircle.setCenterX(paneX/2);
+//		rightCircle.setCenterY(paneY/2);
+//		
 		groupIdentifier.setEditable(false);
 		splitMenu.setOnAction(e -> {
 			//keep this empty, it basically removes the functionality of the root button in the split
@@ -467,8 +489,7 @@ public class Controller {
 	
 	@FXML
 	public void addCirc(ActionEvent event) {
-		if(Controller.numCirc == 2) { // if the numCircles is 2, then we put the 3rd in a specific place.
-			
+		if(Controller.numCirc == 2) { // if the numCircles is 2, then we put the 3rd in a specific place.	
 			circleCreator(leftCircle.getRadius(),280,400);
 			numCirc++; // inc the number of circles.
 		}

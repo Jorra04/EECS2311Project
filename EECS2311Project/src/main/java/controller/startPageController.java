@@ -115,6 +115,7 @@ public class startPageController {
 			View.primaryStage.setTitle(diagramTitle.getText());
 			View.primaryStage.setScene(View.scene);
 			//hide and show otherwise full screen will bug
+			View.primaryStage.setMaximized(true);
 			View.primaryStage.hide();
 			View.primaryStage.show();
 		}
@@ -123,6 +124,7 @@ public class startPageController {
 			if(DiagramTitleTooSmallAlert.confirmPressed) {
 				View.primaryStage.setScene(View.scene);	
 				//hide and show otherwise full screen will bug
+				View.primaryStage.setMaximized(true);
 				View.primaryStage.hide();
 				View.primaryStage.show();
 			}

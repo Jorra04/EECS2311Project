@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="934.0" prefWidth="1288.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
+<VBox minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
     <children>
       <MenuBar prefHeight="30.0" prefWidth="898.0">
         <menus>
@@ -69,6 +69,7 @@
                   </ToolBar>
                   <ToolBar>
                     <items>
+                        <Button fx:id="createDraggableItemButton" mnemonicParsing="false" text="Create Diagram Item" />
                         <SplitMenuButton fx:id="splitMenu" mnemonicParsing="false" onAction="#menuClick" text="Change Colour">
                           <items>
                             <MenuItem fx:id="lButton" mnemonicParsing="false" onAction="#leftCircleColour" text="Left Circle" />
@@ -82,8 +83,8 @@
                   </ToolBar>
                   <Pane fx:id="diagram_pane" VBox.vgrow="ALWAYS">
                      <children>
-                        <Circle fx:id="leftCircle" onDragDropped="#handleLeftSetDrop" onDragOver="#handleLeftSetDragOver" fill="DODGERBLUE" layoutX="350.0" layoutY="395.0" opacity="0.2" radius="336.0" stroke="BLACK" strokeType="INSIDE" />
-                        <Circle fx:id="rightCircle" onDragDropped="#handleRightSetDrop" onDragOver="#handleRightSetDragOver" fill="DODGERBLUE" layoutX="686.0" layoutY="395.0" opacity="0.2" radius="336.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fx:id="leftCircle" fill="DODGERBLUE" layoutX="350.0" layoutY="395.0" onDragDropped="#handleLeftSetDrop" onDragOver="#handleLeftSetDragOver" opacity="0.2" radius="336.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fx:id="rightCircle" fill="DODGERBLUE" layoutX="686.0" layoutY="395.0" onDragDropped="#handleRightSetDrop" onDragOver="#handleRightSetDragOver" opacity="0.2" radius="336.0" stroke="BLACK" strokeType="INSIDE" />
                      </children>
                   </Pane>
                </children>
