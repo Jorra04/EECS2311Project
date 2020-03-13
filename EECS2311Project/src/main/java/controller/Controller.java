@@ -66,7 +66,6 @@ public class Controller {
 //    private static final String HIGHLIGHTED_CONTROL_INNER_BACKGROUND = "derive(palegreen, 50%)";
 
 	protected static TreeSet<String> loadList = new TreeSet<>();
-	protected static ArrayList<Item> itemText = new ArrayList<>();
 	
 	private ArrayList<Circle> circles = new ArrayList<>();
 	// fxml components
@@ -114,7 +113,6 @@ public class Controller {
 	
 	MenuItem bButton = new MenuItem();
 	
-
 	@FXML
 	TextField create_text;
 	@FXML
@@ -527,10 +525,6 @@ public class Controller {
 	}
 	
 	private void remover() { //function to remove all items, used in multiple places.
-		//setting the text of each group to its default value.
-		leftSetText.setText("Text");
-		rightSetText.setText("Text");
-		middleSetText.setText("Text");
 		//removing from the groups.
 		rightGroup.removeAll();
 		leftGroup.removeAll();
@@ -539,7 +533,6 @@ public class Controller {
 		item_list.getItems().clear(); // clearing the listview.
 		groupIdentifier.clear(); // clearing the group identifiers.
 		create_text.requestFocus();
-		itemText.clear(); //this is needed, as if we don't have this, the program thinks we have duplicate items present.
 		diagram_pane.getChildren().remove(Controller.box); // remove the extra items.
 		clearAllAlert.cancelPressed = false;
 		clearAllAlert.closePressed = false;

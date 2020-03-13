@@ -32,6 +32,7 @@ public class Group {
 		items.put(Integer.valueOf(item.getID()), item);
 	}
 	
+	
 	public void insertItems(Collection<Item> items) {
 		for(Item item: items) {
 			this.insertItem(item);
@@ -71,8 +72,7 @@ public class Group {
 	public String toVisualList() {
 		String visualString = "";
     	for(Map.Entry<Integer, Item> entry : items.entrySet()) {
-    		System.out.println(entry.getValue().getText());
-    		visualString = visualString + "ID: " + entry.getValue().getID() + " - " + entry.getValue().getText() + "\n";
+    		visualString = visualString + entry.getValue().getText() + "\n";
     	}
     	return visualString;
     }
