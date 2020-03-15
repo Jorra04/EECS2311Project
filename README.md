@@ -7,6 +7,7 @@ Once downloaded, open a command prompt (windows) or terminal (linux, macOS):
 
 1. Change directory to the downloaded file
 2. Input the command "java -jar <name of .jar file>" where name of .jar file is the jar file you downloaded from the release tab.
+  NOTE: Double clicking the jar won't work..
 
 The jar files are cross-platform (All jars work on the mainstream OSes: Windows, MacOS, Linux).
 NOT forward compatible in terms of JDK versions. 
