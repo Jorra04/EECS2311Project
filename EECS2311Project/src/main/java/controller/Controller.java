@@ -10,6 +10,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableSet;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -50,9 +51,7 @@ public class Controller {
 
 	//View.primaryStage.setScene(View.promptWindow); --> code to switch windows.
 	// create venn diagram instance
-	int removed = 0;
 	private static int numCirc = 2;
-	public VennModel model;
 	
 	//-----------------for tracking diagram_pane's dimensions.--------------------------------------------------------
 	double paneX;
@@ -60,18 +59,22 @@ public class Controller {
 	//-----------------draggable item variables------------------------------------------------------------------------
 	double spaceY = 50;
 	double spaceX = 100;
+	public static VennModel model;
 
-	ObservableList<Item> itemsContent = FXCollections.observableArrayList();
+	static ObservableList<Item> itemsContent = FXCollections.observableArrayList();
+	ObservableSet<Item> test = FXCollections.observableSet();
 	ObservableList<Item> selectedItems;
+	
 	Group leftGroup;
+
 	Group rightGroup;
 	Group matchGroup;
-	private static final DataFormat itemFormat = new DataFormat("item");
-
-
 	
-	private ArrayList<Item> itemText = new ArrayList<>();
+	private static final DataFormat itemFormat = new DataFormat("item");
+//	private static final String DEFAULT_CONTROL_INNER_BACKGROUND = "derive(red,80%)";
+//    private static final String HIGHLIGHTED_CONTROL_INNER_BACKGROUND = "derive(palegreen, 50%)";
 
+	protected static TreeSet<String> loadList = new TreeSet<>();
 	
 	private ArrayList<Circle> circles = new ArrayList<>();
 	// fxml components
@@ -121,14 +124,18 @@ public class Controller {
 	
 	MenuItem bButton = new MenuItem();
 	
-
 	@FXML
 	TextField create_text;
 	@FXML
 	TextField groupIdentifier;
 	@FXML
 	Button create_button;
-
+//	@FXML
+//	ListView<Item> leftGroupList;
+//	@FXML
+//	ListView<Item> rightGroupList;
+//	@FXML
+//	ListView<Item> midGroupList;
 	@FXML
 	ListView<Item> item_list;
 	@FXML
@@ -141,8 +148,9 @@ public class Controller {
 
 	private static ColorPicker colorPicker = new ColorPicker(Color.DODGERBLUE);
 	private static VBox box = new VBox(colorPicker);
-
-
+	
+	public boolean isItemClicked; //Returns a true or false if the item has been clicked or not
+	public static Item clickedItem; //Holds the item object that is currently clicked
 
 	// use this to help setup the fxml components, initialize is called as soon as
 	// app starts up. Similar to a constructor.
@@ -171,9 +179,7 @@ public class Controller {
 		model = new VennModel();
 		clearData.requestFocus();
 		// setup content list, item_list reflects the observable list itemsContent
-		itemsContent.setAll(model.getItemList());
-		item_list.setItems(itemsContent);
-
+		item_list.setItems(itemsContent); //itemsContent reflects the changes.
 		// item_list allow multiple selection
 		item_list.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		selectedItems = item_list.getSelectionModel().getSelectedItems();
@@ -197,11 +203,8 @@ public class Controller {
 				} else {
 					setText(item.getText());
 				}
-
-				
 			}
 		}); 
-
 	}
 
 	// listview is not serializable, so convert to arraylist which is.
@@ -284,58 +287,61 @@ public class Controller {
 	@FXML
 	protected void handleClearAllButtonAction(ActionEvent event) {
 		//gives a popup that the user is about to delete all info.
-		if(!model.getItemList().isEmpty()) {
+		if(model.size() != 0) {
 			clearAllAlert.display("ALERT", "You are about to delete all data, do you wish to proceed?");
 			if(clearAllAlert.closePressed) {
 				remover();
 			}
 		}
-		
-		event.consume();
-		
-		
-		
+		event.consume();	
 	}
 
+	/*
+	 * New Method: Group objects are stored in an array which is looped over.
+	 * .contains(clickedItem) checks the TreeMap of the group at index "i" for a matching key O(1)
+	 * if(.contains(clickedItem)) returns true then the item will removed from the listview and the group
+	 */
 	@FXML
 	protected void handleClearSelectedButtonAction(ActionEvent event) {
-		//the following line takes the selected items and makes them into a list.
-		List<Item> copyList = new ArrayList<>(item_list.getSelectionModel().getSelectedItems());
-		item_list.getItems().removeAll(copyList);
-		//remove what is selected.
-		leftGroup.removeItems(copyList);
-		rightGroup.removeItems(copyList);
-		matchGroup.removeItems(copyList);
-		//reset the group text accordingly.
+		
+		Group groupArray[] = new Group[3];
+		groupArray[0] = leftGroup;
+		groupArray[1] = rightGroup;
+		groupArray[2] = matchGroup;
+		
+		for(int i = 0; i < 3; i++) {
+			if(groupArray[i].contains(clickedItem)) {
+				groupArray[i].removeItem(clickedItem);
+				item_list.getItems().remove(clickedItem);
+			}
+		}
+		item_list.refresh();
 		leftSetText.setText(leftGroup.toVisualList());
 		rightSetText.setText(rightGroup.toVisualList());
 		middleSetText.setText(matchGroup.toVisualList());
 		groupIdentifier.clear();
-		removed++; // increment the number of removed items.
-		model.getItemList().removeAll(copyList); //update the item list
-		itemText.removeAll(copyList); // update the checker list.
-		
-
-		if (leftGroup.isEmpty()) {
-			leftSetText.setText("Text");
-		}
-		if (rightGroup.isEmpty()) {
-			rightSetText.setText("Text");
-		}
-		if (matchGroup.isEmpty()) {
-			middleSetText.setText("Text");
-		}
-
-		create_text.requestFocus();
 		event.consume();
 	}
-
+	
+	/*
+	 * New Method: testMouse() detects if an item is clicked and what that item object is
+	 * isItemClicked: returns true if an item is clicked
+	 * clickedItem: returns the Item object associated with the click
+	 */
+	@FXML
+	public boolean testMouse(MouseEvent event) {
+		isItemClicked = item_list.isFocused();
+		clickedItem = item_list.getFocusModel().getFocusedItem();
+		event.consume();
+		return isItemClicked;
+	}
 	@FXML
 	protected void handleItemListDragDetection(MouseEvent event) {
 		if (selectedItems.size() <= 0) {
 			event.consume();
 			return;
 		}
+		
 		Dragboard db = item_list.startDragAndDrop(TransferMode.COPY_OR_MOVE);
 		ClipboardContent cb = new ClipboardContent();
 		cb.put(itemFormat, obsListToArrayList(selectedItems));
@@ -414,7 +420,6 @@ public class Controller {
 			middleSetText.setText(matchGroup.toVisualList());
 			leftSetText.setText(leftGroup.toVisualList());
 			rightSetText.setText(rightGroup.toVisualList());
-//			setMatcher(rightGroupList,leftGroupList,midGroupList,arr);
 			
 			isCompleted = true;
 		}
@@ -478,18 +483,8 @@ public class Controller {
 		
 		event.consume();
 	}
-	
-	protected boolean tagAlreadyExists(String tag) {
-		String checker = tag.replaceAll(" ", ""); //strip the item of its white space
-		//		System.out.println(itemText);
-		for(Item item : itemText) {
-			if(item.getText().equals(checker)) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
+
+
 	@FXML
 	public void handleCreateDraggableItemButton(ActionEvent event) {
 		//if the selected items in the item list is 0, dont do anything
@@ -562,6 +557,9 @@ public class Controller {
 		//Looks at which button is pressed, makes its decision based on that.
 		backToMenuAlert.display("Alert", "Back to menu?");
 		if(backToMenuAlert.confirmPressed) {
+			startPageController.load = false; // Ensures the Controller knows that we are going back to the beginning.
+			startPageController.selectedFile = null; //Make the userFile Load to null
+			remover();
 			View.primaryStage.setScene(View.promptWindow);
 		}
 	}
@@ -584,90 +582,74 @@ public class Controller {
 	}
 	
 	private void remover() { //function to remove all items, used in multiple places.
-		//setting the text of each group to its default value.
-		leftSetText.setText("Text");
-		rightSetText.setText("Text");
-		middleSetText.setText("Text");
 		//removing from the groups.
 		rightGroup.removeAll();
 		leftGroup.removeAll();
 		matchGroup.removeAll();
-		model.getItemList().clear();
+		model.getItemSet().clear();
 		item_list.getItems().clear(); // clearing the listview.
 		groupIdentifier.clear(); // clearing the group identifiers.
 		create_text.requestFocus();
-		itemText.clear(); //this is needed, as if we don't have this, the program thinks we have duplicate items present.
-		Item.uid = 0;
 		diagram_pane.getChildren().remove(Controller.box); // remove the extra items.
 		clearAllAlert.cancelPressed = false;
 		clearAllAlert.closePressed = false;
 		
 	}
-	private void createData() {
+	/*
+	 * New Method: creates the data that will be populated by the ListView. If the model contains
+	 * the item being added an alert is popped O(nlogn). Note that no error detection is required
+	 * since the data structure is a set and repeated values are not allowed. ****Feel free to optimize this with ID's for O(1)
+	 * 
+	 * else the model gets the item. addSet() adds the variable to the set structure and .add() adds the item to the listview.
+	 */
+	protected void createData() {
 		if (create_text.getLength() != 0) {
-			if(!tagAlreadyExists(create_text.getText())) {
-				Item item = new Item(create_text.getText());
-				String adder = create_text.getText().replaceAll(" ", "");
-				itemText.add(new Item(adder)); //Look for a way around this, i feel like there is potential for error here.
-				Item.uid--; //correcting for the new item made.
-				model.getItemList().add(item);
-				itemsContent.setAll(model.getItemList());
+				Item testing = new Item(create_text.getText().trim());
+				if(model.containsText(testing.text)) {
+					TagAlreadyExistsAlert.display("Alert", "Tag Already Exists!"); 
+				}
+				else {
+					model.addSet(testing);
+					itemsContent.add(testing);
+					create_text.clear(); //reset textfield
+					create_text.requestFocus(); //get the textfield to listen for the next input.
+				}
 			}
-			else {
-				TagAlreadyExistsAlert.display("Alert", "Tag Already Exists!"); 
-			}
-			
-			create_text.clear(); //reset textfield
-			create_text.requestFocus(); //get the textfield to listen for the next input.
-			
-			
 		}
+	
+	/*
+	 * New Method: checks the model for element by string O(1).
+	 * 
+	 */
+	protected static void loadData(String st) {
+			//Need To Add To the Set List
+				Item item = new Item(st);
+				model.addSet(item);
+				itemsContent.add(item);
 	}
+	
 	@FXML
 	protected void refactor(ActionEvent event)throws Exception {
-		List<Item> copyList = new ArrayList<>(item_list.getSelectionModel().getSelectedItems());
-		if(copyList.size() == 0) { // no selected items.
+		if(isItemClicked == false) { // no selected items.
 			VennDiagram.TagAlreadyExistsAlert.display("ERROR", "Select some items before trying to rename them.");
-			return;
 		}
 		
-		if(copyList.size() > 1) { // more than 1 selected items, shouldn't be able to do this.
-			VennDiagram.TagAlreadyExistsAlert.display("Too Many Items", "You've selected more than one item to refactor!");
-			/*
-			 * using "return" in the void method, means we dont have to reset
-			 * the values of copylist, because it's a local variable and gets reinitialized every
-			 * time the method is called.
-			 */
-			return;
-		}
-		
-		
+		else {
 		VennDiagram.refactorWindow.display("Window");
 		if(!controller.refactorController.buttonPressed) { //checks if the exit button is pressed
-			//or if the refactor button is pressed.
-			return;
+				//or if the refactor button is pressed.
+				return;
 		}
-		
-		if(tagAlreadyExists(controller.refactorController.text)) { //stops duplicates.
+		if(model.containsText(refactorController.text)) { //stops duplicates.
 			VennDiagram.TagAlreadyExistsAlert.display("ERROR", "Tag Already Exists");
 			return;
 		}
-		
-		for(Item item : copyList) {
-			item.setText(controller.refactorController.text); //set the text.
+		else {
+			clickedItem.text = refactorController.text;
 		}
-		for(Item item: itemText) {
-			item.setText(controller.refactorController.text); // set the text in the checket list.
-		}
-		System.out.println(model.getItemList());
 		item_list.refresh(); //refresh the listView to show us the current values.
+		}
 	}
-	
-	@FXML
-	protected void checker(ActionEvent e) {
-	
-	}
-	
 	
 	protected String groupFinder(Item item) {
 		Set<String> left = leftGroup.toSet();
@@ -684,7 +666,6 @@ public class Controller {
 		}
 		return "Not Assigned";
 	}
-
 	
 	
 	@FXML

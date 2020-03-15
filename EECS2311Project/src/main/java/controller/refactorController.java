@@ -11,12 +11,12 @@ public class refactorController {
 	 	@FXML
 	    private TextField name;
 
-	    @FXML
 	    private Button refactor;
 	    
 	    public static String text = "";
 	    public static boolean buttonPressed;
 	    
+	    @FXML
 	    public void initialize() {
 	    	buttonPressed = false;
 	    }
@@ -26,7 +26,6 @@ public class refactorController {
 	    void refactor(ActionEvent event) {
 	    	text = name.getText();
 	    	buttonPressed = true;
-	    	System.out.println(buttonPressed);
 	    	VennDiagram.refactorWindow.window.close();
 	    }
 }
