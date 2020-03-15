@@ -52,7 +52,7 @@ public class Controller {
 	// create venn diagram instance
 	int removed = 0;
 	private static int numCirc = 2;
-	private VennModel model;
+	public VennModel model;
 	
 	//-----------------for tracking diagram_pane's dimensions.--------------------------------------------------------
 	double paneX;
