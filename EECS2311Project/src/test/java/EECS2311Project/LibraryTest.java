@@ -5,7 +5,6 @@ package EECS2311Project;
 
 import org.junit.Test;
 
-
 import static org.junit.Assert.*;
 
 public class LibraryTest {

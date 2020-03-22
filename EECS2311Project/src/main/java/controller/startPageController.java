@@ -8,15 +8,28 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.event.ActionEvent;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
 
-import VennDiagram.DiagramTitleTooSmallAlert;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;  
+import org.apache.poi.xssf.usermodel.XSSFWorkbook; 
+
 import VennDiagram.View;
 
-public class startPageController {
 
+public class startPageController {
     @FXML
     private AnchorPane anchorpane;
 
@@ -31,18 +44,29 @@ public class startPageController {
 
     @FXML
     private MenuItem openFile;
-
+    
     @FXML
     private MenuItem saveFile;
-
+    
     @FXML
     private MenuItem quitProgram;
+    
     @FXML
     private TextField diagramTitle;
-	
-
-	
-	@FXML
+    
+    @FXML
+    private Button loadNew;
+    
+    @FXML
+    private Button loadPrev;
+    
+    public static boolean load = false;
+    
+    public static File selectedFile;
+    
+    public static boolean isFinishedLoading = false;
+    
+    @FXML
 	public void nextScene(ActionEvent event) {
 		createTitleAndEnter();
 		event.consume();
@@ -67,6 +91,25 @@ public class startPageController {
 	
 	@FXML 
 	protected void aboutUs(ActionEvent event) {
+		int FileNotFoundCount = 0;
+		try {
+
+			File pdfFile = new File("EECS2311Project\\resources\\userMan\\manual.pdf");
+			if (pdfFile.exists()) {
+
+				if (java.awt.Desktop.isDesktopSupported()) {
+					java.awt.Desktop.getDesktop().open(pdfFile);
+				} else {
+					System.out.println("Awt Desktop is not supported!");
+				}
+			}
+			else {
+				FileNotFoundCount++;
+			}
+		  } catch (Exception ex) {
+			ex.printStackTrace();
+		  }
+		
 		try {
 
 			File pdfFile = new File("src\\main\\resources\\userMan\\manual.pdf");
@@ -78,28 +121,135 @@ public class startPageController {
 					System.out.println("Awt Desktop is not supported!");
 				}
 			} else {
-				System.out.println("File is not exists!");
+				FileNotFoundCount++;
 			}
 		  } catch (Exception ex) {
 			ex.printStackTrace();
 		  }
+		if(FileNotFoundCount > 1 ) {
+			System.out.println(FileNotFoundCount);
+			System.out.println("File Not Found");
+		}
 		
 		event.consume();
 	}
 	
 	private void createTitleAndEnter() {
-		if( diagramTitle.getText().length() != 0 ) {
-			View.primaryStage.setTitle(diagramTitle.getText());
-			View.primaryStage.setScene(View.scene);	
-		}
-		else {
-			VennDiagram.DiagramTitleTooSmallAlert.display("Default title","Do you want to create project with default title?");
-			if(DiagramTitleTooSmallAlert.confirmPressed) {
-				View.primaryStage.setScene(View.scene);	
+		View.primaryStage.setMaximized(true);
+		View.primaryStage.hide();
+		View.primaryStage.show();
+		View.primaryStage.setTitle("Venn Diagram");
+		View.primaryStage.setScene(View.scene);	
+	}
+	
+	/*
+	 * Method activates when the folder is clicked on the startpage. The user will be prompted
+	 * to select a file to load into the program. 
+	 * FileChooser -> opens up a prompt for users to select a file
+	 * selectedFile -> is the actual file
+	 * load -> records the state of the program. True if a file has been loaded
+	 */
+	@FXML
+	public void loadFile(ActionEvent event) throws IOException {
+		
+			FileChooser fileChooser = new FileChooser();
+			selectedFile = fileChooser.showOpenDialog(null);
+			fileChooser.setTitle("Select a Text File");
+			load = true;
+			
+			if(selectedFile == null) {
+				//Do nothing
+			}
+			else {
+				
+			String fileExtension = selectedFile.getName().substring(selectedFile.getName().lastIndexOf("."),selectedFile.getName().length());
+				
+			if(!fileExtension.equals(".txt") && !fileExtension.equals(".xls") && !fileExtension.equals(".xlsx")) {
+				VennDiagram.invalidFileFormatAlert.display("Invalid File", "Select a .txt .xls or .xlsx file.");
+			}
+			
+			else if(fileExtension.equals(".xlsx")) {
+				parseXLSX();
+				createTitleAndEnter();
+				event.consume();
+			}
+			
+			else if(fileExtension.equals(".xls")) {
+				parseXLS();
+				createTitleAndEnter();
+				event.consume();
+			}
+			else {
+				
+				BufferedReader br = new BufferedReader(new FileReader(selectedFile));
+				startPageController.load = true;
+				String st;
+				while((st = br.readLine()) != null){
+					Controller.loadData(st);
+				}
+				isFinishedLoading = true;
+				br.close();
+				createTitleAndEnter();
+				event.consume();
+				}
 			}
 			
 		}
+	
+	/*
+	 * Reads an XLSX file and iterates over all rows an columns. Only accepts numeric and string characters.
+	 */
+	
+	public void parseXLSX() throws IOException {
+		FileInputStream fis = new FileInputStream(selectedFile);
+		XSSFWorkbook wb = new XSSFWorkbook(fis);
+		XSSFSheet sheet = wb.getSheetAt(0);
+		for(Row row : sheet) {
+			for(Cell cell : row) {
+				if(cell == null) {
+					//Do nothing
+				}
+				
+				else if (cell.getCellType() == CellType.NUMERIC) {
+					DataFormatter df = new DataFormatter();
+					String input = df.formatCellValue(cell);
+					Controller.loadData(input);
+				}
+				
+				else {
+					Controller.loadData(cell.getStringCellValue());
+				}
+			}
+		}
+		wb.close();
 	}
 	
+	/*
+	 * Reads an XLSX file and iterates over all rows an columns. Only accepts numeric and string characters.
+	 */
 	
+	public void parseXLS() throws IOException {
+		FileInputStream fis = new FileInputStream(selectedFile);
+		HSSFWorkbook wb = new HSSFWorkbook(fis);
+		HSSFSheet sheet = wb.getSheetAt(0);
+		for(Row row : sheet) {
+			for(Cell cell : row) {
+				if(cell == null) {
+					//Do nothing
+				}
+				
+				else if (cell.getCellType() == CellType.NUMERIC) {
+					DataFormatter df = new DataFormatter();
+					String input = df.formatCellValue(cell);
+					Controller.loadData(input);
+				}
+				
+				else {
+					Controller.loadData(cell.getStringCellValue());
+				}
+			}
+		}
+		
+		wb.close();
+	}
 }
