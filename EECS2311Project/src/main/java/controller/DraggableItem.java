@@ -2,15 +2,15 @@ package controller;
 import org.apache.commons.math3.util.MultidimensionalCounter.Iterator;
 
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
 import model.Group;
 import model.Item;
 import model.VennModel;
-import java.util.*;
+
 
 /**
  * 
@@ -118,7 +118,31 @@ public class DraggableItem extends Pane{
 		};
 		this.setOnMouseReleased(eventHandlerMouseReleased);
 		//----------end of drag functionality-----------------------------------------------------
+		
+		
+		
+		this.setOnMouseClicked(new EventHandler <MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				try {
+					if(event.getButton().equals(MouseButton.PRIMARY)) {
+						if(event.getClickCount() == 2) {
+							VennDiagram.refactorWindow.display("Window");
+						}
+					}
+				}
+				catch(Exception e) {
+
+				}
+				
+				
+			}
+		});
 	}
+	
+	
+	
+	
 	
 	public void setItem(Item item) {
 		//set new item
