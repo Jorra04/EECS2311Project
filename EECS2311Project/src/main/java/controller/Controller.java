@@ -517,19 +517,15 @@ public class Controller {
 			tempItem.setLayoutX(itemPositionX); //set to the left
 			tempItem.setLayoutY(itemPositionY); //space between each item
 			
-//			System.out.println(tempItem.getItem().getText());
-//			System.out.println(DraggableItem.containsArray);
 			if(!containsArray.contains(tempItem.getItem().getText()) || VennDiagram.repeatDraggableItem.checkboxPressed) {
 				diagram_pane.getChildren().add(tempItem);
 				containsArray.add(tempItem.getItem().getText());
-				Tooltip tooltip = new Tooltip("this is an item description.");
-				Tooltip.install(tempItem, tooltip);
+
 			}
 			else {
 				VennDiagram.repeatDraggableItem.display("Alert", "Diagram Item Already Exists.");
 			}
-//			System.out.println(VennDiagram.repeatDraggableItem.checkboxPressed);
-			
+
 		}
 		
 		event.consume();

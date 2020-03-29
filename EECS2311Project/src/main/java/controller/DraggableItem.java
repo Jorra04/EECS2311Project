@@ -38,6 +38,7 @@ public class DraggableItem extends Pane{
 	
 	private Controller mainController;
 	private VennModel model;
+	Tooltip tooltip = new Tooltip();
 	
 	
 
@@ -49,6 +50,8 @@ public class DraggableItem extends Pane{
 		//create a reference to the main controller's model
 		this.model = Controller.model;
 		this.getChildren().add(text);
+		this.tooltip.setText("No Description Given");
+		Tooltip.install(text, this.tooltip);
 	
 		
 		//----------------------------------------------------------------------------------------------------------------
@@ -125,14 +128,17 @@ public class DraggableItem extends Pane{
 		//----------end of drag functionality-----------------------------------------------------
 		
 		
-		
+		/*
+		 * this method checks if a double click happens and if it does
+		 * then the refactor window is enabled.
+		 */
 		this.setOnMouseClicked(new EventHandler <MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
 				try {
 					if(event.getButton().equals(MouseButton.PRIMARY)) {
 						if(event.getClickCount() == 2) {
-							VennDiagram.refactorWindow.display("Window");
+							VennDiagram.refactorWindow.display("Refactor");
 						}
 					}
 				}
