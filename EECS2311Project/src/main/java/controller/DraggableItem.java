@@ -138,7 +138,7 @@ public class DraggableItem extends Pane{
 				try {
 					if(event.getButton().equals(MouseButton.PRIMARY)) {
 						if(event.getClickCount() == 2) {
-							VennDiagram.refactorWindow.display("Refactor");
+							VennDiagram.refactorWindow.display("refactor");
 						}
 					}
 				}

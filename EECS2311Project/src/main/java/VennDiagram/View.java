@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 public class View extends Application{
 	public static Stage primaryStage;
 	public static Scene promptWindow;
+	public static Scene refactor;
 	public static Scene scene;
 
 
@@ -35,7 +36,6 @@ public class View extends Application{
 		   
 	    //scene = new Scene(root, 900, 650);
 	    scene = new Scene(root);
-	    
 		promptWindow = new Scene(root2,750,550);
 		
 		primaryStage.setOnCloseRequest(event ->{
