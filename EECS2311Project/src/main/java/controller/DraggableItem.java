@@ -2,6 +2,7 @@ package controller;
 import org.apache.commons.math3.util.MultidimensionalCounter.Iterator;
 
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -9,6 +10,7 @@ import javafx.scene.shape.Shape;
 import model.Group;
 import model.Item;
 import model.VennModel;
+import java.util.*;
 
 /**
  * 
@@ -123,6 +125,7 @@ public class DraggableItem extends Pane{
 		this.item = item;
 		//set the label's text
 		this.text.setText(item.getText());
+
 	}
 	
 	public Item getItem() {
@@ -131,6 +134,13 @@ public class DraggableItem extends Pane{
 	
 	public Label getLabel() {
 		return this.text;
+	}
+	
+	public double getX() {
+		return this.x;
+	}
+	public double getY() {
+		return this.y;
 	}
 	
 	//checks if the draggable item itnersects with a given shape, usually the circle.
@@ -142,5 +152,17 @@ public class DraggableItem extends Pane{
 			return false;
 		}
 	}
+	
+//	public boolean overlappingElements(DraggableItem item) {
+//		for(Node node : mainController.diagram_pane.getChildren()) {
+//			if( ((DraggableItem)node).getX() == item.getX() &&  ((DraggableItem)node).getY() == item.getY() ) {
+//				return true;
+//			}
+//				
+//		}
+//		return false;
+//	}
+	
+	
 	
 }

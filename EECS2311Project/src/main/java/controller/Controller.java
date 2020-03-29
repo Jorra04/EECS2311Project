@@ -14,6 +14,7 @@ import javafx.collections.ObservableSet;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ListCell;
@@ -22,6 +23,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToolBar;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
@@ -52,7 +55,7 @@ public class Controller {
 	//View.primaryStage.setScene(View.promptWindow); --> code to switch windows.
 	// create venn diagram instance
 	private static int numCirc = 2;
-	
+	public List<String> containsArray = new ArrayList<>();
 	//-----------------for tracking diagram_pane's dimensions.--------------------------------------------------------
 	double paneX;
 	double paneY;
@@ -111,6 +114,8 @@ public class Controller {
 	Button clearData; 
 	@FXML
 	Button createDraggableItemButton;
+	@FXML
+	ToolBar toolbar;
 
 	@FXML
 	SplitMenuButton splitMenu = new SplitMenuButton();
@@ -238,16 +243,16 @@ public class Controller {
 	@SuppressWarnings("unchecked")
 	@FXML
 	protected void leftCircleColour() {
-		if (diagram_pane.getChildren().contains(Controller.box)) {
-			diagram_pane.getChildren().remove(Controller.box);
+		if (toolbar.getItems().contains(Controller.box)) {
+			toolbar.getItems().remove(Controller.box);
 			Color colorVal = (Color)leftCircle.getFill();
 			colorPicker.setValue(colorVal);
 		}
 		splitMenu.setText("Left Circle");
-
-		diagram_pane.getChildren().add(Controller.box);
-		box.setLayoutX(splitMenu.getLayoutX());
-		box.setLayoutY(splitMenu.getLayoutY() - 40);
+		toolbar.getItems().add(Controller.box);
+//		diagram_pane.getChildren().add(Controller.box);
+//		box.setLayoutX(splitMenu.getLayoutX() + 360);
+//		box.setLayoutY(splitMenu.getLayoutY() - 37.5);
 
 		colorPicker.setOnAction(new EventHandler() {
 			@Override
@@ -264,16 +269,18 @@ public class Controller {
 	@SuppressWarnings("unchecked")
 	@FXML
 	protected void rightCircleColour() {
-		if (diagram_pane.getChildren().contains(Controller.box)) {
-			diagram_pane.getChildren().remove(Controller.box);
+		if (toolbar.getItems().contains(Controller.box)) {
+			toolbar.getItems().remove(Controller.box);
 			Color colorVal = (Color)rightCircle.getFill();
 			colorPicker.setValue(colorVal);
 		}
 		splitMenu.setText("Right Circle");
-
-		diagram_pane.getChildren().add(Controller.box);
-		box.setLayoutX(splitMenu.getLayoutX());
-		box.setLayoutY(splitMenu.getLayoutY() -40);
+		toolbar.getItems().add(Controller.box);
+		
+//		diagram_pane.getChildren().add(Controller.box);
+//		box.setPrefSize(splitMenu.getPrefWidth(), splitMenu.getPrefHeight());
+//		box.setLayoutX(splitMenu.getLayoutX() + 360);
+//		box.setLayoutY(splitMenu.getLayoutY() - 37.5);
 		colorPicker.setOnAction(new EventHandler() {
 			public void handle(javafx.event.Event event) {
 				rightCircle.setFill(colorPicker.getValue());
@@ -508,7 +515,20 @@ public class Controller {
 			}
 			tempItem.setLayoutX(itemPositionX); //set to the left
 			tempItem.setLayoutY(itemPositionY); //space between each item
-			diagram_pane.getChildren().add(tempItem);
+			
+//			System.out.println(tempItem.getItem().getText());
+//			System.out.println(DraggableItem.containsArray);
+			if(!containsArray.contains(tempItem.getItem().getText()) || VennDiagram.repeatDraggableItem.checkboxPressed) {
+				diagram_pane.getChildren().add(tempItem);
+				containsArray.add(tempItem.getItem().getText());
+				Tooltip tooltip = new Tooltip("this is an item description.");
+				Tooltip.install(tempItem, tooltip);
+			}
+			else {
+				VennDiagram.repeatDraggableItem.display("Alert", "Diagram Item Already Exists.");
+			}
+//			System.out.println(VennDiagram.repeatDraggableItem.checkboxPressed);
+			
 		}
 		
 		event.consume();
@@ -517,12 +537,12 @@ public class Controller {
 	@FXML
 	public void addCirc(ActionEvent event) {
 		if(Controller.numCirc == 2) { // if the numCircles is 2, then we put the 3rd in a specific place.	
-			circleCreator(leftCircle.getRadius(),280,400);
+			circleCreator(leftCircle.getRadius(),300,400);
 			numCirc++; // inc the number of circles.
 		}
 		else if(Controller.numCirc == 3) {// if the numCircles is 3,then we put the 4th in a specific place.
 			
-			circleCreator(leftCircle.getRadius(),280,200);
+			circleCreator(leftCircle.getRadius(),300,400);
 			numCirc++; // inc the num of cirlces.
 
 		}
@@ -576,6 +596,7 @@ public class Controller {
 			rightCircle.setFill(Color.DODGERBLUE);
 			Color colorVal = (Color)rightCircle.getFill();
 			colorPicker.setValue(colorVal);
+			
 			event.consume();
 		}
 		
@@ -593,6 +614,12 @@ public class Controller {
 		diagram_pane.getChildren().remove(Controller.box); // remove the extra items.
 		clearAllAlert.cancelPressed = false;
 		clearAllAlert.closePressed = false;
+		
+		for (Iterator<Node> iterator = diagram_pane.getChildren().iterator(); iterator.hasNext();) {
+		    if (iterator.next() instanceof DraggableItem) {
+		        iterator.remove();
+		    }
+		}
 		
 	}
 	/*
@@ -708,6 +735,7 @@ public class Controller {
 		}
 		
 	}
+	
 	
 
 }
