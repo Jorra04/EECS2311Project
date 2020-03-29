@@ -1,9 +1,12 @@
 package controller;
+import org.apache.commons.math3.util.MultidimensionalCounter.Iterator;
+
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
+import model.Group;
 import model.Item;
 import model.VennModel;
 
@@ -38,7 +41,7 @@ public class DraggableItem extends Pane{
 		this.text = new Label(item.getText());
 		this.mainController = mainController;
 		//create a reference to the main controller's model
-		this.model = mainController.model;
+		this.model = Controller.model;
 		this.getChildren().add(text);
 		
 		//----------------------------------------------------------------------------------------------------------------
@@ -92,12 +95,22 @@ public class DraggableItem extends Pane{
 		EventHandler<MouseEvent> eventHandlerMouseReleased = new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
+				Group group;
 				if(isIntersecting(mainController.leftCircle) && isIntersecting(mainController.rightCircle)) {
-					System.out.println("is intersecting with both circles");
+					group = model.getGroupMap().get("match");
+					group.insertItem(item);
 				} else if(isIntersecting(mainController.rightCircle)) {
-					System.out.println("is intersecting with right circle");
+					group = model.getGroupMap().get("right");
+					group.insertItem(item);
 				} else if(isIntersecting(mainController.leftCircle)) {
-					System.out.println("is intersecting with left circle");
+					group = model.getGroupMap().get("left");
+					group.insertItem(item);
+				} else {
+					//not within any circle i.e. item has been removed from both groups
+					//iterate through each group that exists and remove that specific item
+					for (Group g : model.getGroupMap().values()) {
+						g.removeItem(item);
+					}
 				}
 			};
 		};

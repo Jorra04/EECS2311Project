@@ -185,12 +185,12 @@ public class Controller {
 		selectedItems = item_list.getSelectionModel().getSelectedItems();
 
 		// setup 2 groups
-		model.createGroup("Left");
-		model.createGroup("Right");
-		model.createGroup("Match");
-		leftGroup = model.getGroupMap().get("Left");
-		rightGroup = model.getGroupMap().get("Right");
-		matchGroup = model.getGroupMap().get("Match");
+		model.createGroup("left");
+		model.createGroup("right");
+		model.createGroup("match");
+		leftGroup = model.getGroupMap().get("left");
+		rightGroup = model.getGroupMap().get("right");
+		matchGroup = model.getGroupMap().get("match");
 
 		// customizing the cell, how they look on the listview in the gui
 		item_list.setCellFactory(param -> new ListCell<Item>() {
