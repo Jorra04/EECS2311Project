@@ -2,7 +2,9 @@ package controller;
 import org.apache.commons.math3.util.MultidimensionalCounter.Iterator;
 
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -37,6 +39,8 @@ public class DraggableItem extends Pane{
 	private Controller mainController;
 	private VennModel model;
 	
+	
+
 	//constructor requires a reference to the main controller so it can compare to the circles
 	public DraggableItem(Item item, Controller mainController) {
 		this.item = item;
@@ -45,6 +49,7 @@ public class DraggableItem extends Pane{
 		//create a reference to the main controller's model
 		this.model = Controller.model;
 		this.getChildren().add(text);
+	
 		
 		//----------------------------------------------------------------------------------------------------------------
 		//make item draggable
