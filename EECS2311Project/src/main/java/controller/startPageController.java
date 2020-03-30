@@ -9,6 +9,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.util.Duration;
+import javafx.animation.FadeTransition;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 
 import java.io.BufferedReader;
@@ -65,6 +68,43 @@ public class startPageController {
     public static File selectedFile;
     
     public static boolean isFinishedLoading = false;
+    
+    public void initialize() {
+    	FadeTransition ft = new FadeTransition(Duration.millis(1500),loadNew);
+    	FadeTransition ft2 = new FadeTransition(Duration.millis(1500),loadPrev);
+    	loadNew.setOnMouseEntered(e->{
+    		
+        	ft.setFromValue(1.0);
+        	ft.setToValue(0.1);
+        	
+        	ft.setCycleCount(Timeline.INDEFINITE);
+        	ft.setAutoReverse(true);
+        	ft.play();
+    	});
+    	
+    	loadPrev.setOnMouseEntered(e->{
+    		
+        	ft2.setFromValue(1.0);
+        	ft2.setToValue(0.1);
+        	
+        	ft2.setCycleCount(Timeline.INDEFINITE);
+        	ft2.setAutoReverse(true);
+        	ft2.play();
+        
+    	});
+    	loadNew.setOnMouseExited(e->{
+    		ft.jumpTo(Duration.ZERO);
+    		ft.stop();
+    	});
+    	loadPrev.setOnMouseExited(e->{
+    		ft2.jumpTo(Duration.ZERO);
+    		ft2.stop();
+    	});
+    	
+    	
+    }
+    
+    
     
     @FXML
 	public void nextScene(ActionEvent event) {

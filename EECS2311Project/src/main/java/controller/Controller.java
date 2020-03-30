@@ -5,9 +5,14 @@ import VennDiagram.restoreDefaultsAlert;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.Timeline;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
@@ -18,10 +23,13 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.Slider;
 import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
@@ -44,6 +52,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import model.VennModel;
 import util.Save;
 import model.Group;
@@ -57,8 +66,13 @@ public class Controller {
 	ContextMenu contextMenu = new ContextMenu();
 	MenuItem delete = new MenuItem("Delete");
 	MenuItem refactor = new MenuItem("Refactor");
-	
-	
+	@FXML
+	Slider circleSize;
+	@FXML
+	Slider leftCircleSlider;
+	@FXML
+	Slider rightCircleSlider;
+	boolean animationDone = false;
 	//View.primaryStage.setScene(View.promptWindow); --> code to switch windows.
 	// create venn diagram instance
 	private static int numCirc = 2;
@@ -126,7 +140,7 @@ public class Controller {
 
 	@FXML
 	SplitMenuButton splitMenu = new SplitMenuButton();
-
+	
 	@FXML
 	MenuItem lButton = new MenuItem();
 	@FXML
@@ -163,10 +177,15 @@ public class Controller {
 	
 	public boolean isItemClicked; //Returns a true or false if the item has been clicked or not
 	public static Item clickedItem; //Holds the item object that is currently clicked
-
+	double leftCircOrig;
+	double rightCircleOrig;
+	double origRad;
+	double runsumLeft;
+	double runSumRight;
 	// use this to help setup the fxml components, initialize is called as soon as
 	// app starts up. Similar to a constructor.
 	public void initialize() {
+		
 		contextMenu.getItems().addAll(refactor,delete);
 		//create listeners on the diagram_pane's dimensions so its components can resize as well
 		diagram_pane.widthProperty().addListener((obs, oldVal, newVal) -> {
@@ -218,6 +237,49 @@ public class Controller {
 				}
 			}
 		}); 
+		
+		
+		origRad = leftCircle.getRadius();
+		leftCircOrig = leftCircle.getLayoutX();
+		rightCircleOrig = rightCircle.getLayoutX();
+		
+		/*
+		 * resizing circles.
+		 */
+		circleSize.setRotate(180);
+		circleSize.setValue(366);
+		
+		circleSize.valueProperty().addListener((ChangeListener<? super Number>) new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable,Number oldValue, Number newValue) {
+				leftCircle.setRadius((double)newValue);
+				rightCircle.setRadius((double)newValue);
+				
+				leftCircleSlider.setValue(0);
+				rightCircleSlider.setValue(rightCircleSlider.getMax());
+			}
+		});
+//		
+//		
+		leftCircleSlider.valueProperty().addListener((ChangeListener<? super Number>) new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable,Number oldValue, Number newValue) {
+//				System.out.println(oldValue);
+				leftCircle.setCenterX((double)newValue);
+				
+			}
+		});
+		
+		rightCircleSlider.valueProperty().addListener((ChangeListener<? super Number>) new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable,Number oldValue, Number newValue) {
+//				System.out.println(oldValue);
+				rightCircle.setCenterX((double)newValue);
+				
+			}
+		});
+	
+		
 	}
 
 	// listview is not serializable, so convert to arraylist which is.
@@ -541,24 +603,26 @@ public class Controller {
 				public void handle(MouseEvent event) {
 					try {
 						if(event.getButton().equals(MouseButton.SECONDARY)) {
-//							System.out.println("Secondary");
 							/*
 							 * warn the user before. but this is a rough implementation.
 							 */
 							contextMenu.show(View.primaryStage, event.getScreenX(),event.getScreenY());
 							contextMenu.getItems().get(0).setOnAction(e->{
 								try {
-									System.out.println("Doyble");
+									int index = containsArray.indexOf(tempItem.getItem().getText());
+									
 									VennDiagram.refactorWindow.display("refactor");
-									tempItem.text.setText(controller.refactorController.text);
-									tempItem.item.setText(controller.refactorController.text);
-									tempItem.tooltip.setText(controller.refactorController.description);
-									//need to loop through elements and change the element to whatever we changed it to in the refactor.
-									tempItem.getLabel().setTextFill(controller.refactorController.color);
-									item_list.refresh();
-									/*
-									 * Wake up tomorrow and add the ability to change the color of the text!!!!!
-									 */
+									if(controller.refactorController.buttonPressed) {
+										tempItem.text.setText(controller.refactorController.text);
+										tempItem.item.setText(controller.refactorController.text);
+										tempItem.tooltip.setText(controller.refactorController.description);
+										//need to loop through elements and change the element to whatever we changed it to in the refactor.
+										tempItem.getLabel().setTextFill(controller.refactorController.color);
+										containsArray.set(index, tempItem.getItem().getText());
+										item_list.refresh();
+									}
+									
+									
 								}
 								catch(Exception e1) {
 									
@@ -567,7 +631,29 @@ public class Controller {
 							
 							contextMenu.getItems().get(1).setOnAction(e->{
 								try {
-									diagram_pane.getChildren().remove(tempItem);
+									
+//									System.out.println(model.getItemSet());
+									model.getItemSet().remove(tempItem.getItem());
+									int index = containsArray.indexOf(tempItem.getItem().getText());
+									containsArray.remove(index);
+									item_list.getItems().remove(tempItem.item);
+									
+									FadeTransition ft = new FadeTransition(Duration.millis(1000), tempItem);
+									
+									ft.setFromValue(1.0);
+									ft.setToValue(0);
+									ft.setAutoReverse(true);
+									
+									ft.play();
+									ft.setOnFinished(e1->{
+										diagram_pane.getChildren().remove(tempItem);
+									});
+									
+//									System.out.println(model.getItemSet());
+//									System.out.println(itemsContent);
+//									System.out.println(containsArray);
+									
+									item_list.refresh();
 								}
 								catch(Exception e1) {
 									
@@ -650,7 +736,10 @@ public class Controller {
 			rightCircle.setFill(Color.DODGERBLUE);
 			Color colorVal = (Color)rightCircle.getFill();
 			colorPicker.setValue(colorVal);
-			
+			leftCircle.setLayoutX(leftCircOrig);
+			rightCircle.setLayoutX(rightCircleOrig);
+			rightCircle.setRadius(origRad);
+			leftCircle.setRadius(origRad);
 			event.consume();
 		}
 		
@@ -668,12 +757,31 @@ public class Controller {
 		diagram_pane.getChildren().remove(Controller.box); // remove the extra items.
 		clearAllAlert.cancelPressed = false;
 		clearAllAlert.closePressed = false;
+		/*
+		 * i know that this method is like really inefficient, but it does what i want it to do.
+		 */
 		
-		for (Iterator<Node> iterator = diagram_pane.getChildren().iterator(); iterator.hasNext();) {
-		    if (iterator.next() instanceof DraggableItem) {
-		        iterator.remove();
-		    }
+		for(Node item : diagram_pane.getChildren()) {
+			if(item.getClass().equals(DraggableItem.class)) {
+				FadeTransition ft = new FadeTransition(Duration.millis(1000), item);
+				ft.setFromValue(1.0);
+	        	ft.setToValue(0);
+	        	ft.setAutoReverse(true);
+	        	ft.play();
+	        	ft.setOnFinished(e->{
+	        		animationDone = true;
+	        	});
+			}
 		}
+		if(animationDone) {
+			for (Iterator<Node> iterator = diagram_pane.getChildren().iterator(); iterator.hasNext();) {
+			    if (iterator.next() instanceof DraggableItem) {
+			        iterator.remove();
+			    }
+			}
+		}
+		
+		animationDone = false;
 		
 	}
 	/*

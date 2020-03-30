@@ -127,34 +127,6 @@ public class DraggableItem extends Pane{
 		this.setOnMouseReleased(eventHandlerMouseReleased);
 		//----------end of drag functionality-----------------------------------------------------
 		
-		
-		/*
-		 * this method checks if a double click happens and if it does
-		 * then the refactor window is enabled.
-		 */
-//		this.setOnMouseClicked(new EventHandler <MouseEvent>() {
-//			@Override
-//			public void handle(MouseEvent event) {
-//				try {
-//					if(event.getButton().equals(MouseButton.PRIMARY)) {
-//						if(event.getClickCount() == 2) {
-//							VennDiagram.refactorWindow.display("refactor");
-//						
-//							text.setText(controller.refactorController.text);
-//							item.setText(controller.refactorController.text);
-//							tooltip.setText(controller.refactorController.description);
-//						
-//							
-//						}
-//					}
-//				}
-//				catch(Exception e) {
-//
-//				}
-//				
-//				
-//			}
-//		});
 	}
 	
 	

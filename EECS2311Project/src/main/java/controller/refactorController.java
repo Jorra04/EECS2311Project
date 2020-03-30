@@ -31,7 +31,7 @@ public class refactorController {
 	private ColorPicker changeLabelColor;
 
 	private String origStyle;
-	static Color color;
+	static Color color = Color.BLACK;
 
 	public static String text = "";
 	public static String description = "";
@@ -42,8 +42,7 @@ public class refactorController {
 	public void initialize() {
 		origStyle = name.getStyle();
 		buttonPressed = false;
-		name.setText(text);
-		itemDescription.setText(description);
+		changeLabelColor.setValue(Color.BLACK);
 	}
 
 	@FXML
@@ -54,6 +53,7 @@ public class refactorController {
 			shaker.shake();
 			name.setStyle(validationError);
 			Tooltip.install(name, tooltip);
+			return;
 		}
 		if (itemDescription.getText().isEmpty()) {
 			description = "No Description";
@@ -74,7 +74,6 @@ public class refactorController {
 	
 	@FXML
 	protected void changeColor(ActionEvent event) {
-		System.out.println(changeLabelColor.getValue());
 		color = changeLabelColor.getValue();
 	}
 }

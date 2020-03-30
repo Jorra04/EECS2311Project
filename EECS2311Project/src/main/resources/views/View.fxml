@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
@@ -57,7 +58,7 @@
       </BorderPane>
       <HBox VBox.vgrow="ALWAYS">
          <children>
-            <ListView fx:id="item_list" onDragDetected="#handleItemListDragDetection" />
+            <ListView fx:id="item_list" onDragDetected="#handleItemListDragDetection" prefHeight="579.0" prefWidth="248.0" />
             <VBox HBox.hgrow="ALWAYS">
                <children>
                   <ToolBar>
@@ -78,6 +79,9 @@
                         <Button fx:id="addCirc" mnemonicParsing="false" onAction="#addCirc" prefHeight="32.0" text="Add Circle" />
                         <Button fx:id="clearData" mnemonicParsing="false" onAction="#handleClearAllButtonAction" prefHeight="32.0" text="Clear Data"> </Button>
                         <Button fx:id="clearSelButton" mnemonicParsing="false" onAction="#handleClearSelectedButtonAction" prefHeight="32.0" text="Clear selected" />
+                        <Slider fx:id="circleSize" max="366.0" min="200.0" />
+                        <Slider fx:id="leftCircleSlider" />
+                        <Slider fx:id="rightCircleSlider" max="60.0" value="60.0" />
                     </items>
                   </ToolBar>
                   <Pane fx:id="diagram_pane" VBox.vgrow="ALWAYS">
