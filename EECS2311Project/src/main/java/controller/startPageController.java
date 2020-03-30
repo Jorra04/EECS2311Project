@@ -11,6 +11,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import javafx.animation.FadeTransition;
+import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 

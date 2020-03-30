@@ -278,8 +278,41 @@ public class Controller {
 				
 			}
 		});
-	
 		
+		/*
+		 * installing tooltips on the buttons so the user can see exactly what they do.
+		 */
+		Tooltip tt1 = new Tooltip("Create a diagram item that can be added to a set.");
+		Tooltip tt2 = new Tooltip("Change to colour of either sets.");
+		Tooltip tt3 = new Tooltip("Add an additional circle (Up to 4 circles are supported).");
+		Tooltip tt4 = new Tooltip("Clear all unsaved data");
+		Tooltip tt5 = new Tooltip("Choose which elements you would like to delete (Items are chosen from the word bank).");
+		Tooltip tt6 = new Tooltip("Adjust the radius of the sets to suit your project!");
+		Tooltip tt7 = new Tooltip("Adjust the placement of the left set to suit your project.");
+		Tooltip tt8 = new Tooltip("Adjust the placement of the right set to suit your project.");
+		Tooltip tt9 = new Tooltip("Enter text to populate the word bank.");
+		Tooltip tt10 = new Tooltip("Identify which set an element belongs to.");
+		Tooltip.install(createDraggableItemButton, tt1);
+		Tooltip.install(splitMenu, tt2);
+		Tooltip.install(addCirc, tt3);
+		Tooltip.install(clearData, tt4);
+		Tooltip.install(clearSelButton, tt5);
+		Tooltip.install(circleSize, tt6);
+		Tooltip.install(leftCircleSlider, tt7);
+		Tooltip.install(rightCircleSlider, tt8);
+		Tooltip.install(create_button, tt9);
+		Tooltip.install(identify, tt10);
+		tt1.setShowDelay(Duration.millis(500));
+		tt2.setShowDelay(Duration.millis(500));
+		tt3.setShowDelay(Duration.millis(500));
+		tt4.setShowDelay(Duration.millis(500));
+		tt5.setShowDelay(Duration.millis(500));
+		tt6.setShowDelay(Duration.millis(500));
+		tt7.setShowDelay(Duration.millis(500));
+		tt8.setShowDelay(Duration.millis(500));
+		tt9.setShowDelay(Duration.millis(500));
+		tt10.setShowDelay(Duration.millis(500));
+				
 	}
 
 	// listview is not serializable, so convert to arraylist which is.

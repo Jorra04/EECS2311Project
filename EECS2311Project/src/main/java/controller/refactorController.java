@@ -1,8 +1,9 @@
 package controller;
 
+import java.util.Timer;
+
+import javafx.animation.RotateTransition;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -11,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 import model.Shaker;
 
 public class refactorController {
@@ -43,6 +45,29 @@ public class refactorController {
 		origStyle = name.getStyle();
 		buttonPressed = false;
 		changeLabelColor.setValue(Color.BLACK);
+//		animation stuff.
+		RotateTransition rt = new RotateTransition(Duration.millis(200),refactor);
+		
+		rt.setFromAngle(-10);
+		rt.setToAngle(10);
+//		rt.setByAngle(10);
+		rt.setOnFinished(e->{
+			refactor.setRotate(0);
+		});
+		
+		
+		rt.setAutoReverse(true);
+		rt.setCycleCount(5);
+		refactor.setOnMouseEntered(e->{
+			rt.play();
+		});
+		refactor.setOnMouseExited(e->{
+			rt.stop();
+			refactor.setRotate(0);
+		});
+		
+		
+		
 	}
 
 	@FXML
