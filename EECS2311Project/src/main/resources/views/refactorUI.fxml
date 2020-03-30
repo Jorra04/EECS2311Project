@@ -14,7 +14,7 @@
          </font>
       </Text>
       <TextField fx:id="name" layoutX="43.0" layoutY="113.0" prefHeight="25.0" prefWidth="194.0" promptText="new name" />
-      <Button fx:id="refactor" layoutX="180.0" layoutY="211.0" mnemonicParsing="false" onAction="#refactor" text="Change" />
       <TextField fx:id="itemDescription" layoutX="43.0" layoutY="167.0" prefHeight="25.0" prefWidth="194.0" promptText="Item Description" />
+      <Button fx:id="refactor" layoutX="180.0" layoutY="211.0" mnemonicParsing="false" onAction="#refactor" text="Change" />
    </children>
 </AnchorPane>

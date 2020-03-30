@@ -26,9 +26,13 @@ public class refactorController {
 	    private String validationError = "-fx-border-color: #DBB1B1; " + "-fx-background-color: #FFF0F0";
 	    Tooltip tooltip = new Tooltip("Item text cannot be empty");
 	    
+	    
+	    
 	    public void initialize() {
 	    	origStyle = name.getStyle();
 	    	buttonPressed = false;
+	    	name.setText(text);
+	    	itemDescription.setText(description);
 	    }
 	    
 	    
@@ -43,13 +47,20 @@ public class refactorController {
 	    		return;
 	    	}
 	    	if(itemDescription.getText().isEmpty()) {
-	    		description= "No Description";
+	    		description = "No Description";
+	    		buttonPressed = true;
+	    		text = name.getText();
+	    		VennDiagram.refactorWindow.window.close();
+	    		return;
 	    	}
 	    	
 	    	text = name.getText();
 	    	description = itemDescription.getText();
 	    	buttonPressed = true;
 	    	VennDiagram.refactorWindow.window.close();
+	    	
 	    }
+	    
+	    
 	    
 }

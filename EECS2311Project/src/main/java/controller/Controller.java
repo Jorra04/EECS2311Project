@@ -17,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
@@ -52,7 +53,10 @@ import VennDiagram.backToMenuAlert;
 import VennDiagram.tooManyCirclesAlert;
 
 public class Controller {
-
+	ContextMenu contextMenu = new ContextMenu();
+	MenuItem delete = new MenuItem("Delete");
+	MenuItem refactor = new MenuItem("Refactor");
+	
 	//View.primaryStage.setScene(View.promptWindow); --> code to switch windows.
 	// create venn diagram instance
 	private static int numCirc = 2;
@@ -161,6 +165,7 @@ public class Controller {
 	// use this to help setup the fxml components, initialize is called as soon as
 	// app starts up. Similar to a constructor.
 	public void initialize() {
+		contextMenu.getItems().addAll(refactor,delete);
 		//create listeners on the diagram_pane's dimensions so its components can resize as well
 		diagram_pane.widthProperty().addListener((obs, oldVal, newVal) -> {
 			paneX = newVal.doubleValue();
@@ -525,7 +530,54 @@ public class Controller {
 			else {
 				VennDiagram.repeatDraggableItem.display("Alert", "Diagram Item Already Exists.");
 			}
+			
+			
+			tempItem.setOnMouseClicked(new EventHandler <MouseEvent>() {
+				@Override
+				public void handle(MouseEvent event) {
+					try {
+						if(event.getButton().equals(MouseButton.SECONDARY)) {
+//							System.out.println("Secondary");
+							/*
+							 * warn the user before. but this is a rough implementation.
+							 */
+							contextMenu.show(View.primaryStage, event.getScreenX(),event.getScreenY());
+							contextMenu.getItems().get(0).setOnAction(e->{
+								try {
+									System.out.println("Doyble");
+									VennDiagram.refactorWindow.display("refactor");
+									tempItem.text.setText(controller.refactorController.text);
+									tempItem.item.setText(controller.refactorController.text);
+									tempItem.tooltip.setText(controller.refactorController.description);
+									//need to loop through elements and change the element to whatever we changed it to in the refactor.
+									item_list.refresh();
+									/*
+									 * Wake up tomorrow and add the ability to change the color of the text!!!!!
+									 */
+								}
+								catch(Exception e1) {
+									
+								}
+							});
+							
+							contextMenu.getItems().get(1).setOnAction(e->{
+								try {
+									diagram_pane.getChildren().remove(tempItem);
+								}
+								catch(Exception e1) {
+									
+								}
+							});
+							
+						}
+					}
+					catch(Exception e) {
 
+					}
+					
+					
+				}
+			});
 		}
 		
 		event.consume();
@@ -732,6 +784,7 @@ public class Controller {
 		}
 		
 	}
+	
 	
 	
 

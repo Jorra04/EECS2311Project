@@ -3,6 +3,7 @@ import org.apache.commons.math3.util.MultidimensionalCounter.Iterator;
 
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseButton;
@@ -23,7 +24,6 @@ import model.VennModel;
  */
 
 public class DraggableItem extends Pane{
-	
 	private double x = 0;
 	private double y = 0;
 	
@@ -34,7 +34,7 @@ public class DraggableItem extends Pane{
 	private boolean isDragging = false;
 	
 	public Item item;
-	private Label text;
+	public Label text;
 	
 	private Controller mainController;
 	private VennModel model;
@@ -132,23 +132,29 @@ public class DraggableItem extends Pane{
 		 * this method checks if a double click happens and if it does
 		 * then the refactor window is enabled.
 		 */
-		this.setOnMouseClicked(new EventHandler <MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				try {
-					if(event.getButton().equals(MouseButton.PRIMARY)) {
-						if(event.getClickCount() == 2) {
-							VennDiagram.refactorWindow.display("refactor");
-						}
-					}
-				}
-				catch(Exception e) {
-
-				}
-				
-				
-			}
-		});
+//		this.setOnMouseClicked(new EventHandler <MouseEvent>() {
+//			@Override
+//			public void handle(MouseEvent event) {
+//				try {
+//					if(event.getButton().equals(MouseButton.PRIMARY)) {
+//						if(event.getClickCount() == 2) {
+//							VennDiagram.refactorWindow.display("refactor");
+//						
+//							text.setText(controller.refactorController.text);
+//							item.setText(controller.refactorController.text);
+//							tooltip.setText(controller.refactorController.description);
+//						
+//							
+//						}
+//					}
+//				}
+//				catch(Exception e) {
+//
+//				}
+//				
+//				
+//			}
+//		});
 	}
 	
 	
