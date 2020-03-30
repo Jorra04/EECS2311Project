@@ -40,6 +40,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -56,6 +57,7 @@ public class Controller {
 	ContextMenu contextMenu = new ContextMenu();
 	MenuItem delete = new MenuItem("Delete");
 	MenuItem refactor = new MenuItem("Refactor");
+	
 	
 	//View.primaryStage.setScene(View.promptWindow); --> code to switch windows.
 	// create venn diagram instance
@@ -522,6 +524,7 @@ public class Controller {
 			tempItem.setLayoutX(itemPositionX); //set to the left
 			tempItem.setLayoutY(itemPositionY); //space between each item
 			
+			
 			if(!containsArray.contains(tempItem.getItem().getText()) || VennDiagram.repeatDraggableItem.checkboxPressed) {
 				diagram_pane.getChildren().add(tempItem);
 				containsArray.add(tempItem.getItem().getText());
@@ -533,6 +536,7 @@ public class Controller {
 			
 			
 			tempItem.setOnMouseClicked(new EventHandler <MouseEvent>() {
+				@SuppressWarnings("unchecked")
 				@Override
 				public void handle(MouseEvent event) {
 					try {
@@ -550,6 +554,7 @@ public class Controller {
 									tempItem.item.setText(controller.refactorController.text);
 									tempItem.tooltip.setText(controller.refactorController.description);
 									//need to loop through elements and change the element to whatever we changed it to in the refactor.
+									tempItem.getLabel().setTextFill(controller.refactorController.color);
 									item_list.refresh();
 									/*
 									 * Wake up tomorrow and add the ability to change the color of the text!!!!!
