@@ -1,4 +1,5 @@
 package controller;
+
 import VennDiagram.clearAllAlert;
 import VennDiagram.restoreDefaultsAlert;
 
@@ -9,7 +10,9 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
+import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
+import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -17,6 +20,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -52,11 +56,13 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import model.VennModel;
 import util.Save;
 import model.Group;
 import model.Item;
+import model.Shaker;
 import VennDiagram.TagAlreadyExistsAlert;
 import VennDiagram.View;
 import VennDiagram.backToMenuAlert;
@@ -73,14 +79,16 @@ public class Controller {
 	@FXML
 	Slider rightCircleSlider;
 	boolean animationDone = false;
-	//View.primaryStage.setScene(View.promptWindow); --> code to switch windows.
+	// View.primaryStage.setScene(View.promptWindow); --> code to switch windows.
 	// create venn diagram instance
 	private static int numCirc = 2;
 	public List<String> containsArray = new ArrayList<>();
-	//-----------------for tracking diagram_pane's dimensions.--------------------------------------------------------
+	// -----------------for tracking diagram_pane's
+	// dimensions.--------------------------------------------------------
 	double paneX;
 	double paneY;
-	//-----------------draggable item variables------------------------------------------------------------------------
+	// -----------------draggable item
+	// variables------------------------------------------------------------------------
 	double spaceY = 50;
 	double spaceX = 100;
 	public static VennModel model;
@@ -88,41 +96,41 @@ public class Controller {
 	static ObservableList<Item> itemsContent = FXCollections.observableArrayList();
 	ObservableSet<Item> test = FXCollections.observableSet();
 	ObservableList<Item> selectedItems;
-	
+
 	Group leftGroup;
 
 	Group rightGroup;
 	Group matchGroup;
-	
+
 	private static final DataFormat itemFormat = new DataFormat("item");
 //	private static final String DEFAULT_CONTROL_INNER_BACKGROUND = "derive(red,80%)";
 //    private static final String HIGHLIGHTED_CONTROL_INNER_BACKGROUND = "derive(palegreen, 50%)";
 
 	protected static TreeSet<String> loadList = new TreeSet<>();
-	
+
 	private ArrayList<Circle> circles = new ArrayList<>();
 	// fxml components
 	Circle circle;
 	@FXML
 	Button addCirc;
 	@FXML
-    private MenuItem newFile;
+	private MenuItem newFile;
 
-    @FXML
-    private MenuItem openFile;
+	@FXML
+	private MenuItem openFile;
 
-    @FXML
-    private MenuItem saveFile;
-    
-    @FXML
-    private MenuItem switchScene;
+	@FXML
+	private MenuItem saveFile;
 
-    @FXML
-    private MenuItem quitProgram;
-    @FXML
-    private MenuItem restoreDef;
-    @FXML
-    private MenuItem aboutUs;
+	@FXML
+	private MenuItem switchScene;
+
+	@FXML
+	private MenuItem quitProgram;
+	@FXML
+	private MenuItem restoreDef;
+	@FXML
+	private MenuItem aboutUs;
 	@FXML
 	Circle leftCircle;
 	@FXML
@@ -132,7 +140,7 @@ public class Controller {
 	@FXML
 	Button identify;
 	@FXML
-	Button clearData; 
+	Button clearData;
 	@FXML
 	Button createDraggableItemButton;
 	@FXML
@@ -140,16 +148,16 @@ public class Controller {
 
 	@FXML
 	SplitMenuButton splitMenu = new SplitMenuButton();
-	
+
 	@FXML
 	MenuItem lButton = new MenuItem();
 	@FXML
 	MenuItem rButton = new MenuItem();
-	
+
 	MenuItem tButton = new MenuItem();
-	
+
 	MenuItem bButton = new MenuItem();
-	
+
 	@FXML
 	TextField create_text;
 	@FXML
@@ -166,7 +174,7 @@ public class Controller {
 	ListView<Item> item_list;
 	@FXML
 	Pane diagram_pane; // venn diagram is here
-	
+
 	@FXML
 	StackPane leftSet, rightSet, middleSet;
 	@FXML
@@ -174,44 +182,47 @@ public class Controller {
 
 	private static ColorPicker colorPicker = new ColorPicker(Color.DODGERBLUE);
 	private static VBox box = new VBox(colorPicker);
-	
-	public boolean isItemClicked; //Returns a true or false if the item has been clicked or not
-	public static Item clickedItem; //Holds the item object that is currently clicked
+
+	public boolean isItemClicked; // Returns a true or false if the item has been clicked or not
+	public static Item clickedItem; // Holds the item object that is currently clicked
 	double leftCircOrig;
 	double rightCircleOrig;
 	double origRad;
 	double runsumLeft;
 	double runSumRight;
+
 	// use this to help setup the fxml components, initialize is called as soon as
 	// app starts up. Similar to a constructor.
 	public void initialize() {
-		
-		contextMenu.getItems().addAll(refactor,delete);
-		//create listeners on the diagram_pane's dimensions so its components can resize as well
+
+		contextMenu.getItems().addAll(refactor, delete);
+		// create listeners on the diagram_pane's dimensions so its components can
+		// resize as well
 		diagram_pane.widthProperty().addListener((obs, oldVal, newVal) -> {
 			paneX = newVal.doubleValue();
-			leftCircle.setLayoutX(paneX/2);
-			//move right circle to the right for intersection
-			rightCircle.setLayoutX(paneX/2 + paneX/4);
-			//TODO: scale circle size
+			leftCircle.setLayoutX(paneX / 2);
+			// move right circle to the right for intersection
+			rightCircle.setLayoutX(paneX / 2 + paneX / 4);
+			// TODO: scale circle size
 		});
-		diagram_pane.heightProperty().addListener((obs,oldVal, newVal) -> {
+		diagram_pane.heightProperty().addListener((obs, oldVal, newVal) -> {
 			paneY = newVal.doubleValue();
-			leftCircle.setLayoutY(paneY/2);
-			rightCircle.setLayoutY(paneY/2);
-			//TODO: scale circle size
+			leftCircle.setLayoutY(paneY / 2);
+			rightCircle.setLayoutY(paneY / 2);
+			// TODO: scale circle size
 		});
-	
+
 		groupIdentifier.setEditable(false);
 		splitMenu.setOnAction(e -> {
-			//keep this empty, it basically removes the functionality of the root button in the split
-			//button button. Keeps the dropdown functionality.
+			// keep this empty, it basically removes the functionality of the root button in
+			// the split
+			// button button. Keeps the dropdown functionality.
 		});
-		
+
 		model = new VennModel();
 		clearData.requestFocus();
 		// setup content list, item_list reflects the observable list itemsContent
-		item_list.setItems(itemsContent); //itemsContent reflects the changes.
+		item_list.setItems(itemsContent); // itemsContent reflects the changes.
 		// item_list allow multiple selection
 		item_list.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		selectedItems = item_list.getSelectionModel().getSelectedItems();
@@ -236,25 +247,24 @@ public class Controller {
 					setText(item.getText());
 				}
 			}
-		}); 
-		
-		
+		});
+
 		origRad = leftCircle.getRadius();
 		leftCircOrig = leftCircle.getLayoutX();
 		rightCircleOrig = rightCircle.getLayoutX();
-		
+
 		/*
 		 * resizing circles.
 		 */
 		circleSize.setRotate(180);
 		circleSize.setValue(366);
-		
+
 		circleSize.valueProperty().addListener((ChangeListener<? super Number>) new ChangeListener<Number>() {
 			@Override
-			public void changed(ObservableValue<? extends Number> observable,Number oldValue, Number newValue) {
-				leftCircle.setRadius((double)newValue);
-				rightCircle.setRadius((double)newValue);
-				
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				leftCircle.setRadius((double) newValue);
+				rightCircle.setRadius((double) newValue);
+
 				leftCircleSlider.setValue(0);
 				rightCircleSlider.setValue(rightCircleSlider.getMax());
 			}
@@ -263,22 +273,22 @@ public class Controller {
 //		
 		leftCircleSlider.valueProperty().addListener((ChangeListener<? super Number>) new ChangeListener<Number>() {
 			@Override
-			public void changed(ObservableValue<? extends Number> observable,Number oldValue, Number newValue) {
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 //				System.out.println(oldValue);
-				leftCircle.setCenterX((double)newValue);
-				
+				leftCircle.setCenterX((double) newValue);
+
 			}
 		});
-		
+
 		rightCircleSlider.valueProperty().addListener((ChangeListener<? super Number>) new ChangeListener<Number>() {
 			@Override
-			public void changed(ObservableValue<? extends Number> observable,Number oldValue, Number newValue) {
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 //				System.out.println(oldValue);
-				rightCircle.setCenterX((double)newValue);
-				
+				rightCircle.setCenterX((double) newValue);
+
 			}
 		});
-		
+
 		/*
 		 * installing tooltips on the buttons so the user can see exactly what they do.
 		 */
@@ -286,7 +296,8 @@ public class Controller {
 		Tooltip tt2 = new Tooltip("Change to colour of either sets.");
 		Tooltip tt3 = new Tooltip("Add an additional circle (Up to 4 circles are supported).");
 		Tooltip tt4 = new Tooltip("Clear all unsaved data");
-		Tooltip tt5 = new Tooltip("Choose which elements you would like to delete (Items are chosen from the word bank).");
+		Tooltip tt5 = new Tooltip(
+				"Choose which elements you would like to delete (Items are chosen from the word bank).");
 		Tooltip tt6 = new Tooltip("Adjust the radius of the sets to suit your project!");
 		Tooltip tt7 = new Tooltip("Adjust the placement of the left set to suit your project.");
 		Tooltip tt8 = new Tooltip("Adjust the placement of the right set to suit your project.");
@@ -312,7 +323,7 @@ public class Controller {
 		tt8.setShowDelay(Duration.millis(500));
 		tt9.setShowDelay(Duration.millis(500));
 		tt10.setShowDelay(Duration.millis(500));
-				
+
 	}
 
 	// listview is not serializable, so convert to arraylist which is.
@@ -340,7 +351,7 @@ public class Controller {
 	protected void menuClick() {
 		splitMenu.getItems().add(lButton);
 		splitMenu.getItems().add(rButton);
-		
+
 	}
 
 	@SuppressWarnings("unchecked")
@@ -348,7 +359,7 @@ public class Controller {
 	protected void leftCircleColour() {
 		if (toolbar.getItems().contains(Controller.box)) {
 			toolbar.getItems().remove(Controller.box);
-			Color colorVal = (Color)leftCircle.getFill();
+			Color colorVal = (Color) leftCircle.getFill();
 			colorPicker.setValue(colorVal);
 		}
 		splitMenu.setText("Left Circle");
@@ -362,7 +373,7 @@ public class Controller {
 			public void handle(javafx.event.Event event) {
 				leftCircle.setFill(colorPicker.getValue());
 				leftCircle.setStroke(Color.BLACK);
-				
+
 			}
 		});
 
@@ -374,12 +385,12 @@ public class Controller {
 	protected void rightCircleColour() {
 		if (toolbar.getItems().contains(Controller.box)) {
 			toolbar.getItems().remove(Controller.box);
-			Color colorVal = (Color)rightCircle.getFill();
+			Color colorVal = (Color) rightCircle.getFill();
 			colorPicker.setValue(colorVal);
 		}
 		splitMenu.setText("Right Circle");
 		toolbar.getItems().add(Controller.box);
-		
+
 //		diagram_pane.getChildren().add(Controller.box);
 //		box.setPrefSize(splitMenu.getPrefWidth(), splitMenu.getPrefHeight());
 //		box.setLayoutX(splitMenu.getLayoutX() + 360);
@@ -396,31 +407,32 @@ public class Controller {
 
 	@FXML
 	protected void handleClearAllButtonAction(ActionEvent event) {
-		//gives a popup that the user is about to delete all info.
-		if(model.size() != 0) {
+		// gives a popup that the user is about to delete all info.
+		if (model.size() != 0) {
 			clearAllAlert.display("ALERT", "You are about to delete all data, do you wish to proceed?");
-			if(clearAllAlert.closePressed) {
+			if (clearAllAlert.closePressed) {
 				remover();
 			}
 		}
-		event.consume();	
+		event.consume();
 	}
 
 	/*
 	 * New Method: Group objects are stored in an array which is looped over.
-	 * .contains(clickedItem) checks the TreeMap of the group at index "i" for a matching key O(1)
-	 * if(.contains(clickedItem)) returns true then the item will removed from the listview and the group
+	 * .contains(clickedItem) checks the TreeMap of the group at index "i" for a
+	 * matching key O(1) if(.contains(clickedItem)) returns true then the item will
+	 * removed from the listview and the group
 	 */
 	@FXML
 	protected void handleClearSelectedButtonAction(ActionEvent event) {
-		
+
 		Group groupArray[] = new Group[3];
 		groupArray[0] = leftGroup;
 		groupArray[1] = rightGroup;
 		groupArray[2] = matchGroup;
-		
-		for(int i = 0; i < 3; i++) {
-			if(groupArray[i].contains(clickedItem)) {
+
+		for (int i = 0; i < 3; i++) {
+			if (groupArray[i].contains(clickedItem)) {
 				groupArray[i].removeItem(clickedItem);
 				item_list.getItems().remove(clickedItem);
 			}
@@ -432,11 +444,11 @@ public class Controller {
 		groupIdentifier.clear();
 		event.consume();
 	}
-	
+
 	/*
-	 * New Method: testMouse() detects if an item is clicked and what that item object is
-	 * isItemClicked: returns true if an item is clicked
-	 * clickedItem: returns the Item object associated with the click
+	 * New Method: testMouse() detects if an item is clicked and what that item
+	 * object is isItemClicked: returns true if an item is clicked clickedItem:
+	 * returns the Item object associated with the click
 	 */
 	@FXML
 	public boolean testMouse(MouseEvent event) {
@@ -445,13 +457,14 @@ public class Controller {
 		event.consume();
 		return isItemClicked;
 	}
+
 	@FXML
 	protected void handleItemListDragDetection(MouseEvent event) {
 		if (selectedItems.size() <= 0) {
 			event.consume();
 			return;
 		}
-		
+
 		Dragboard db = item_list.startDragAndDrop(TransferMode.COPY_OR_MOVE);
 		ClipboardContent cb = new ClipboardContent();
 		cb.put(itemFormat, obsListToArrayList(selectedItems));
@@ -475,7 +488,7 @@ public class Controller {
 		if (db.hasContent(itemFormat)) {
 			leftGroup.insertItems((ArrayList<Item>) db.getContent(itemFormat));
 			Set<Integer> match = leftGroup.findMatching(rightGroup);
-			
+
 			// ArrayList<Item> temp = new ArrayList<Item>();
 			for (Item item : itemsContent) {
 				if (match.contains(item.getID())) {
@@ -485,7 +498,7 @@ public class Controller {
 				}
 
 			}
-			
+
 			event.getSceneX();
 			event.getSceneY();
 //			middleSetText.setText(matchGroup.toVisualList());
@@ -493,7 +506,6 @@ public class Controller {
 //			rightSetText.setText(rightGroup.toVisualList());
 //			setMatcher(rightGroupList,leftGroupList,midGroupList,arr);
 
-			
 			isCompleted = true;
 		}
 		event.setDropCompleted(isCompleted);
@@ -515,9 +527,9 @@ public class Controller {
 		Dragboard db = event.getDragboard();
 		if (db.hasContent(itemFormat)) {
 			rightGroup.insertItems((ArrayList<Item>) db.getContent(itemFormat));
-			
+
 			Set<Integer> match = rightGroup.findMatching(leftGroup);
-			
+
 			// ArrayList<Item> temp = new ArrayList<Item>();
 			for (Item item : itemsContent) {
 				if (match.contains(item.getID())) {
@@ -526,31 +538,32 @@ public class Controller {
 					leftGroup.removeItem(item);
 				}
 			}
-	
+
 			middleSetText.setText(matchGroup.toVisualList());
 			leftSetText.setText(leftGroup.toVisualList());
 			rightSetText.setText(rightGroup.toVisualList());
-			
+
 			isCompleted = true;
 		}
-		
+
 		event.setDropCompleted(isCompleted);
 		event.consume();
 	}
-	
+
 	@FXML
 	protected void menuButtonClose(ActionEvent event) {
 		VennDiagram.quitProgramAlert.display("Confirm Exit", "Are you sure you want to exit?");
-		if(VennDiagram.quitProgramAlert.closePressed) {
+		if (VennDiagram.quitProgramAlert.closePressed) {
 			View.primaryStage.close();
 		}
 		event.consume();
-		
+
 	}
-	
-	@FXML 
+
+	@FXML
 	protected void aboutUs(ActionEvent event) {
-		//Whole thing is a try catch, it tries to find the location of the embedded file.
+		// Whole thing is a try catch, it tries to find the location of the embedded
+		// file.
 		int FileNotFoundCount = 0;
 		try {
 
@@ -562,14 +575,13 @@ public class Controller {
 				} else {
 					System.out.println("Awt Desktop is not supported!");
 				}
-			}
-			else {
+			} else {
 				FileNotFoundCount++;
 			}
-		  } catch (Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
-		  }
-		
+		}
+
 		try {
 
 			File pdfFile = new File("src\\main\\resources\\userMan\\manual.pdf");
@@ -583,151 +595,144 @@ public class Controller {
 			} else {
 				FileNotFoundCount++;
 			}
-		  } catch (Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
-		  }
-		if(FileNotFoundCount > 1 ) {
+		}
+		if (FileNotFoundCount > 1) {
 			System.out.println(FileNotFoundCount);
 			System.out.println("File Not Found");
 		}
-		
+
 		event.consume();
 	}
 
-
 	@FXML
 	public void handleCreateDraggableItemButton(ActionEvent event) {
-		//if the selected items in the item list is 0, dont do anything
+		// if the selected items in the item list is 0, dont do anything
 		if (selectedItems.size() <= 0) {
 			event.consume();
 			return;
 		}
 		double itemPositionY = 0;
 		double itemPositionX = 0;
-		for(Item item : selectedItems) {
-			//provide each item with a reference to the controller class itself, so it can compare the item with the circle positions for intersection.
+		for (Item item : selectedItems) {
+			// provide each item with a reference to the controller class itself, so it can
+			// compare the item with the circle positions for intersection.
 			DraggableItem tempItem = new DraggableItem(item, this);
-			tempItem.getLabel().setTextFill(Color.BLACK); //tbh it looks gray but w.e.
+			tempItem.getLabel().setTextFill(Color.BLACK); // tbh it looks gray but w.e.
 			tempItem.getLabel().setFont(new Font("Arial", 18));
-			tempItem.setPrefSize(Region.USE_COMPUTED_SIZE + 50,Region.USE_COMPUTED_SIZE + 50);
-			//set position within diagram pane
+			tempItem.setPrefSize(Region.USE_COMPUTED_SIZE + 50, Region.USE_COMPUTED_SIZE + 50);
+			// set position within diagram pane
 			itemPositionY += spaceY;
-			if(itemPositionY >= paneY - 100) {
-				itemPositionX += spaceX; // if current "column" goes past the diagram dimensions, go to the next "column"
+			if (itemPositionY >= paneY - 100) {
+				itemPositionX += spaceX; // if current "column" goes past the diagram dimensions, go to the next
+											// "column"
 				itemPositionY = 0 + spaceY;
 			}
-			tempItem.setLayoutX(itemPositionX); //set to the left
-			tempItem.setLayoutY(itemPositionY); //space between each item
-			
-			
-			if(!containsArray.contains(tempItem.getItem().getText()) || VennDiagram.repeatDraggableItem.checkboxPressed) {
+			tempItem.setLayoutX(itemPositionX); // set to the left
+			tempItem.setLayoutY(itemPositionY); // space between each item
+
+			if (!containsArray.contains(tempItem.getItem().getText())
+					|| VennDiagram.repeatDraggableItem.checkboxPressed) {
 				diagram_pane.getChildren().add(tempItem);
 				containsArray.add(tempItem.getItem().getText());
 
-			}
-			else {
+			} else {
 				VennDiagram.repeatDraggableItem.display("Alert", "Diagram Item Already Exists.");
 			}
-			
-			
-			tempItem.setOnMouseClicked(new EventHandler <MouseEvent>() {
+
+			tempItem.setOnMouseClicked(new EventHandler<MouseEvent>() {
 				@SuppressWarnings("unchecked")
 				@Override
 				public void handle(MouseEvent event) {
 					try {
-						if(event.getButton().equals(MouseButton.SECONDARY)) {
+						if (event.getButton().equals(MouseButton.SECONDARY)) {
 							/*
 							 * warn the user before. but this is a rough implementation.
 							 */
-							contextMenu.show(View.primaryStage, event.getScreenX(),event.getScreenY());
-							contextMenu.getItems().get(0).setOnAction(e->{
+							contextMenu.show(View.primaryStage, event.getScreenX(), event.getScreenY());
+							contextMenu.getItems().get(0).setOnAction(e -> {
 								try {
 									int index = containsArray.indexOf(tempItem.getItem().getText());
-									
+
 									VennDiagram.refactorWindow.display("refactor");
-									if(controller.refactorController.buttonPressed) {
+									if (controller.refactorController.buttonPressed) {
 										tempItem.text.setText(controller.refactorController.text);
 										tempItem.item.setText(controller.refactorController.text);
 										tempItem.tooltip.setText(controller.refactorController.description);
-										//need to loop through elements and change the element to whatever we changed it to in the refactor.
+										// need to loop through elements and change the element to whatever we changed
+										// it to in the refactor.
 										tempItem.getLabel().setTextFill(controller.refactorController.color);
 										containsArray.set(index, tempItem.getItem().getText());
 										item_list.refresh();
 									}
-									
-									
-								}
-								catch(Exception e1) {
-									
+
+								} catch (Exception e1) {
+
 								}
 							});
-							
-							contextMenu.getItems().get(1).setOnAction(e->{
+
+							contextMenu.getItems().get(1).setOnAction(e -> {
 								try {
-									
+
 //									System.out.println(model.getItemSet());
 									model.getItemSet().remove(tempItem.getItem());
 									int index = containsArray.indexOf(tempItem.getItem().getText());
 									containsArray.remove(index);
 									item_list.getItems().remove(tempItem.item);
-									
+
 									FadeTransition ft = new FadeTransition(Duration.millis(1000), tempItem);
-									
+
 									ft.setFromValue(1.0);
 									ft.setToValue(0);
 									ft.setAutoReverse(true);
-									
+
 									ft.play();
-									ft.setOnFinished(e1->{
+									ft.setOnFinished(e1 -> {
 										diagram_pane.getChildren().remove(tempItem);
 									});
-									
+
 //									System.out.println(model.getItemSet());
 //									System.out.println(itemsContent);
 //									System.out.println(containsArray);
-									
+
 									item_list.refresh();
-								}
-								catch(Exception e1) {
-									
+								} catch (Exception e1) {
+
 								}
 							});
-							
+
 						}
-					}
-					catch(Exception e) {
+					} catch (Exception e) {
 
 					}
-					
-					
+
 				}
 			});
 		}
-		
+
 		event.consume();
 	}
-	
+
 	@FXML
 	public void addCirc(ActionEvent event) {
-		if(Controller.numCirc == 2) { // if the numCircles is 2, then we put the 3rd in a specific place.	
-			circleCreator(leftCircle.getRadius(),300,400);
+		if (Controller.numCirc == 2) { // if the numCircles is 2, then we put the 3rd in a specific place.
+			circleCreator(leftCircle.getRadius(), 300, 400);
 			numCirc++; // inc the number of circles.
-		}
-		else if(Controller.numCirc == 3) {// if the numCircles is 3,then we put the 4th in a specific place.
-			
-			circleCreator(leftCircle.getRadius(),300,400);
+		} else if (Controller.numCirc == 3) {// if the numCircles is 3,then we put the 4th in a specific place.
+
+			circleCreator(leftCircle.getRadius(), 300, 400);
 			numCirc++; // inc the num of cirlces.
 
-		}
-		else {
+		} else {
 			// >4 cicles is not allowed, this will check any circle creation beyond 4.
-			tooManyCirclesAlert.display("Exceeded Number of Allowed Circles!", "You have exceeded the "
-					+ "number of allowed cirlces.");
+			tooManyCirclesAlert.display("Exceeded Number of Allowed Circles!",
+					"You have exceeded the " + "number of allowed cirlces.");
 		}
 	}
-	
+
 	private void circleCreator(double radius, int startX, int startY) {
-		//making the circles
+		// making the circles
 		circle = new Circle();
 		circle.setFill(Color.DODGERBLUE);
 		circle.setOpacity(leftCircle.getOpacity());
@@ -736,38 +741,38 @@ public class Controller {
 		circle.setLayoutY(startY);
 		circles.add(circle);
 		diagram_pane.getChildren().add(circle);
-		
+
 	}
-	
+
 	private void circleDestroyer(List<Circle> circle) {
-		//delete the circles.
+		// delete the circles.
 		diagram_pane.getChildren().removeAll(circles);
 	}
-	
+
 	@FXML
 	protected void backToMenu(ActionEvent event) {
-		//Prompt asking if the user wants to go back to the menu.
-		//Looks at which button is pressed, makes its decision based on that.
+		// Prompt asking if the user wants to go back to the menu.
+		// Looks at which button is pressed, makes its decision based on that.
 		backToMenuAlert.display("Alert", "Back to menu?");
-		if(backToMenuAlert.confirmPressed) {
+		if (backToMenuAlert.confirmPressed) {
 			startPageController.load = false; // Ensures the Controller knows that we are going back to the beginning.
-			startPageController.selectedFile = null; //Make the userFile Load to null
+			startPageController.selectedFile = null; // Make the userFile Load to null
 			remover();
 			View.primaryStage.setScene(View.promptWindow);
 		}
 	}
-	
+
 	@FXML
 	protected void restoreDefault(ActionEvent event) {
 		restoreDefaultsAlert.display("Restore Settings", "Restore settings to their factory default?");
-		if(restoreDefaultsAlert.deletePressed) {
+		if (restoreDefaultsAlert.deletePressed) {
 			remover(); // calls fucntion that removes all.
-			circleDestroyer(this.circles); //removes additional circles
+			circleDestroyer(this.circles); // removes additional circles
 			Controller.numCirc = 2; // resets the value of numCirc, allows for the other functions to work.
-			//the rest is resetting original vals.
+			// the rest is resetting original vals.
 			leftCircle.setFill(Color.DODGERBLUE);
 			rightCircle.setFill(Color.DODGERBLUE);
-			Color colorVal = (Color)rightCircle.getFill();
+			Color colorVal = (Color) rightCircle.getFill();
 			colorPicker.setValue(colorVal);
 			leftCircle.setLayoutX(leftCircOrig);
 			rightCircle.setLayoutX(rightCircleOrig);
@@ -775,11 +780,11 @@ public class Controller {
 			leftCircle.setRadius(origRad);
 			event.consume();
 		}
-		
+
 	}
-	
-	private void remover() { //function to remove all items, used in multiple places.
-		//removing from the groups.
+
+	private void remover() { // function to remove all items, used in multiple places.
+		// removing from the groups.
 		rightGroup.removeAll();
 		leftGroup.removeAll();
 		matchGroup.removeAll();
@@ -788,132 +793,142 @@ public class Controller {
 		groupIdentifier.clear(); // clearing the group identifiers.
 		create_text.requestFocus();
 		diagram_pane.getChildren().remove(Controller.box); // remove the extra items.
+		model.getItemSet().clear();
+		containsArray.clear();
 		clearAllAlert.cancelPressed = false;
 		clearAllAlert.closePressed = false;
 		/*
-		 * i know that this method is like really inefficient, but it does what i want it to do.
+		 * i know that this method is like really inefficient, but it does what i want
+		 * it to do.
 		 */
-		
-		for(Node item : diagram_pane.getChildren()) {
-			if(item.getClass().equals(DraggableItem.class)) {
-				FadeTransition ft = new FadeTransition(Duration.millis(1000), item);
+		RotateTransition rt = new RotateTransition(Duration.millis(200), leftCircle);
+		RotateTransition rt2 = new RotateTransition(Duration.millis(200), rightCircle);
+		rt.setAxis(Rotate.Y_AXIS);
+		rt.setByAngle(360);
+		rt.setCycleCount(8);
+		rt.setAutoReverse(true);
+		rt.play();
+		rt2.setAxis(Rotate.Y_AXIS);
+		rt2.setByAngle(360);
+		rt2.setCycleCount(8);
+		rt2.setAutoReverse(true);
+		rt2.play();
+		FadeTransition ft = new FadeTransition();
+		for (Node item : diagram_pane.getChildren()) {
+			if (item.getClass().equals(DraggableItem.class)) {
+				ft = new FadeTransition(Duration.millis(1000), item);
 				ft.setFromValue(1.0);
-	        	ft.setToValue(0);
-	        	ft.setAutoReverse(true);
-	        	ft.play();
-	        	ft.setOnFinished(e->{
-	        		animationDone = true;
-	        	});
+				ft.setToValue(0);
+				ft.setAutoReverse(true);
+				ft.play();
 			}
+
 		}
-		if(animationDone) {
+		ft.setOnFinished(e -> {
 			for (Iterator<Node> iterator = diagram_pane.getChildren().iterator(); iterator.hasNext();) {
-			    if (iterator.next() instanceof DraggableItem) {
-			        iterator.remove();
-			    }
+				if (iterator.next() instanceof DraggableItem) {
+					iterator.remove();
+				}
 			}
-		}
+		});
 		
-		animationDone = false;
 		
+
 	}
+
 	/*
-	 * New Method: creates the data that will be populated by the ListView. If the model contains
-	 * the item being added an alert is popped O(nlogn). Note that no error detection is required
-	 * since the data structure is a set and repeated values are not allowed. ****Feel free to optimize this with ID's for O(1)
+	 * New Method: creates the data that will be populated by the ListView. If the
+	 * model contains the item being added an alert is popped O(nlogn). Note that no
+	 * error detection is required since the data structure is a set and repeated
+	 * values are not allowed. ****Feel free to optimize this with ID's for O(1)
 	 * 
-	 * else the model gets the item. addSet() adds the variable to the set structure and .add() adds the item to the listview.
+	 * else the model gets the item. addSet() adds the variable to the set structure
+	 * and .add() adds the item to the listview.
 	 */
 	protected void createData() {
 		if (create_text.getLength() != 0) {
-				Item testing = new Item(create_text.getText().trim());
-				if(model.containsText(testing.text)) {
-					TagAlreadyExistsAlert.display("Alert", "Tag Already Exists!"); 
-				}
-				else {
-					model.addSet(testing);
-					itemsContent.add(testing);
-					create_text.clear(); //reset textfield
-					create_text.requestFocus(); //get the textfield to listen for the next input.
-				}
+			Item testing = new Item(create_text.getText().trim());
+			if (model.containsText(testing.text)) {
+				TagAlreadyExistsAlert.display("Alert", "Tag Already Exists!");
+			} else {
+				model.addSet(testing);
+				itemsContent.add(testing);
+				create_text.clear(); // reset textfield
+				create_text.requestFocus(); // get the textfield to listen for the next input.
 			}
 		}
-	
+	}
+
 	/*
 	 * New Method: checks the model for element by string O(1).
 	 * 
 	 */
 	protected static void loadData(String st) {
-			//Need To Add To the Set List
-				Item item = new Item(st);
-				model.addSet(item);
-				itemsContent.add(item);
+		// Need To Add To the Set List
+		Item item = new Item(st);
+		model.addSet(item);
+		itemsContent.add(item);
 	}
-	
+
 	@FXML
-	protected void refactor(ActionEvent event)throws Exception {
-		if(isItemClicked == false) { // no selected items.
+	protected void refactor(ActionEvent event) throws Exception {
+		if (isItemClicked == false) { // no selected items.
 			VennDiagram.TagAlreadyExistsAlert.display("ERROR", "Select some items before trying to rename them.");
 		}
-		
+
 		else {
-		VennDiagram.refactorWindow.display("Window");
-		if(!controller.refactorController.buttonPressed) { //checks if the exit button is pressed
-				//or if the refactor button is pressed.
+			VennDiagram.refactorWindow.display("Window");
+			if (!controller.refactorController.buttonPressed) { // checks if the exit button is pressed
+				// or if the refactor button is pressed.
 				return;
-		}
-		if(model.containsText(refactorController.text)) { //stops duplicates.
-			VennDiagram.TagAlreadyExistsAlert.display("ERROR", "Tag Already Exists");
-			return;
-		}
-		else {
-			clickedItem.text = refactorController.text;
-		}
-		item_list.refresh(); //refresh the listView to show us the current values.
+			}
+			if (model.containsText(refactorController.text)) { // stops duplicates.
+				VennDiagram.TagAlreadyExistsAlert.display("ERROR", "Tag Already Exists");
+				return;
+			} else {
+				clickedItem.text = refactorController.text;
+			}
+			item_list.refresh(); // refresh the listView to show us the current values.
 		}
 	}
-	
+
 	protected String groupFinder(Item item) {
 		Set<String> left = leftGroup.toSet();
 		Set<String> right = rightGroup.toSet();
 		Set<String> mid = matchGroup.toSet();
-		if(mid.contains(item.text)) {
+		if (mid.contains(item.text)) {
 			return "Middle Set";
 		}
-		if(left.contains(item.text)) {
+		if (left.contains(item.text)) {
 			return "Left Set";
 		}
-		if(right.contains(item.text)) {
+		if (right.contains(item.text)) {
 			return "Right Set";
 		}
 		return "Not Assigned";
 	}
-	
-	
+
 	@FXML
 	protected void identifyGroup(ActionEvent event) {
 		List<Item> copyList = new ArrayList<>(item_list.getSelectionModel().getSelectedItems());
-		for(Item item :copyList) {
-			groupIdentifier.setText(item.text+ ": " + groupFinder(item));
-			if(groupFinder(item).equals("Left Set")) {
+		for (Item item : copyList) {
+			groupIdentifier.setText(item.text + ": " + groupFinder(item));
+			if (groupFinder(item).equals("Left Set")) {
 				groupIdentifier.setStyle("-fx-text-fill: green;");
-			}
-			else if(groupFinder(item).equals("Right Set")) {
+			} else if (groupFinder(item).equals("Right Set")) {
 				groupIdentifier.setStyle("-fx-text-fill: red;");
-			}
-			else if(groupFinder(item).equals("Middle Set")) {
+			} else if (groupFinder(item).equals("Middle Set")) {
 				groupIdentifier.setStyle("-fx-text-fill: blue;");
-			}
-			else {
+			} else {
 				groupIdentifier.setStyle("-fx-text-fill: black;");
 			}
-			
+
 		}
 	}
 
 	@FXML
 	protected void handleSaveMenuButton(ActionEvent event) {
-		if(!item_list.getItems().isEmpty()) {
+		if (!item_list.getItems().isEmpty()) {
 			System.out.println("writing to excel");
 			try {
 				Save.writeExcel(model);
@@ -924,14 +939,10 @@ public class Controller {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		else {
+		} else {
 			TagAlreadyExistsAlert.display("Save", "Make Changes Before Saving!");
 		}
-		
+
 	}
-	
-	
-	
 
 }
