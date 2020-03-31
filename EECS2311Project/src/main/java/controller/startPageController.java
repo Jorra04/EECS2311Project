@@ -8,6 +8,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Rotate;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import javafx.animation.FadeTransition;
@@ -73,6 +74,8 @@ public class startPageController {
     public void initialize() {
     	FadeTransition ft = new FadeTransition(Duration.millis(1500),loadNew);
     	FadeTransition ft2 = new FadeTransition(Duration.millis(1500),loadPrev);
+    	RotateTransition rt = new RotateTransition(Duration.millis(3000),loadNew);
+    	RotateTransition rt2 = new RotateTransition(Duration.millis(3000),loadPrev);
     	loadNew.setOnMouseEntered(e->{
     		
         	ft.setFromValue(1.0);
@@ -81,6 +84,7 @@ public class startPageController {
         	ft.setCycleCount(Timeline.INDEFINITE);
         	ft.setAutoReverse(true);
         	ft.play();
+        	
     	});
     	
     	loadPrev.setOnMouseEntered(e->{
@@ -91,16 +95,30 @@ public class startPageController {
         	ft2.setCycleCount(Timeline.INDEFINITE);
         	ft2.setAutoReverse(true);
         	ft2.play();
+        	
         
     	});
     	loadNew.setOnMouseExited(e->{
     		ft.jumpTo(Duration.ZERO);
     		ft.stop();
+    		
     	});
     	loadPrev.setOnMouseExited(e->{
     		ft2.jumpTo(Duration.ZERO);
     		ft2.stop();
+    		
     	});
+//    	rt.setAxis(Rotate.Y_AXIS);
+//		rt.setByAngle(360);
+//		rt.setCycleCount(50);
+//		rt.setAutoReverse(true);
+//		rt.play();
+//		rt2.setAxis(Rotate.Y_AXIS);
+//		rt2.setByAngle(360);
+//		rt2.setCycleCount(50);
+//		rt2.setAutoReverse(true);
+//		rt2.play();
+
     	
     	
     }
