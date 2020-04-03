@@ -200,16 +200,14 @@ public class Controller {
 		// resize as well
 		diagram_pane.widthProperty().addListener((obs, oldVal, newVal) -> {
 			paneX = newVal.doubleValue();
-			leftCircle.setLayoutX(paneX / 2);
+			leftCircle.setLayoutX(paneX / 3);
 			// move right circle to the right for intersection
-			rightCircle.setLayoutX(paneX / 2 + paneX / 4);
-			// TODO: scale circle size
+			rightCircle.setLayoutX(paneX / 3 + paneX / 4);
 		});
 		diagram_pane.heightProperty().addListener((obs, oldVal, newVal) -> {
 			paneY = newVal.doubleValue();
 			leftCircle.setLayoutY(paneY / 2);
 			rightCircle.setLayoutY(paneY / 2);
-			// TODO: scale circle size
 		});
 
 		groupIdentifier.setEditable(false);
