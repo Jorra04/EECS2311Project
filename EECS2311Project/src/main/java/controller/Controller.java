@@ -196,13 +196,22 @@ public class Controller {
 	Circle bottomCircle = new Circle();
 	// use this to help setup the fxml components, initialize is called as soon as
 	// app starts up. Similar to a constructor.
+	String backgroundCol = "-light-black: rgb(74, 75, 78);"+
+    "-dark-highlight: rgb(87, 89, 92);"+
+    "-dark-black: rgb(39, 40, 40);"+
+    "-darkest-black: rgb(5, 5, 5);"+
+    "-mid-gray: rgb(216, 222, 227);"+
+    "-fx-background-color: -mid-gray;";
+	
 	public void initialize() {
+//		diagram_pane.setStyle(backgroundCol);
 		
-		
+//		createDraggableItemButton.setStyle("-fx-background-color: #a8a496");
+		create_text.requestFocus();
 //		diagram_pane.setStyle("-fx-background-color: #F5F5DC");
 //		item_list.setStyle("-fx-background-color: #F5F5DC");
 		bottomCircle.setRadius(leftCircle.getRadius());
-		bottomCircle.setCenterX(575);
+		bottomCircle.setCenterX(760);
 		bottomCircle.setCenterY(700);
 		bottomCircle.setOpacity(leftCircle.getOpacity());
 		bottomCircle.setFill(leftCircle.getFill());

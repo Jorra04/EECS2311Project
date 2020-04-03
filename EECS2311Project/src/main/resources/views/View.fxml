@@ -68,6 +68,7 @@
                           <items>
                             <MenuItem fx:id="lButton" mnemonicParsing="false" onAction="#leftCircleColour" text="Left Circle" />
                             <MenuItem fx:id="rButton" mnemonicParsing="false" onAction="#rightCircleColour" text="Right Circle" />
+                            <MenuItem fx:id="bButton" mnemonicParsing="false" onAction="#bottomCircleColour" text="Bottom Circle" />
                           </items>
                         </SplitMenuButton>
                         <Button fx:id="addCirc" mnemonicParsing="false" onAction="#addCirc" prefHeight="32.0" text="Add Circle" />

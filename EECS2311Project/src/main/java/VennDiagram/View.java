@@ -38,7 +38,7 @@ public class View extends Application{
 	    //scene = new Scene(root, 900, 650);
 	    scene = new Scene(root);
 		promptWindow = new Scene(root2,750,550);
-		
+		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		primaryStage.setOnCloseRequest(event ->{
 			quitProgramAlert.display("Confirm Exit", "Are you sure you want to exit?");
 			if(!quitProgramAlert.closePressed) {
