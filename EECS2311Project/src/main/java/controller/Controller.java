@@ -156,7 +156,7 @@ public class Controller {
 
 	MenuItem tButton = new MenuItem();
 
-	MenuItem bButton = new MenuItem();
+	MenuItem bButton = new MenuItem("Bottom Circle");
 
 	@FXML
 	TextField create_text;
@@ -197,8 +197,12 @@ public class Controller {
 	// use this to help setup the fxml components, initialize is called as soon as
 	// app starts up. Similar to a constructor.
 	public void initialize() {
+		
+		
+		diagram_pane.setStyle("-fx-background-color: #F5F5DC");
+		item_list.setStyle("-fx-background-color: #F5F5DC");
 		bottomCircle.setRadius(leftCircle.getRadius());
-		bottomCircle.setCenterX(1050);
+		bottomCircle.setCenterX(575);
 		bottomCircle.setCenterY(700);
 		bottomCircle.setOpacity(leftCircle.getOpacity());
 		bottomCircle.setFill(leftCircle.getFill());
@@ -245,12 +249,19 @@ public class Controller {
 			@Override
 			protected void updateItem(Item item, boolean empty) {
 				super.updateItem(item, empty);
-
+				
 				if (empty || item == null || item.getText() == null) {
 					setText(null);
 				} else {
 					setText(item.getText());
 				}
+				if(getIndex() %2 == 0) {
+					setStyle("-fx-background-color: #F5F5DC");
+				}
+				else {
+					setStyle("-fx-background-color: #F5EAB5");
+				}
+				
 			}
 		});
 
@@ -328,8 +339,16 @@ public class Controller {
 		tt8.setShowDelay(Duration.millis(500));
 		tt9.setShowDelay(Duration.millis(500));
 		tt10.setShowDelay(Duration.millis(500));
+//		rightCircle.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//			@SuppressWarnings("unchecked")
+//			@Override
+//			public void handle(MouseEvent event) {
+//				if(event.getButton().equals(MouseButton.SECONDARY)) {
+//					System.out.println("heeee");
+//				}
+//			}
+//		});
 	}
-	
 	
 	// listview is not serializable, so convert to arraylist which is.
 	private ArrayList<Item> obsListToArrayList(ObservableList<Item> list) {
@@ -404,6 +423,27 @@ public class Controller {
 			public void handle(javafx.event.Event event) {
 				rightCircle.setFill(colorPicker.getValue());
 				rightCircle.setStroke(Color.BLACK);
+
+			}
+		});
+
+	}
+	@SuppressWarnings("unchecked")
+	@FXML
+	protected void bottomCircleColour() {
+		if (toolbar.getItems().contains(Controller.box)) {
+			toolbar.getItems().remove(Controller.box);
+			Color colorVal = (Color) bottomCircle.getFill();
+			colorPicker.setValue(colorVal);
+		}
+		splitMenu.setText("Bottom Circle");
+		toolbar.getItems().add(Controller.box);
+
+		colorPicker.setOnAction(new EventHandler() {
+			@Override
+			public void handle(javafx.event.Event event) {
+				bottomCircle.setFill(colorPicker.getValue());
+				bottomCircle.setStroke(Color.BLACK);
 
 			}
 		});
@@ -765,7 +805,11 @@ public class Controller {
 //		circle.setLayoutY(startY);
 //		circles.add(circle);
 //		diagram_pane.getChildren().add(circle);
+		if(threeCircs) {
+			return;
+		}
 		threeCircs = true;
+		splitMenu.getItems().add(bButton);
 		bottomCircle.setOpacity(leftCircle.getOpacity());
 		diagram_pane.getChildren().add(0,bottomCircle);
 		
@@ -1029,15 +1073,19 @@ public class Controller {
 			
 			if(leftCircleDist <= leftCircle.getRadius() && rightCircleDist <= rightCircle.getRadius()) {
 				groupIdentifier.setText("Intersect");
+				groupIdentifier.setStyle("-fx-text-fill: blue;");
 			}
 			else if(leftCircleDist < leftCircle.getRadius()) {
 				groupIdentifier.setText("Left Circle");
+				groupIdentifier.setStyle("-fx-text-fill: red;");
 			}
 			else if(rightCircleDist < rightCircle.getRadius()) {
 				groupIdentifier.setText("Right Circle");
+				groupIdentifier.setStyle("-fx-text-fill: red;");
 			}
 			else {
 				groupIdentifier.setText("Not in any set.");
+				groupIdentifier.setStyle("-fx-text-fill: black;");
 			}
 		}
 		else {
@@ -1064,27 +1112,36 @@ public class Controller {
 			
 			if(leftCircleDist <= leftCircle.getRadius() && rightCircleDist <= rightCircle.getRadius() && bottomCircleDist < bottomCircle.getRadius()) {
 				groupIdentifier.setText("Full Intersect");
+				groupIdentifier.setStyle("-fx-text-fill: blue;");
+				
 			}
 			else if(leftCircleDist <= leftCircle.getRadius() && rightCircleDist <= rightCircle.getRadius()) {
 				groupIdentifier.setText("Left Right Intersect");
+				groupIdentifier.setStyle("-fx-text-fill: green;");
 			}
 			else if(rightCircleDist <= rightCircle.getRadius() && bottomCircleDist < bottomCircle.getRadius()) {
 				groupIdentifier.setText("Bottom Right Intersect");
+				groupIdentifier.setStyle("-fx-text-fill: green;");
 			}
 			else if(leftCircleDist <= leftCircle.getRadius() && bottomCircleDist < bottomCircle.getRadius()) {
 				groupIdentifier.setText("Bottom Left Intersect");
+				groupIdentifier.setStyle("-fx-text-fill: green;");
 			}
 			else if(bottomCircleDist < bottomCircle.getRadius()) {
 				groupIdentifier.setText("Bottom Circle");
+				groupIdentifier.setStyle("-fx-text-fill: red;");
 			}
 			else if(leftCircleDist < leftCircle.getRadius()) {
 				groupIdentifier.setText("Left Circle");
+				groupIdentifier.setStyle("-fx-text-fill: red;");
 			}
 			else if(rightCircleDist < rightCircle.getRadius()) {
 				groupIdentifier.setText("Right Circle");
+				groupIdentifier.setStyle("-fx-text-fill: red;");
 			}
 			else {
 				groupIdentifier.setText("Not in any set.");
+				groupIdentifier.setStyle("-fx-text-fill: black;");
 			}
 		}
 		
