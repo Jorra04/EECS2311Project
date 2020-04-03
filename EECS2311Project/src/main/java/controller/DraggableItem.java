@@ -148,7 +148,9 @@ public class DraggableItem extends Pane{
 	public Label getLabel() {
 		return this.text;
 	}
-	
+	public String getDescription() {
+		return this.tooltip.getText();
+	}
 	public double getX() {
 		return this.x;
 	}
