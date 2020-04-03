@@ -50,7 +50,7 @@ public class View extends Application{
 	    primaryStage.setTitle("VennDiagram Creator");
 	    primaryStage.setScene(promptWindow);
 	    primaryStage.setResizable(true);
-//	    primaryStage.getIcons().add(0,new Image(getClass().getResourceAsStream("/images/icon.png")));
+	    primaryStage.getIcons().add(0,new Image(getClass().getResourceAsStream("/images/icon.png")));
 	    primaryStage.show();
 	}
 	

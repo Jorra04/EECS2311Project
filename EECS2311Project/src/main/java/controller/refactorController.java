@@ -35,47 +35,33 @@ public class refactorController {
 	private ColorPicker changeLabelColor;
 
 	private String origStyle;
-	static Color color = Color.BLACK;
+	public static Color color = Color.BLACK;
 
 	public static String text = "";
 	public static String description = "";
 	public static boolean buttonPressed;
 	private String validationError = "-fx-border-color: #DBB1B1; " + "-fx-background-color: #FFF0F0";
 	Tooltip tooltip = new Tooltip("Item text cannot be empty");
-
+	
 	public void initialize() {
+		
+		name.setText(text);
+		itemDescription.setText(description);
 		origStyle = name.getStyle();
 		buttonPressed = false;
-		changeLabelColor.setValue(Color.BLACK);
-//		animation stuff.
-//		RotateTransition rt = new RotateTransition(Duration.millis(2000),refactor);
-//		
-//		rt.setFromAngle(-10);
-//		rt.setToAngle(10);
-////		rt.setByAngle(10);
-//		rt.setOnFinished(e->{
-//			refactor.setRotate(0);
-//		});
-//		
-//	
-//		rt.setAutoReverse(true);
-//		rt.setCycleCount(5);
-//		refactor.setOnMouseEntered(e->{
-//			
-//			rt.play();
-//			
-//			
-//		});
-//		refactor.setOnMouseExited(e->{
-//			rt.stop();
-//			refactor.setRotate(0);
-//			
-//		});
-//		rt.setAxis(Rotate.Y_AXIS);
-//		rt.setByAngle(360);
-//		rt.setCycleCount(50);
-//		rt.setAutoReverse(true);
-//		rt.play();
+		changeLabelColor.setValue(color);
+		
+		
+		refactor.setOnMouseEntered(e->{
+			refactor.setScaleX(1.1);
+			refactor.setScaleY(1.1);
+			refactor.setScaleZ(1.1);
+		});
+		refactor.setOnMouseExited(e->{
+			refactor.setScaleX(1);
+			refactor.setScaleY(1);
+			refactor.setScaleZ(1);
+		});
 	}
 
 	@FXML

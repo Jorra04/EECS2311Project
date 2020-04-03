@@ -101,7 +101,7 @@ public class Controller {
 
 	Group rightGroup;
 	Group matchGroup;
-
+	
 	private static final DataFormat itemFormat = new DataFormat("item");
 //	private static final String DEFAULT_CONTROL_INNER_BACKGROUND = "derive(red,80%)";
 //    private static final String HIGHLIGHTED_CONTROL_INNER_BACKGROUND = "derive(palegreen, 50%)";
@@ -190,11 +190,18 @@ public class Controller {
 	double origRad;
 	double runsumLeft;
 	double runSumRight;
-
+	
+	//new stuff i added 04-04
+	boolean threeCircs = false;
+	Circle bottomCircle = new Circle();
 	// use this to help setup the fxml components, initialize is called as soon as
 	// app starts up. Similar to a constructor.
 	public void initialize() {
-
+		bottomCircle.setRadius(leftCircle.getRadius());
+		bottomCircle.setCenterX(1050);
+		bottomCircle.setCenterY(700);
+		bottomCircle.setOpacity(leftCircle.getOpacity());
+		bottomCircle.setFill(leftCircle.getFill());
 		contextMenu.getItems().addAll(refactor, delete);
 		// create listeners on the diagram_pane's dimensions so its components can
 		// resize as well
@@ -250,8 +257,8 @@ public class Controller {
 		});
 
 		origRad = leftCircle.getRadius();
-		leftCircOrig = leftCircle.getLayoutX();
-		rightCircleOrig = rightCircle.getLayoutX();
+		leftCircOrig = leftCircle.getBoundsInParent().getCenterX();
+		rightCircleOrig = rightCircle.getBoundsInParent().getCenterX();
 
 		/*
 		 * resizing circles.
@@ -323,9 +330,9 @@ public class Controller {
 		tt8.setShowDelay(Duration.millis(500));
 		tt9.setShowDelay(Duration.millis(500));
 		tt10.setShowDelay(Duration.millis(500));
-
 	}
-
+	
+	
 	// listview is not serializable, so convert to arraylist which is.
 	private ArrayList<Item> obsListToArrayList(ObservableList<Item> list) {
 		return new ArrayList<Item>(list);
@@ -654,7 +661,9 @@ public class Controller {
 							contextMenu.getItems().get(0).setOnAction(e -> {
 								try {
 									int index = containsArray.indexOf(tempItem.getItem().getText());
-
+									controller.refactorController.text = tempItem.item.getText();
+									controller.refactorController.description = tempItem.getDescription();
+									controller.refactorController.color = (Color) tempItem.getLabel().getTextFill();
 									VennDiagram.refactorWindow.display("refactor");
 									if (controller.refactorController.buttonPressed) {
 										tempItem.text.setText(controller.refactorController.text);
@@ -695,7 +704,7 @@ public class Controller {
 //									System.out.println(model.getItemSet());
 //									System.out.println(itemsContent);
 //									System.out.println(containsArray);
-
+									groupIdentifier.clear(); //clears the group identifier.
 									item_list.refresh();
 								} catch (Exception e1) {
 
@@ -709,6 +718,23 @@ public class Controller {
 
 				}
 			});
+			tempItem.setOnMouseReleased(e->{
+//				System.out.println("("+tempItem.getX() + "," + tempItem.getY()+")");
+				groupFinder2(tempItem);
+			});
+//			tempItem.setOnMouseEntered(e->{
+//				tempItem.setScaleX(1.05);
+//				tempItem.setScaleY(1.05);
+//				tempItem.setScaleZ(1.05);
+//				
+//				
+//				
+//			});
+//			tempItem.setOnMouseExited(e->{
+//				tempItem.setScaleX(1);
+//				tempItem.setScaleY(1);
+//				tempItem.setScaleZ(1);
+//			});
 		}
 
 		event.consume();
@@ -733,20 +759,24 @@ public class Controller {
 
 	private void circleCreator(double radius, int startX, int startY) {
 		// making the circles
-		circle = new Circle();
-		circle.setFill(Color.DODGERBLUE);
-		circle.setOpacity(leftCircle.getOpacity());
-		circle.setRadius(radius);
-		circle.setLayoutX(startX);
-		circle.setLayoutY(startY);
-		circles.add(circle);
-		diagram_pane.getChildren().add(circle);
-
+//		circle = new Circle();
+//		circle.setFill(Color.DODGERBLUE);
+//		circle.setOpacity(leftCircle.getOpacity());
+//		circle.setRadius(radius);
+//		circle.setLayoutX(startX);
+//		circle.setLayoutY(startY);
+//		circles.add(circle);
+//		diagram_pane.getChildren().add(circle);
+		threeCircs = true;
+		bottomCircle.setOpacity(leftCircle.getOpacity());
+		diagram_pane.getChildren().add(0,bottomCircle);
+		
+		circles.add(bottomCircle);
 	}
 
 	private void circleDestroyer(List<Circle> circle) {
 		// delete the circles.
-		diagram_pane.getChildren().removeAll(circles);
+		diagram_pane.getChildren().removeAll(circle);
 	}
 
 	@FXML
@@ -767,17 +797,31 @@ public class Controller {
 		restoreDefaultsAlert.display("Restore Settings", "Restore settings to their factory default?");
 		if (restoreDefaultsAlert.deletePressed) {
 			remover(); // calls fucntion that removes all.
-			circleDestroyer(this.circles); // removes additional circles
+			/*
+			 * add fade animation on circles.
+			 */
+			if(threeCircs) {
+				FadeTransition ft = new FadeTransition(Duration.millis(1000), bottomCircle);
+
+				ft.setFromValue(bottomCircle.getOpacity());
+				ft.setToValue(0);
+				ft.setAutoReverse(true);
+
+				ft.play();
+				ft.setOnFinished(e1 -> {
+					circleDestroyer(this.circles);
+				});
+			}
+			 // removes additional circles
 			Controller.numCirc = 2; // resets the value of numCirc, allows for the other functions to work.
 			// the rest is resetting original vals.
 			leftCircle.setFill(Color.DODGERBLUE);
 			rightCircle.setFill(Color.DODGERBLUE);
 			Color colorVal = (Color) rightCircle.getFill();
 			colorPicker.setValue(colorVal);
-			leftCircle.setLayoutX(leftCircOrig);
-			rightCircle.setLayoutX(rightCircleOrig);
 			rightCircle.setRadius(origRad);
 			leftCircle.setRadius(origRad);
+			threeCircs = false;
 			event.consume();
 		}
 
@@ -813,6 +857,14 @@ public class Controller {
 		rt2.setCycleCount(8);
 		rt2.setAutoReverse(true);
 		rt2.play();
+		if(threeCircs) {
+			RotateTransition rt3 = new RotateTransition(Duration.millis(200), bottomCircle);
+			rt3.setAxis(Rotate.X_AXIS);
+			rt3.setByAngle(360);
+			rt3.setCycleCount(8);
+			rt3.setAutoReverse(true);
+			rt3.play();
+		}
 		FadeTransition ft = new FadeTransition();
 		for (Node item : diagram_pane.getChildren()) {
 			if (item.getClass().equals(DraggableItem.class)) {
@@ -943,6 +995,102 @@ public class Controller {
 			TagAlreadyExistsAlert.display("Save", "Make Changes Before Saving!");
 		}
 
+	}
+	
+	protected void groupFinder2(DraggableItem item) {
+		double leftCircleDist;
+		double lval1;
+		double rval1;
+		double lval2;
+		double  rval2;
+		double lsqrtVal1;
+		double rsqrtVal1;
+		double lsqrtVal2;
+		double rsqrtVal2;
+		double rightCircleDist;
+		
+		double bval1;
+		double bval2;
+		double bsqrtVal1;
+		double bsqrtVal2;
+		double bottomCircleDist;
+		if(!threeCircs) {
+			leftCircleDist = 0;
+			lval1 = item.getX() - leftCircle.getBoundsInParent().getCenterX();
+			lval2 = item.getY() - leftCircle.getBoundsInParent().getCenterY();
+			lsqrtVal1 =  Math.pow(lval1, 2);
+			lsqrtVal2 =  Math.pow(lval2, 2);
+			leftCircleDist = Math.sqrt(lsqrtVal1 + lsqrtVal2);
+			
+			rightCircleDist = 0;
+			rval1 = item.getX() - rightCircle.getBoundsInParent().getCenterX();
+			rval2 = item.getY() - rightCircle.getBoundsInParent().getCenterY();
+			rsqrtVal1 =  Math.pow(rval1, 2);
+			rsqrtVal2 =  Math.pow(rval2, 2);
+			rightCircleDist = Math.sqrt(rsqrtVal1 + rsqrtVal2);
+			
+			if(leftCircleDist <= leftCircle.getRadius() && rightCircleDist <= rightCircle.getRadius()) {
+				groupIdentifier.setText("Intersect");
+			}
+			else if(leftCircleDist < leftCircle.getRadius()) {
+				groupIdentifier.setText("Left Circle");
+			}
+			else if(rightCircleDist < rightCircle.getRadius()) {
+				groupIdentifier.setText("Right Circle");
+			}
+			else {
+				groupIdentifier.setText("Not in any set.");
+			}
+		}
+		else {
+			leftCircleDist = 0;
+			lval1 = item.getX() - leftCircle.getBoundsInParent().getCenterX();
+			lval2 = item.getY() - leftCircle.getBoundsInParent().getCenterY();
+			lsqrtVal1 =  Math.pow(lval1, 2);
+			lsqrtVal2 =  Math.pow(lval2, 2);
+			leftCircleDist = Math.sqrt(lsqrtVal1 + lsqrtVal2);
+			
+			rightCircleDist = 0;
+			rval1 = item.getX() - rightCircle.getBoundsInParent().getCenterX();
+			rval2 = item.getY() - rightCircle.getBoundsInParent().getCenterY();
+			rsqrtVal1 =  Math.pow(rval1, 2);
+			rsqrtVal2 =  Math.pow(rval2, 2);
+			rightCircleDist = Math.sqrt(rsqrtVal1 + rsqrtVal2);
+			
+			bottomCircleDist = 0;
+			bval1 = item.getX() - bottomCircle.getBoundsInParent().getCenterX();
+			bval2 = item.getY() - bottomCircle.getBoundsInParent().getCenterY();
+			bsqrtVal1 =  Math.pow(bval1, 2);
+			bsqrtVal2 =  Math.pow(bval2, 2);
+			bottomCircleDist = Math.sqrt(bsqrtVal1 + bsqrtVal2);
+			
+			if(leftCircleDist <= leftCircle.getRadius() && rightCircleDist <= rightCircle.getRadius() && bottomCircleDist < bottomCircle.getRadius()) {
+				groupIdentifier.setText("Full Intersect");
+			}
+			else if(leftCircleDist <= leftCircle.getRadius() && rightCircleDist <= rightCircle.getRadius()) {
+				groupIdentifier.setText("Left Right Intersect");
+			}
+			else if(rightCircleDist <= rightCircle.getRadius() && bottomCircleDist < bottomCircle.getRadius()) {
+				groupIdentifier.setText("Bottom Right Intersect");
+			}
+			else if(leftCircleDist <= leftCircle.getRadius() && bottomCircleDist < bottomCircle.getRadius()) {
+				groupIdentifier.setText("Bottom Left Intersect");
+			}
+			else if(bottomCircleDist < bottomCircle.getRadius()) {
+				groupIdentifier.setText("Bottom Circle");
+			}
+			else if(leftCircleDist < leftCircle.getRadius()) {
+				groupIdentifier.setText("Left Circle");
+			}
+			else if(rightCircleDist < rightCircle.getRadius()) {
+				groupIdentifier.setText("Right Circle");
+			}
+			else {
+				groupIdentifier.setText("Not in any set.");
+			}
+		}
+		
+		
 	}
 
 }

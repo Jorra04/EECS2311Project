@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -70,8 +72,8 @@ public class startPageController {
     public static File selectedFile;
     
     public static boolean isFinishedLoading = false;
-    
     public void initialize() {
+ 
     	FadeTransition ft = new FadeTransition(Duration.millis(1500),loadNew);
     	FadeTransition ft2 = new FadeTransition(Duration.millis(1500),loadPrev);
     	RotateTransition rt = new RotateTransition(Duration.millis(3000),loadNew);
