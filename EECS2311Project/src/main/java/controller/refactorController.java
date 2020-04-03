@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import model.Shaker;
@@ -22,6 +23,9 @@ public class refactorController {
 	@FXML
 	private AnchorPane mainPane;
 
+	@FXML
+    private Text title;
+	
 	@FXML
 	private TextField name;
 
@@ -50,7 +54,7 @@ public class refactorController {
 		origStyle = name.getStyle();
 		buttonPressed = false;
 		changeLabelColor.setValue(color);
-		
+		title.setStyle("-fx-text-fill: white");
 		
 		refactor.setOnMouseEntered(e->{
 			refactor.setScaleX(1.1);

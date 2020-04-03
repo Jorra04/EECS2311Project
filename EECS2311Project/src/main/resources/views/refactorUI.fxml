@@ -9,7 +9,7 @@
 
 <AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.refactorController">
    <children>
-      <Text layoutX="92.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Refactor" textAlignment="CENTER" wrappingWidth="116.126953125">
+      <Text fx:id="title" fill="WHITE" layoutX="92.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Refactor" textAlignment="CENTER" wrappingWidth="116.126953125">
          <font>
             <Font size="31.0" />
          </font>

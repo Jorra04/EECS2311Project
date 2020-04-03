@@ -24,6 +24,7 @@ public class refactorWindow {
 		
 		
 		Scene scene = new Scene(root,300,300);
+		scene.getStylesheets().add(refactorWindow.class.getResource("refactor.css").toExternalForm());
 		window.setScene(scene);
 		
 		window.showAndWait();
