@@ -199,8 +199,8 @@ public class Controller {
 	public void initialize() {
 		
 		
-		diagram_pane.setStyle("-fx-background-color: #F5F5DC");
-		item_list.setStyle("-fx-background-color: #F5F5DC");
+//		diagram_pane.setStyle("-fx-background-color: #F5F5DC");
+//		item_list.setStyle("-fx-background-color: #F5F5DC");
 		bottomCircle.setRadius(leftCircle.getRadius());
 		bottomCircle.setCenterX(575);
 		bottomCircle.setCenterY(700);
@@ -255,12 +255,12 @@ public class Controller {
 				} else {
 					setText(item.getText());
 				}
-				if(getIndex() %2 == 0) {
-					setStyle("-fx-background-color: #F5F5DC");
-				}
-				else {
-					setStyle("-fx-background-color: #F5EAB5");
-				}
+//				if(getIndex() %2 == 0) {
+//					setStyle("-fx-background-color: #F5F5DC");
+//				}
+//				else {
+//					setStyle("-fx-background-color: #F5EAB5");
+//				}
 				
 			}
 		});
