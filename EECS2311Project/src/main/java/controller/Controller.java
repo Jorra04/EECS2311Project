@@ -196,12 +196,6 @@ public class Controller {
 	Circle bottomCircle = new Circle();
 	// use this to help setup the fxml components, initialize is called as soon as
 	// app starts up. Similar to a constructor.
-	String backgroundCol = "-light-black: rgb(74, 75, 78);"+
-    "-dark-highlight: rgb(87, 89, 92);"+
-    "-dark-black: rgb(39, 40, 40);"+
-    "-darkest-black: rgb(5, 5, 5);"+
-    "-mid-gray: rgb(216, 222, 227);"+
-    "-fx-background-color: -mid-gray;";
 	
 	public void initialize() {
 //		diagram_pane.setStyle(backgroundCol);
@@ -440,6 +434,11 @@ public class Controller {
 	@SuppressWarnings("unchecked")
 	@FXML
 	protected void bottomCircleColour() {
+		if(!threeCircs) {
+			TagAlreadyExistsAlert.display("**WARNING**", "You do not have a third circle enabled. Add an extra circle to get the most\n"
+					+ "out of this functionality.");
+			return;
+		}
 		if (toolbar.getItems().contains(Controller.box)) {
 			toolbar.getItems().remove(Controller.box);
 			Color colorVal = (Color) bottomCircle.getFill();
@@ -792,11 +791,6 @@ public class Controller {
 		if (Controller.numCirc == 2) { // if the numCircles is 2, then we put the 3rd in a specific place.
 			circleCreator(leftCircle.getRadius(), 300, 400);
 			numCirc++; // inc the number of circles.
-		} else if (Controller.numCirc == 3) {// if the numCircles is 3,then we put the 4th in a specific place.
-
-			circleCreator(leftCircle.getRadius(), 300, 400);
-			numCirc++; // inc the num of cirlces.
-
 		} else {
 			// >4 cicles is not allowed, this will check any circle creation beyond 4.
 			tooManyCirclesAlert.display("Exceeded Number of Allowed Circles!",
@@ -818,7 +812,6 @@ public class Controller {
 			return;
 		}
 		threeCircs = true;
-		splitMenu.getItems().add(bButton);
 		bottomCircle.setOpacity(leftCircle.getOpacity());
 		diagram_pane.getChildren().add(0,bottomCircle);
 		

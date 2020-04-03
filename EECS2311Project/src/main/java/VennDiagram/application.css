@@ -1,4 +1,5 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 .button{
     
     -fx-background-color: #232323;
@@ -15,15 +16,26 @@
     -fx-text-fill: Black;
 }
 
-.button:focused{
-    -fx-background-color: rgba(205,205,205,0.7);
-    -fx-text-fill: Black;
+#groupIdentifier{
+	-fx-background-color: #232323;
+    -fx-text-fill: white;
+    -fx-border-color: white;
+}
+#create_text{
+	-fx-background-color: #232323;
+    -fx-text-fill: white;
+    -fx-border-color: white;
 }
 
 #diagram_pane{
-	-fx-background-color: gray;
+	-fx-background-color: #a8a7a7;
 }
 
+/*
+ * .menu-bar{
+	-fx-background-color: #232323;
+}
+ */
 
 #toolbar{
 	-fx-background-color: #232323;
@@ -54,7 +66,13 @@
     -jfx-rippler-fill: red;
 }
 
-
+/*
+ * .menu-button {
+    -fx-background-color: #232323;
+    -fx-text-fill: red;
+    -fx-border-color: white;
+    }
+ */
 
 
 
