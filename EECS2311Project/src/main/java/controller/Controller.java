@@ -4,6 +4,7 @@ import VennDiagram.clearAllAlert;
 import VennDiagram.restoreDefaultsAlert;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -28,6 +29,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.CustomMenuItem;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
@@ -105,6 +107,13 @@ public class Controller {
 	/*
 	 * the following is for the possibility of three circles.
 	 */
+
+	@FXML
+	private Label leftSetName;
+
+	@FXML
+	private Label rightSetName;
+
 	Group bottomGroup;
 	Group leftRightGroup;
 	Group bottomLeftGroup;
@@ -130,6 +139,9 @@ public class Controller {
 
 	@FXML
 	private MenuItem saveFile;
+
+	@FXML
+	private MenuItem textFileSave;
 
 	@FXML
 	private MenuItem switchScene;
@@ -266,7 +278,7 @@ public class Controller {
 		leftGroup = model.getGroupMap().get("left");
 		rightGroup = model.getGroupMap().get("right");
 		matchGroup = model.getGroupMap().get("match");
-		
+
 		bottomGroup = model.getGroupMap().get("Bottom");
 		leftRightGroup = model.getGroupMap().get("Left Right Intersection");
 		bottomLeftGroup = model.getGroupMap().get("Bottom Left Intersection");
@@ -861,7 +873,7 @@ public class Controller {
 						if (leftRightGroup.items.containsValue(tempItem.item)) {
 							leftRightGroup.removeItem(tempItem.item);
 						}
-						
+
 						if (bottomLeftGroup.items.containsValue(tempItem.item)) {
 							bottomLeftGroup.removeItem(tempItem.item);
 						}
@@ -882,15 +894,14 @@ public class Controller {
 						if (leftRightGroup.items.containsValue(tempItem.item)) {
 							leftRightGroup.removeItem(tempItem.item);
 						}
-						
+
 						if (bottomLeftGroup.items.containsValue(tempItem.item)) {
 							bottomLeftGroup.removeItem(tempItem.item);
 						}
 						if (bottomRightGroup.items.containsValue(tempItem.item)) {
 							bottomRightGroup.removeItem(tempItem.item);
 						}
-					}
-					else if (groupIdentifier.getText().equals("Bottom Circle")) {
+					} else if (groupIdentifier.getText().equals("Bottom Circle")) {
 						bottomGroup.insertItem(tempItem.item);
 						if (leftGroup.items.containsValue(tempItem.item)) {
 							leftGroup.removeItem(tempItem.item);
@@ -904,7 +915,7 @@ public class Controller {
 						if (leftRightGroup.items.containsValue(tempItem.item)) {
 							leftRightGroup.removeItem(tempItem.item);
 						}
-						
+
 						if (bottomLeftGroup.items.containsValue(tempItem.item)) {
 							bottomLeftGroup.removeItem(tempItem.item);
 						}
@@ -912,7 +923,7 @@ public class Controller {
 							bottomRightGroup.removeItem(tempItem.item);
 						}
 					}
-					
+
 					else if (groupIdentifier.getText().equals("Left Right Intersect")) {
 						leftRightGroup.insertItem(tempItem.item);
 						if (leftGroup.items.containsValue(tempItem.item)) {
@@ -927,15 +938,14 @@ public class Controller {
 						if (bottomGroup.items.containsValue(tempItem.item)) {
 							bottomGroup.removeItem(tempItem.item);
 						}
-						
+
 						if (bottomLeftGroup.items.containsValue(tempItem.item)) {
 							bottomLeftGroup.removeItem(tempItem.item);
 						}
 						if (bottomRightGroup.items.containsValue(tempItem.item)) {
 							bottomRightGroup.removeItem(tempItem.item);
 						}
-					}
-					else if (groupIdentifier.getText().equals("Bottom Right Intersect")) {
+					} else if (groupIdentifier.getText().equals("Bottom Right Intersect")) {
 						bottomRightGroup.insertItem(tempItem.item);
 						if (leftGroup.items.containsValue(tempItem.item)) {
 							leftGroup.removeItem(tempItem.item);
@@ -949,15 +959,14 @@ public class Controller {
 						if (bottomGroup.items.containsValue(tempItem.item)) {
 							bottomGroup.removeItem(tempItem.item);
 						}
-						
+
 						if (bottomLeftGroup.items.containsValue(tempItem.item)) {
 							bottomLeftGroup.removeItem(tempItem.item);
 						}
 						if (leftRightGroup.items.containsValue(tempItem.item)) {
 							leftRightGroup.removeItem(tempItem.item);
 						}
-					}
-					else if (groupIdentifier.getText().equals("Bottom Left Intersect")) {
+					} else if (groupIdentifier.getText().equals("Bottom Left Intersect")) {
 						bottomLeftGroup.insertItem(tempItem.item);
 						if (leftGroup.items.containsValue(tempItem.item)) {
 							leftGroup.removeItem(tempItem.item);
@@ -971,7 +980,7 @@ public class Controller {
 						if (bottomGroup.items.containsValue(tempItem.item)) {
 							bottomGroup.removeItem(tempItem.item);
 						}
-						
+
 						if (bottomRightGroup.items.containsValue(tempItem.item)) {
 							bottomRightGroup.removeItem(tempItem.item);
 						}
@@ -979,8 +988,7 @@ public class Controller {
 							leftRightGroup.removeItem(tempItem.item);
 						}
 					}
-					
-					
+
 					else if (groupIdentifier.getText().equals("Full Intersect")) {
 						fullIntersect.insertItem(tempItem.item);
 						if (leftGroup.items.containsValue(tempItem.item)) {
@@ -995,7 +1003,7 @@ public class Controller {
 						if (bottomGroup.items.containsValue(tempItem.item)) {
 							bottomGroup.removeItem(tempItem.item);
 						}
-						
+
 						if (bottomRightGroup.items.containsValue(tempItem.item)) {
 							bottomRightGroup.removeItem(tempItem.item);
 						}
@@ -1015,7 +1023,7 @@ public class Controller {
 						if (bottomGroup.items.containsValue(tempItem.item)) {
 							bottomGroup.removeItem(tempItem.item);
 						}
-						
+
 						if (bottomRightGroup.items.containsValue(tempItem.item)) {
 							bottomRightGroup.removeItem(tempItem.item);
 						}
@@ -1026,14 +1034,14 @@ public class Controller {
 							fullIntersect.removeItem(tempItem.item);
 						}
 					}
-					
-					System.out.println("Full Intersect size: "+ fullIntersect.getSize());
-					System.out.println("Left Right Intersect size: "+ leftRightGroup.getSize());
-					System.out.println("Bottom Left Intersect size: "+ bottomLeftGroup.getSize());
-					System.out.println("Bottom Right Intersect size: "+ bottomRightGroup.getSize());
-					System.out.println("Right set size: "+ rightGroup.getSize());
-					System.out.println("Left Set size: "+ leftGroup.getSize());
-					System.out.println("Bottom Set size: "+ bottomGroup.getSize());
+
+//					System.out.println("Full Intersect size: " + fullIntersect.getSize());
+//					System.out.println("Left Right Intersect size: " + leftRightGroup.getSize());
+//					System.out.println("Bottom Left Intersect size: " + bottomLeftGroup.getSize());
+//					System.out.println("Bottom Right Intersect size: " + bottomRightGroup.getSize());
+//					System.out.println("Right set size: " + rightGroup.getSize());
+//					System.out.println("Left Set size: " + leftGroup.getSize());
+//					System.out.println("Bottom Set size: " + bottomGroup.getSize());
 				}
 
 			});
@@ -1404,6 +1412,55 @@ public class Controller {
 			}
 		}
 
+	}
+
+	@FXML
+	protected void textFileWriter(ActionEvent event) {
+		try {
+			FileWriter writer = new FileWriter("results.txt", false);
+			if (!threeCircs) {
+				writer.write("Left Group:");
+				int i = 0;
+				for (Item item : leftGroup.items.values()) {
+					if (i == leftGroup.getSize() - 1) {
+						writer.write(item.getText());
+					} else {
+						writer.write(item.getText() + ", ");
+					}
+					i++;
+
+				}
+				i = 0;
+				writer.write("\n");
+				writer.write("Match Group:");
+				for (Item item : matchGroup.items.values()) {
+					if (i == matchGroup.getSize() - 1) {
+						writer.write(item.getText());
+					} else {
+						writer.write(item.getText() + ", ");
+					}
+					i++;
+
+				}
+				writer.write("\n");
+				i = 0;
+				writer.write("Right Group:");
+				for (Item item : rightGroup.items.values()) {
+					if (i == rightGroup.getSize() - 1) {
+						writer.write(item.getText());
+					} else {
+						writer.write(item.getText() + ", ");
+					}
+					i++;
+
+				}
+				writer.write("\n");
+
+				writer.close();
+			}
+		} catch (Exception e) {
+
+		}
 	}
 
 }

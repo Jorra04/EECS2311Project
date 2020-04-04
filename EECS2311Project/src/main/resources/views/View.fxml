@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -15,6 +16,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
 
 <VBox minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
     <children>
@@ -26,6 +28,7 @@
                   <MenuItem fx:id="saveFile" mnemonicParsing="false" onAction="#handleSaveMenuButton" text="Save" />
                   <MenuItem fx:id="switchScene" mnemonicParsing="false" onAction="#backToMenu" text="Back to Menu" />
               <MenuItem fx:id="quitProgram" mnemonicParsing="false" onAction="#menuButtonClose" text="Quit" />
+                  <MenuItem fx:id="textFileSave" mnemonicParsing="false" onAction="#textFileWriter" text="save TF" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
@@ -85,6 +88,16 @@
                      <children>
                         <Circle fx:id="leftCircle" fill="DODGERBLUE" layoutX="350.0" layoutY="395.0" onDragDropped="#handleLeftSetDrop" onDragOver="#handleLeftSetDragOver" opacity="0.2" radius="336.0" stroke="BLACK" strokeType="INSIDE" />
                         <Circle fx:id="rightCircle" fill="DODGERBLUE" layoutX="686.0" layoutY="395.0" onDragDropped="#handleRightSetDrop" onDragOver="#handleRightSetDragOver" opacity="0.2" radius="336.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Label fx:id="leftSetName" layoutX="77.0" layoutY="35.0" prefHeight="35.0" prefWidth="92.0" text="Set 1">
+                           <font>
+                              <Font name="Rockwell" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="rightSetName" layoutX="826.0" layoutY="35.0" prefHeight="35.0" prefWidth="92.0" text="Set 2">
+                           <font>
+                              <Font name="Rockwell Bold" size="24.0" />
+                           </font>
+                        </Label>
                      </children>
                   </Pane>
                </children>
