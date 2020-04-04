@@ -77,11 +77,10 @@
                         <Button fx:id="addCirc" mnemonicParsing="false" onAction="#addCirc" prefHeight="32.0" text="Add Circle" />
                         <Button fx:id="clearData" mnemonicParsing="false" onAction="#handleClearAllButtonAction" prefHeight="32.0" text="Clear Data"> </Button>
                         <Button fx:id="clearSelButton" mnemonicParsing="false" onAction="#handleClearSelectedButtonAction" prefHeight="32.0" text="Clear selected" />
+                        <TextField fx:id="groupIdentifier" prefHeight="32.0" promptText="Identify Group" />
                         <Slider fx:id="circleSize" max="366.0" min="200.0" />
                         <Slider fx:id="leftCircleSlider" />
                         <Slider fx:id="rightCircleSlider" max="60.0" value="60.0" />
-                        <TextField fx:id="groupIdentifier" prefHeight="32.0" promptText="Identify Group" />
-                        <Button fx:id="identify" mnemonicParsing="false" onAction="#identifyGroup" prefHeight="32.0" text="Identify" />
                     </items>
                   </ToolBar>
                   <Pane fx:id="diagram_pane" VBox.vgrow="ALWAYS">
@@ -90,7 +89,7 @@
                         <Circle fx:id="rightCircle" fill="DODGERBLUE" layoutX="686.0" layoutY="395.0" onDragDropped="#handleRightSetDrop" onDragOver="#handleRightSetDragOver" opacity="0.2" radius="336.0" stroke="BLACK" strokeType="INSIDE" />
                         <Label fx:id="leftSetName" layoutX="198.0" layoutY="24.0" prefHeight="35.0" prefWidth="295.0" text="Set 1">
                            <font>
-                              <Font name="Rockwell" size="24.0" />
+                              <Font name="Rockwell Bold" size="24.0" />
                            </font>
                         </Label>
                         <Label fx:id="rightSetName" layoutX="662.0" layoutY="14.0" prefHeight="35.0" prefWidth="350.0" text="Set 2">

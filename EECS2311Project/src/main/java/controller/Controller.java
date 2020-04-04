@@ -81,6 +81,8 @@ public class Controller {
 	Slider leftCircleSlider;
 	@FXML
 	Slider rightCircleSlider;
+	@FXML
+	Slider bottomCircleSlider = new Slider();
 	boolean animationDone = false;
 	// View.primaryStage.setScene(View.promptWindow); --> code to switch windows.
 	// create venn diagram instance
@@ -206,11 +208,7 @@ public class Controller {
 
 	public boolean isItemClicked; // Returns a true or false if the item has been clicked or not
 	public static Item clickedItem; // Holds the item object that is currently clicked
-	double leftCircOrig;
-	double rightCircleOrig;
-	double origRad;
-	double runsumLeft;
-	double runSumRight;
+	
 
 	// new stuff i added 04-04
 	boolean threeCircs = false;
@@ -259,8 +257,23 @@ public class Controller {
 			@SuppressWarnings("unchecked")
 			@Override
 			public void handle(MouseEvent event) {
-				if(event.getButton().equals(MouseButton.SECONDARY)) {
-					leftSetName.setText("Switched");
+				if(event.getClickCount() == 2 && event.getButton().equals(MouseButton.PRIMARY)) {
+					try {
+						controller.changeSetNameController.text = leftSetName.getText();
+						controller.changeSetNameController.color = (Color) leftSetName.getTextFill();
+						VennDiagram.changeSetNameWindow.display("Change Title");
+						if (controller.changeSetNameController.buttonPressed) {
+							leftSetName.setText(controller.changeSetNameController.text);
+							leftSetName.setText(controller.changeSetNameController.text);
+							// need to loop through elements and change the element to whatever we changed
+							// it to in the refactor.
+							leftSetName.setTextFill(controller.changeSetNameController.color);
+						}
+
+					} catch (Exception e1) {
+						e1.printStackTrace();
+
+					}
 				}
 			}
 		});
@@ -268,8 +281,22 @@ public class Controller {
 			@SuppressWarnings("unchecked")
 			@Override
 			public void handle(MouseEvent event) {
-				if(event.getButton().equals(MouseButton.SECONDARY)) {
-					rightSetName.setText("Switched");
+				if(event.getClickCount() == 2 && event.getButton().equals(MouseButton.PRIMARY)) {
+					try {
+						controller.changeSetNameController.text = rightSetName.getText();
+						controller.changeSetNameController.color = (Color) rightSetName.getTextFill();
+						VennDiagram.changeSetNameWindow.display("Change Title");
+						if (controller.changeSetNameController.buttonPressed) {
+							rightSetName.setText(controller.changeSetNameController.text);
+							rightSetName.setText(controller.changeSetNameController.text);
+							// need to loop through elements and change the element to whatever we changed
+							// it to in the refactor.
+							rightSetName.setTextFill(controller.changeSetNameController.color);
+						}
+
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
 				}
 			}
 		});
@@ -329,22 +356,20 @@ public class Controller {
 			}
 		});
 
-		origRad = leftCircle.getRadius();
-		leftCircOrig = leftCircle.getBoundsInParent().getCenterX();
-		rightCircleOrig = rightCircle.getBoundsInParent().getCenterX();
 
 		/*
 		 * resizing circles.
 		 */
 		circleSize.setRotate(180);
 		circleSize.setValue(366);
-
+		bottomCircleSlider.setMax(bottomCircle.getCenterY());
+		bottomCircleSlider.setMin(400);
 		circleSize.valueProperty().addListener((ChangeListener<? super Number>) new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				leftCircle.setRadius((double) newValue);
 				rightCircle.setRadius((double) newValue);
-
+				bottomCircle.setRadius((double) newValue);
 				leftCircleSlider.setValue(0);
 				rightCircleSlider.setValue(rightCircleSlider.getMax());
 			}
@@ -365,6 +390,14 @@ public class Controller {
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 //				System.out.println(oldValue);
 				rightCircle.setCenterX((double) newValue);
+
+			}
+		});
+		bottomCircleSlider.valueProperty().addListener((ChangeListener<? super Number>) new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+//				System.out.println(oldValue);
+				bottomCircle.setCenterY((double) newValue);
 
 			}
 		});
@@ -1090,6 +1123,7 @@ public class Controller {
 	public void addCirc(ActionEvent event) {
 		if (Controller.numCirc == 2) { // if the numCircles is 2, then we put the 3rd in a specific place.
 			circleCreator(leftCircle.getRadius(), 300, 400);
+			toolbar.getItems().add(bottomCircleSlider);
 			numCirc++; // inc the number of circles.
 		} else {
 			// >4 cicles is not allowed, this will check any circle creation beyond 4.
@@ -1163,8 +1197,6 @@ public class Controller {
 			rightCircle.setFill(Color.DODGERBLUE);
 			Color colorVal = (Color) rightCircle.getFill();
 			colorPicker.setValue(colorVal);
-			rightCircle.setRadius(origRad);
-			leftCircle.setRadius(origRad);
 			threeCircs = false;
 			event.consume();
 		}
