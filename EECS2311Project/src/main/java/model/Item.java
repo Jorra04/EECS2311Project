@@ -19,6 +19,7 @@ public class Item implements Serializable{
 	public Item(String text) {
 		this.id	 = generateID(text); //unique to all items
 		this.text = text;
+		System.out.println("item created");
 	}
 	
 	
