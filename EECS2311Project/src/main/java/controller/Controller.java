@@ -99,9 +99,17 @@ public class Controller {
 	ObservableList<Item> selectedItems;
 
 	Group leftGroup;
-
 	Group rightGroup;
 	Group matchGroup;
+
+	/*
+	 * the following is for the possibility of three circles.
+	 */
+	Group bottomGroup;
+	Group leftRightGroup;
+	Group bottomLeftGroup;
+	Group bottomRightGroup;
+	Group fullIntersect;
 
 	private static final DataFormat itemFormat = new DataFormat("item");
 //	private static final String DEFAULT_CONTROL_INNER_BACKGROUND = "derive(red,80%)";
@@ -195,6 +203,7 @@ public class Controller {
 	// new stuff i added 04-04
 	boolean threeCircs = false;
 	Circle bottomCircle = new Circle();
+
 	// use this to help setup the fxml components, initialize is called as soon as
 	// app starts up. Similar to a constructor.
 	public void initialize() {
@@ -249,9 +258,20 @@ public class Controller {
 		model.createGroup("left");
 		model.createGroup("right");
 		model.createGroup("match");
+		model.createGroup("Left Right Intersection");
+		model.createGroup("Bottom Right Intersection");
+		model.createGroup("Bottom Left Intersection");
+		model.createGroup("Bottom");
+		model.createGroup("Full Intersection");
 		leftGroup = model.getGroupMap().get("left");
 		rightGroup = model.getGroupMap().get("right");
 		matchGroup = model.getGroupMap().get("match");
+		
+		bottomGroup = model.getGroupMap().get("Bottom");
+		leftRightGroup = model.getGroupMap().get("Left Right Intersection");
+		bottomLeftGroup = model.getGroupMap().get("Bottom Left Intersection");
+		bottomRightGroup = model.getGroupMap().get("Bottom Right Intersection");
+		fullIntersect = model.getGroupMap().get("Full Intersection");
 
 		// customizing the cell, how they look on the listview in the gui
 		item_list.setCellFactory(param -> new ListCell<Item>() {
@@ -758,7 +778,7 @@ public class Controller {
 //									System.out.println(model.getItemSet());
 //									System.out.println(itemsContent);
 //									System.out.println(containsArray);
-									groupIdentifier.clear(); //clears the group identifier.
+									groupIdentifier.clear(); // clears the group identifier.
 									item_list.refresh();
 								} catch (Exception e1) {
 
@@ -772,62 +792,250 @@ public class Controller {
 
 				}
 			});
-			tempItem.setOnMouseReleased(e->{
+			tempItem.setOnMouseReleased(e -> {
 //				System.out.println("("+tempItem.getX() + "," + tempItem.getY()+")");
 				groupFinder2(tempItem);
-				if(groupIdentifier.getText().equals("Left Circle")){
-					leftGroup.insertItem(tempItem.item);
-					if(rightGroup.items.containsValue(tempItem.item)) {
-						rightGroup.removeItem(tempItem.item);
+				if (!threeCircs) {
+					if (groupIdentifier.getText().equals("Left Circle")) {
+						leftGroup.insertItem(tempItem.item);
+						if (rightGroup.items.containsValue(tempItem.item)) {
+							rightGroup.removeItem(tempItem.item);
+						}
+						if (matchGroup.items.containsValue(tempItem.item)) {
+							matchGroup.removeItem(tempItem.item);
+						}
+					} else if (groupIdentifier.getText().equals("Right Circle")) {
+						rightGroup.insertItem(tempItem.item);
+
+						if (leftGroup.items.containsValue(tempItem.item)) {
+							leftGroup.removeItem(tempItem.item);
+						}
+						if (matchGroup.items.containsValue(tempItem.item)) {
+							matchGroup.removeItem(tempItem.item);
+						}
+					} else if (groupIdentifier.getText().equals("Intersect")) {
+						matchGroup.insertItem(tempItem.item);
+						if (rightGroup.items.containsValue(tempItem.item)) {
+							rightGroup.removeItem(tempItem.item);
+
+						}
+						if (leftGroup.items.containsValue(tempItem.item)) {
+							leftGroup.removeItem(tempItem.item);
+						}
+					} else {
+						if (rightGroup.items.containsValue(tempItem.item)) {
+							rightGroup.removeItem(tempItem.item);
+
+						}
+						if (leftGroup.items.containsValue(tempItem.item)) {
+							leftGroup.removeItem(tempItem.item);
+						}
+						if (matchGroup.items.containsValue(tempItem.item)) {
+							matchGroup.removeItem(tempItem.item);
+						}
 					}
-					if(matchGroup.items.containsValue(tempItem.item)) {
-						matchGroup.removeItem(tempItem.item);
+//					System.out.println(tempItem.item.id);
+					System.out.println("Left: " + leftGroup.getSize());
+					System.out.println("Right : " + rightGroup.getSize());
+					System.out.println("Intersect: " + matchGroup.getSize());
+//					
+//					System.out.println("Left: "+leftGroup.toVisualList());
+//					System.out.println("Right : "+rightGroup.toVisualList());
+//					System.out.println("Intersect: "+matchGroup.toVisualList());
+
+					System.out.println(leftGroup.contains(tempItem.item));
+					System.out.println(rightGroup.contains(tempItem.item));
+					System.out.println(matchGroup.contains(tempItem.item));
+				} else {
+					if (groupIdentifier.getText().equals("Left Circle")) {
+						leftGroup.insertItem(tempItem.item);
+						if (rightGroup.items.containsValue(tempItem.item)) {
+							rightGroup.removeItem(tempItem.item);
+						}
+						if (bottomGroup.items.containsValue(tempItem.item)) {
+							bottomGroup.removeItem(tempItem.item);
+						}
+						if (fullIntersect.items.containsValue(tempItem.item)) {
+							fullIntersect.removeItem(tempItem.item);
+						}
+						if (leftRightGroup.items.containsValue(tempItem.item)) {
+							leftRightGroup.removeItem(tempItem.item);
+						}
+						
+						if (bottomLeftGroup.items.containsValue(tempItem.item)) {
+							bottomLeftGroup.removeItem(tempItem.item);
+						}
+						if (bottomRightGroup.items.containsValue(tempItem.item)) {
+							bottomRightGroup.removeItem(tempItem.item);
+						}
+					} else if (groupIdentifier.getText().equals("Right Circle")) {
+						rightGroup.insertItem(tempItem.item);
+						if (leftGroup.items.containsValue(tempItem.item)) {
+							leftGroup.removeItem(tempItem.item);
+						}
+						if (bottomGroup.items.containsValue(tempItem.item)) {
+							bottomGroup.removeItem(tempItem.item);
+						}
+						if (fullIntersect.items.containsValue(tempItem.item)) {
+							fullIntersect.removeItem(tempItem.item);
+						}
+						if (leftRightGroup.items.containsValue(tempItem.item)) {
+							leftRightGroup.removeItem(tempItem.item);
+						}
+						
+						if (bottomLeftGroup.items.containsValue(tempItem.item)) {
+							bottomLeftGroup.removeItem(tempItem.item);
+						}
+						if (bottomRightGroup.items.containsValue(tempItem.item)) {
+							bottomRightGroup.removeItem(tempItem.item);
+						}
 					}
-				}
-			else if(groupIdentifier.getText().equals("Right Circle")) {
-				rightGroup.insertItem(tempItem.item);
-				
-				if(leftGroup.items.containsValue(tempItem.item)) {
-					leftGroup.removeItem(tempItem.item);
-				}
-				if(matchGroup.items.containsValue(tempItem.item)) {
-					matchGroup.removeItem(tempItem.item);
-				}
-			}
-			else if(groupIdentifier.getText().equals("Intersect")) {
-				matchGroup.insertItem(tempItem.item);
-				if(rightGroup.items.containsValue(tempItem.item)) {
-					rightGroup.removeItem(tempItem.item);
+					else if (groupIdentifier.getText().equals("Bottom Circle")) {
+						bottomGroup.insertItem(tempItem.item);
+						if (leftGroup.items.containsValue(tempItem.item)) {
+							leftGroup.removeItem(tempItem.item);
+						}
+						if (rightGroup.items.containsValue(tempItem.item)) {
+							rightGroup.removeItem(tempItem.item);
+						}
+						if (fullIntersect.items.containsValue(tempItem.item)) {
+							fullIntersect.removeItem(tempItem.item);
+						}
+						if (leftRightGroup.items.containsValue(tempItem.item)) {
+							leftRightGroup.removeItem(tempItem.item);
+						}
+						
+						if (bottomLeftGroup.items.containsValue(tempItem.item)) {
+							bottomLeftGroup.removeItem(tempItem.item);
+						}
+						if (bottomRightGroup.items.containsValue(tempItem.item)) {
+							bottomRightGroup.removeItem(tempItem.item);
+						}
+					}
 					
-				}
-				if(leftGroup.items.containsValue(tempItem.item)) {
-					leftGroup.removeItem(tempItem.item);
-				}
-			}
-			else {
-				if(rightGroup.items.containsValue(tempItem.item)) {
-					rightGroup.removeItem(tempItem.item);
+					else if (groupIdentifier.getText().equals("Left Right Intersect")) {
+						leftRightGroup.insertItem(tempItem.item);
+						if (leftGroup.items.containsValue(tempItem.item)) {
+							leftGroup.removeItem(tempItem.item);
+						}
+						if (rightGroup.items.containsValue(tempItem.item)) {
+							rightGroup.removeItem(tempItem.item);
+						}
+						if (fullIntersect.items.containsValue(tempItem.item)) {
+							fullIntersect.removeItem(tempItem.item);
+						}
+						if (bottomGroup.items.containsValue(tempItem.item)) {
+							bottomGroup.removeItem(tempItem.item);
+						}
+						
+						if (bottomLeftGroup.items.containsValue(tempItem.item)) {
+							bottomLeftGroup.removeItem(tempItem.item);
+						}
+						if (bottomRightGroup.items.containsValue(tempItem.item)) {
+							bottomRightGroup.removeItem(tempItem.item);
+						}
+					}
+					else if (groupIdentifier.getText().equals("Bottom Right Intersect")) {
+						bottomRightGroup.insertItem(tempItem.item);
+						if (leftGroup.items.containsValue(tempItem.item)) {
+							leftGroup.removeItem(tempItem.item);
+						}
+						if (rightGroup.items.containsValue(tempItem.item)) {
+							rightGroup.removeItem(tempItem.item);
+						}
+						if (fullIntersect.items.containsValue(tempItem.item)) {
+							fullIntersect.removeItem(tempItem.item);
+						}
+						if (bottomGroup.items.containsValue(tempItem.item)) {
+							bottomGroup.removeItem(tempItem.item);
+						}
+						
+						if (bottomLeftGroup.items.containsValue(tempItem.item)) {
+							bottomLeftGroup.removeItem(tempItem.item);
+						}
+						if (leftRightGroup.items.containsValue(tempItem.item)) {
+							leftRightGroup.removeItem(tempItem.item);
+						}
+					}
+					else if (groupIdentifier.getText().equals("Bottom Left Intersect")) {
+						bottomLeftGroup.insertItem(tempItem.item);
+						if (leftGroup.items.containsValue(tempItem.item)) {
+							leftGroup.removeItem(tempItem.item);
+						}
+						if (rightGroup.items.containsValue(tempItem.item)) {
+							rightGroup.removeItem(tempItem.item);
+						}
+						if (fullIntersect.items.containsValue(tempItem.item)) {
+							fullIntersect.removeItem(tempItem.item);
+						}
+						if (bottomGroup.items.containsValue(tempItem.item)) {
+							bottomGroup.removeItem(tempItem.item);
+						}
+						
+						if (bottomRightGroup.items.containsValue(tempItem.item)) {
+							bottomRightGroup.removeItem(tempItem.item);
+						}
+						if (leftRightGroup.items.containsValue(tempItem.item)) {
+							leftRightGroup.removeItem(tempItem.item);
+						}
+					}
 					
+					
+					else if (groupIdentifier.getText().equals("Full Intersect")) {
+						fullIntersect.insertItem(tempItem.item);
+						if (leftGroup.items.containsValue(tempItem.item)) {
+							leftGroup.removeItem(tempItem.item);
+						}
+						if (rightGroup.items.containsValue(tempItem.item)) {
+							rightGroup.removeItem(tempItem.item);
+						}
+						if (bottomLeftGroup.items.containsValue(tempItem.item)) {
+							bottomLeftGroup.removeItem(tempItem.item);
+						}
+						if (bottomGroup.items.containsValue(tempItem.item)) {
+							bottomGroup.removeItem(tempItem.item);
+						}
+						
+						if (bottomRightGroup.items.containsValue(tempItem.item)) {
+							bottomRightGroup.removeItem(tempItem.item);
+						}
+						if (leftRightGroup.items.containsValue(tempItem.item)) {
+							leftRightGroup.removeItem(tempItem.item);
+						}
+					} else {
+						if (leftGroup.items.containsValue(tempItem.item)) {
+							leftGroup.removeItem(tempItem.item);
+						}
+						if (rightGroup.items.containsValue(tempItem.item)) {
+							rightGroup.removeItem(tempItem.item);
+						}
+						if (bottomLeftGroup.items.containsValue(tempItem.item)) {
+							bottomLeftGroup.removeItem(tempItem.item);
+						}
+						if (bottomGroup.items.containsValue(tempItem.item)) {
+							bottomGroup.removeItem(tempItem.item);
+						}
+						
+						if (bottomRightGroup.items.containsValue(tempItem.item)) {
+							bottomRightGroup.removeItem(tempItem.item);
+						}
+						if (leftRightGroup.items.containsValue(tempItem.item)) {
+							leftRightGroup.removeItem(tempItem.item);
+						}
+						if (fullIntersect.items.containsValue(tempItem.item)) {
+							fullIntersect.removeItem(tempItem.item);
+						}
+					}
+					
+					System.out.println("Full Intersect size: "+ fullIntersect.getSize());
+					System.out.println("Left Right Intersect size: "+ leftRightGroup.getSize());
+					System.out.println("Bottom Left Intersect size: "+ bottomLeftGroup.getSize());
+					System.out.println("Bottom Right Intersect size: "+ bottomRightGroup.getSize());
+					System.out.println("Right set size: "+ rightGroup.getSize());
+					System.out.println("Left Set size: "+ leftGroup.getSize());
+					System.out.println("Bottom Set size: "+ bottomGroup.getSize());
 				}
-				if(leftGroup.items.containsValue(tempItem.item)) {
-					leftGroup.removeItem(tempItem.item);
-				}
-				if(matchGroup.items.containsValue(tempItem.item)) {
-					matchGroup.removeItem(tempItem.item);
-				}
-			}
-//				System.out.println(tempItem.item.id);
-				System.out.println("Left: "+leftGroup.getSize());
-				System.out.println("Right : "+rightGroup.getSize());
-				System.out.println("Intersect: "+matchGroup.getSize());
-//				
-//				System.out.println("Left: "+leftGroup.toVisualList());
-//				System.out.println("Right : "+rightGroup.toVisualList());
-//				System.out.println("Intersect: "+matchGroup.toVisualList());
-				
-				System.out.println(leftGroup.contains(tempItem.item));
-				System.out.println(rightGroup.contains(tempItem.item));
-				System.out.println(matchGroup.contains(tempItem.item));
+
 			});
 //			tempItem.setOnMouseEntered(e->{
 //				tempItem.setScaleX(1.05);
