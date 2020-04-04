@@ -88,12 +88,12 @@
                      <children>
                         <Circle fx:id="leftCircle" fill="DODGERBLUE" layoutX="350.0" layoutY="395.0" onDragDropped="#handleLeftSetDrop" onDragOver="#handleLeftSetDragOver" opacity="0.2" radius="336.0" stroke="BLACK" strokeType="INSIDE" />
                         <Circle fx:id="rightCircle" fill="DODGERBLUE" layoutX="686.0" layoutY="395.0" onDragDropped="#handleRightSetDrop" onDragOver="#handleRightSetDragOver" opacity="0.2" radius="336.0" stroke="BLACK" strokeType="INSIDE" />
-                        <Label fx:id="leftSetName" layoutX="77.0" layoutY="35.0" prefHeight="35.0" prefWidth="92.0" text="Set 1">
+                        <Label fx:id="leftSetName" layoutX="198.0" layoutY="24.0" prefHeight="35.0" prefWidth="295.0" text="Set 1">
                            <font>
                               <Font name="Rockwell" size="24.0" />
                            </font>
                         </Label>
-                        <Label fx:id="rightSetName" layoutX="826.0" layoutY="35.0" prefHeight="35.0" prefWidth="92.0" text="Set 2">
+                        <Label fx:id="rightSetName" layoutX="662.0" layoutY="14.0" prefHeight="35.0" prefWidth="350.0" text="Set 2">
                            <font>
                               <Font name="Rockwell Bold" size="24.0" />
                            </font>

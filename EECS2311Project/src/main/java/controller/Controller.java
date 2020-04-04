@@ -233,11 +233,15 @@ public class Controller {
 		contextMenu.getItems().addAll(refactor, delete);
 		// create listeners on the diagram_pane's dimensions so its components can
 		// resize as well
+		leftSetName.setLayoutY(rightSetName.getLayoutY());
 		diagram_pane.widthProperty().addListener((obs, oldVal, newVal) -> {
 			paneX = newVal.doubleValue();
 			leftCircle.setLayoutX(paneX / 3);
 			// move right circle to the right for intersection
 			rightCircle.setLayoutX(paneX / 3 + paneX / 4);
+			
+			rightSetName.setLayoutX(rightCircle.getBoundsInParent().getCenterX());
+			leftSetName.setLayoutX(leftCircle.getBoundsInParent().getCenterX());
 			/*
 			 * add logic for 3rd circle
 			 */
@@ -251,6 +255,25 @@ public class Controller {
 			 */
 		});
 
+		leftSetName.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@SuppressWarnings("unchecked")
+			@Override
+			public void handle(MouseEvent event) {
+				if(event.getButton().equals(MouseButton.SECONDARY)) {
+					leftSetName.setText("Switched");
+				}
+			}
+		});
+		rightSetName.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@SuppressWarnings("unchecked")
+			@Override
+			public void handle(MouseEvent event) {
+				if(event.getButton().equals(MouseButton.SECONDARY)) {
+					rightSetName.setText("Switched");
+				}
+			}
+		});
+		
 		groupIdentifier.setEditable(false);
 		splitMenu.setOnAction(e -> {
 			// keep this empty, it basically removes the functionality of the root button in
@@ -847,17 +870,17 @@ public class Controller {
 						}
 					}
 //					System.out.println(tempItem.item.id);
-					System.out.println("Left: " + leftGroup.getSize());
-					System.out.println("Right : " + rightGroup.getSize());
-					System.out.println("Intersect: " + matchGroup.getSize());
+//					System.out.println("Left: " + leftGroup.getSize());
+//					System.out.println("Right : " + rightGroup.getSize());
+//					System.out.println("Intersect: " + matchGroup.getSize());
 //					
 //					System.out.println("Left: "+leftGroup.toVisualList());
 //					System.out.println("Right : "+rightGroup.toVisualList());
 //					System.out.println("Intersect: "+matchGroup.toVisualList());
-
-					System.out.println(leftGroup.contains(tempItem.item));
-					System.out.println(rightGroup.contains(tempItem.item));
-					System.out.println(matchGroup.contains(tempItem.item));
+//
+//					System.out.println(leftGroup.contains(tempItem.item));
+//					System.out.println(rightGroup.contains(tempItem.item));
+//					System.out.println(matchGroup.contains(tempItem.item));
 				} else {
 					if (groupIdentifier.getText().equals("Left Circle")) {
 						leftGroup.insertItem(tempItem.item);
