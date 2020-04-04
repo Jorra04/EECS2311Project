@@ -1188,6 +1188,7 @@ public class Controller {
 				ft.play();
 				ft.setOnFinished(e1 -> {
 					circleDestroyer(this.circles);
+					toolbar.getItems().remove(bottomCircleSlider);
 				});
 			}
 			// removes additional circles
