@@ -3,7 +3,9 @@ package controller;
 import VennDiagram.clearAllAlert;
 import VennDiagram.restoreDefaultsAlert;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
@@ -59,6 +61,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
+import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import model.VennModel;
 import util.Save;
@@ -202,7 +205,7 @@ public class Controller {
 	StackPane leftSet, rightSet, middleSet;
 	@FXML
 	Text leftSetText, rightSetText, middleSetText;
-
+	
 	private static ColorPicker colorPicker = new ColorPicker(Color.DODGERBLUE);
 	private static VBox box = new VBox(colorPicker);
 
@@ -213,9 +216,12 @@ public class Controller {
 	// new stuff i added 04-04
 	boolean threeCircs = false;
 	Circle bottomCircle = new Circle();
-
+	 public static File selectedFile;
 	// use this to help setup the fxml components, initialize is called as soon as
 	// app starts up. Similar to a constructor.
+	 
+	double lastValidX = 0;
+	double lastValidY = 0;
 	public void initialize() {
 //		diagram_pane.setStyle(backgroundCol);
 
@@ -754,6 +760,32 @@ public class Controller {
 
 		event.consume();
 	}
+	
+	protected void overlappingItems(DraggableItem item) {
+		for(Node node : diagram_pane.getChildren()) {
+			if(node.getClass().equals(DraggableItem.class)) {
+				if(((DraggableItem)node).getX() == item.getX() && ((DraggableItem)node).getY() == item.getY() ) {
+					item.setLayoutY(item.getLayoutY() + 30);
+				}
+			}
+		}
+	}
+	
+	
+	
+//	protected boolean isOverlapping(DraggableItem item) {
+//		for(Node node : diagram_pane.getChildren()) {
+//			if(node.getClass().equals(DraggableItem.class) && !((DraggableItem)node).equals(item)) {
+//				if( ((((DraggableItem)node).getX() <= 10 + item.getX()) || (((DraggableItem)node).getX() <=item.getX() -10)) 
+//						&& ((((DraggableItem)node).getY() <= 10 + item.getY()) || (((DraggableItem)node).getY() <= item.getY()-10)) ) {
+//					System.out.println("here");
+//					return true;
+//				}
+//			}
+//		}
+//		return false;
+//	}
+	
 
 	@FXML
 	public void handleCreateDraggableItemButton(ActionEvent event) {
@@ -784,12 +816,17 @@ public class Controller {
 			if (!containsArray.contains(tempItem.getItem().getText())
 					|| VennDiagram.repeatDraggableItem.checkboxPressed) {
 				diagram_pane.getChildren().add(tempItem);
+				if(item_list.getSelectionModel().getSelectedItems().size() == 1) {
+					overlappingItems(tempItem);
+				}
 				containsArray.add(tempItem.getItem().getText());
+				lastValidX = tempItem.getLayoutX();
+				lastValidY = tempItem.getLayoutY();
+				
 
 			} else {
 				VennDiagram.repeatDraggableItem.display("Alert", "Diagram Item Already Exists.");
 			}
-			NUMIDS++;
 			tempItem.setOnMouseClicked(new EventHandler<MouseEvent>() {
 				@SuppressWarnings("unchecked")
 				@Override
@@ -860,8 +897,35 @@ public class Controller {
 
 				}
 			});
+			rightSetName.setOnMouseClicked(new EventHandler<MouseEvent>() {
+				@SuppressWarnings("unchecked")
+				@Override
+				public void handle(MouseEvent event) {
+					if(event.getClickCount() == 2 && event.getButton().equals(MouseButton.PRIMARY)) {
+	
+					}
+				}
+			});
 			tempItem.setOnMouseReleased(e -> {
 //				System.out.println("("+tempItem.getX() + "," + tempItem.getY()+")");
+				if(!( tempItem.getLayoutX() > diagram_pane.getBoundsInParent().getMinX() && 
+						tempItem.getLayoutX() < diagram_pane.getBoundsInParent().getMaxX() 
+						) || !( tempItem.getLayoutY() > diagram_pane.getBoundsInParent().getMinY() && 
+								tempItem.getLayoutY() < diagram_pane.getBoundsInParent().getMaxY() 
+								)) {
+					tempItem.setLayoutX(lastValidX);
+					tempItem.setLayoutY(lastValidY);
+					
+//					System.out.println(diagram_pane.getMinHeight() + "+ "+ diagram_pane.getMinWidth());
+					
+				}
+				else {
+//					if(isOverlapping(tempItem)) {
+//						tempItem.setLayoutY(tempItem.getLayoutY()+30);
+//					}
+					lastValidX = tempItem.getLayoutX();
+					lastValidY = tempItem.getLayoutY();
+				}
 				groupFinder2(tempItem);
 				if (!threeCircs) {
 					if (groupIdentifier.getText().equals("Left Circle")) {
@@ -1285,6 +1349,17 @@ public class Controller {
 			}
 		}
 	}
+	
+	protected void createFromTextFile(String text) {
+		Item testing = new Item(text.trim());
+		if (!model.containsText(testing.text)) {
+			model.addSet(testing);
+			itemsContent.add(testing);
+			create_text.clear(); // reset textfield
+			create_text.requestFocus(); // get the textfield to listen for the next input.
+		}
+		
+	}
 
 	/*
 	 * New Method: checks the model for element by string O(1).
@@ -1516,6 +1591,36 @@ public class Controller {
 			}
 		} catch (Exception e) {
 
+		}
+	}
+	@FXML
+	protected void openFromTextfile(ActionEvent action) throws Exception {
+		FileChooser fileChooser = new FileChooser();
+		selectedFile = fileChooser.showOpenDialog(null);
+		fileChooser.setTitle("Select a Text File");
+		int count = 0;
+		if(selectedFile == null) {
+			return;
+		}
+		else {
+			
+		String fileExtension = selectedFile.getName().substring(selectedFile.getName().lastIndexOf("."),selectedFile.getName().length());
+			
+		if(!fileExtension.equals(".txt")) {
+			VennDiagram.invalidFileFormatAlert.display("Invalid File", "Select a .txt file.");
+			return;
+		}
+		String[] words = null;
+		String s;
+		FileReader fr = new FileReader(selectedFile);
+		BufferedReader br = new BufferedReader(fr);
+		
+		while((s=br.readLine())!= null) {
+			words = s.split(" ");
+			for(String word: words) {
+				createFromTextFile(word);
+			}
+		}
 		}
 	}
 

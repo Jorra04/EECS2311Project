@@ -29,6 +29,7 @@
                   <MenuItem fx:id="switchScene" mnemonicParsing="false" onAction="#backToMenu" text="Back to Menu" />
               <MenuItem fx:id="quitProgram" mnemonicParsing="false" onAction="#menuButtonClose" text="Quit" />
                   <MenuItem fx:id="textFileSave" mnemonicParsing="false" onAction="#textFileWriter" text="save TF" />
+                  <MenuItem fx:id="openTextFile" mnemonicParsing="false" onAction="#openFromTextfile" text="open TF" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
