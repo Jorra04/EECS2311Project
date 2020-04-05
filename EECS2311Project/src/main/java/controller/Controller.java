@@ -923,16 +923,21 @@ public class Controller {
 //				System.out.println(tempItem.getLayoutX() +" < "+ diagram_pane.getMaxWidth());
 //				System.out.println(tempItem.getLayoutY() +" > "+ diagram_pane.getMinHeight());
 //				System.out.println(tempItem.getLayoutY() +" < "+ diagram_pane.getMaxHeight());
-//				System.out.println(tempItem.getLayoutX() + " > " + diagram_pane.getBoundsInLocal().getMinX());
-//				System.out.println(tempItem.getLayoutX() +" < "+ diagram_pane.getBoundsInLocal().getMaxX());
-//				System.out.println(tempItem.getLayoutY() +" > "+ diagram_pane.getBoundsInLocal().getMinY());
-//				System.out.println(tempItem.getLayoutY() +" < "+ diagram_pane.getBoundsInLocal().getMaxY());
-				if(!( tempItem.getLayoutX() > minX && tempItem.getLayoutX() < maxX 
-						) || !( tempItem.getLayoutY() > minY && 
-								tempItem.getLayoutY() < maxY 
+				
+				if(!( tempItem.getLayoutX() > minX && tempItem.getLayoutX() < diagram_pane.getBoundsInLocal().getMaxX() 
+						) || !( tempItem.getLayoutY() > diagram_pane.getBoundsInLocal().getMinY() && 
+								tempItem.getLayoutY() < diagram_pane.getBoundsInLocal().getMaxY() 
 								)) {
 					tempItem.setLayoutX(lastValidX);
 					tempItem.setLayoutY(lastValidY);
+//					System.out.println(tempItem.getLayoutX() + " > " + diagram_pane.getBoundsInLocal().getMinX());
+//					System.out.println(tempItem.getLayoutX() > minX);
+//					System.out.println(tempItem.getLayoutX() +" < "+ diagram_pane.getBoundsInLocal().getMaxX());
+//					System.out.println(tempItem.getLayoutX() < diagram_pane.getBoundsInLocal().getMaxX() );
+//					System.out.println(tempItem.getLayoutY() +" > "+ diagram_pane.getBoundsInLocal().getMinY());
+//					System.out.println(tempItem.getLayoutY() > diagram_pane.getBoundsInLocal().getMinY());
+//					System.out.println(tempItem.getLayoutY() +" < "+ diagram_pane.getBoundsInLocal().getMaxY());
+//					System.out.println(tempItem.getLayoutY() < diagram_pane.getBoundsInLocal().getMaxY());
 					
 //					System.out.println(diagram_pane.getMinHeight() + "+ "+ diagram_pane.getMinWidth());
 					
