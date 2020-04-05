@@ -211,7 +211,10 @@ public class Controller {
 
 	public boolean isItemClicked; // Returns a true or false if the item has been clicked or not
 	public static Item clickedItem; // Holds the item object that is currently clicked
-	
+	double minX;
+	double maxX;
+	double minY;
+	double maxY;
 
 	// new stuff i added 04-04
 	boolean threeCircs = false;
@@ -224,7 +227,10 @@ public class Controller {
 	double lastValidY = 0;
 	public void initialize() {
 //		diagram_pane.setStyle(backgroundCol);
-
+		minX = diagram_pane.getBoundsInParent().getMinX();
+		maxX = diagram_pane.getBoundsInParent().getMaxX();
+		minY = diagram_pane.getBoundsInParent().getMinY();
+		maxY = diagram_pane.getBoundsInParent().getMaxY();
 //		createDraggableItemButton.setStyle("-fx-background-color: #a8a496");
 		create_text.requestFocus();
 //		diagram_pane.setStyle("-fx-background-color: #F5F5DC");
@@ -908,10 +914,22 @@ public class Controller {
 			});
 			tempItem.setOnMouseReleased(e -> {
 //				System.out.println("("+tempItem.getX() + "," + tempItem.getY()+")");
-				if(!( tempItem.getLayoutX() > diagram_pane.getBoundsInParent().getMinX() && 
-						tempItem.getLayoutX() < diagram_pane.getBoundsInParent().getMaxX() 
-						) || !( tempItem.getLayoutY() > diagram_pane.getBoundsInParent().getMinY() && 
-								tempItem.getLayoutY() < diagram_pane.getBoundsInParent().getMaxY() 
+//				System.out.println("("+tempItem.getLayoutX() + "," + tempItem.getLayoutY()+")");
+//				System.out.println(tempItem.getLayoutX() + " > " + diagram_pane.getBoundsInParent().getMinX());
+//				System.out.println(tempItem.getLayoutX() +" < "+ diagram_pane.getBoundsInParent().getMaxX());
+//				System.out.println(tempItem.getLayoutY() +" > "+ diagram_pane.getBoundsInParent().getMinY());
+//				System.out.println(tempItem.getLayoutY() +" < "+ diagram_pane.getBoundsInParent().getMaxY());
+//				System.out.println(tempItem.getLayoutX() + " > " + diagram_pane.getMinWidth());
+//				System.out.println(tempItem.getLayoutX() +" < "+ diagram_pane.getMaxWidth());
+//				System.out.println(tempItem.getLayoutY() +" > "+ diagram_pane.getMinHeight());
+//				System.out.println(tempItem.getLayoutY() +" < "+ diagram_pane.getMaxHeight());
+//				System.out.println(tempItem.getLayoutX() + " > " + diagram_pane.getBoundsInLocal().getMinX());
+//				System.out.println(tempItem.getLayoutX() +" < "+ diagram_pane.getBoundsInLocal().getMaxX());
+//				System.out.println(tempItem.getLayoutY() +" > "+ diagram_pane.getBoundsInLocal().getMinY());
+//				System.out.println(tempItem.getLayoutY() +" < "+ diagram_pane.getBoundsInLocal().getMaxY());
+				if(!( tempItem.getLayoutX() > minX && tempItem.getLayoutX() < maxX 
+						) || !( tempItem.getLayoutY() > minY && 
+								tempItem.getLayoutY() < maxY 
 								)) {
 					tempItem.setLayoutX(lastValidX);
 					tempItem.setLayoutY(lastValidY);
@@ -1548,7 +1566,10 @@ public class Controller {
 	@FXML
 	protected void textFileWriter(ActionEvent event) {
 		try {
-			FileWriter writer = new FileWriter("results.txt", false);
+			FileChooser fileChooser = new FileChooser();
+			selectedFile = fileChooser.showSaveDialog(null);
+			
+			FileWriter writer = new FileWriter(selectedFile, false);
 			if (!threeCircs) {
 				writer.write("Left Group:");
 				int i = 0;
