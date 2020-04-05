@@ -24,12 +24,12 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                  <MenuItem fx:id="openFile" mnemonicParsing="false" text="Open" />
-                  <MenuItem fx:id="saveFile" mnemonicParsing="false" onAction="#handleSaveMenuButton" text="Save" />
+                  <MenuItem fx:id="openTextFile" mnemonicParsing="false" onAction="#openFromTextfile" text="Open" />
+                  <MenuItem fx:id="textFileSave" mnemonicParsing="false" onAction="#textFileWriter" text="Save" />
                   <MenuItem fx:id="switchScene" mnemonicParsing="false" onAction="#backToMenu" text="Back to Menu" />
+                  <MenuItem fx:id="openFile" mnemonicParsing="false" text="Import" />
+                  <MenuItem fx:id="saveFile" mnemonicParsing="false" onAction="#handleSaveMenuButton" text="Export" />
               <MenuItem fx:id="quitProgram" mnemonicParsing="false" onAction="#menuButtonClose" text="Quit" />
-                  <MenuItem fx:id="textFileSave" mnemonicParsing="false" onAction="#textFileWriter" text="save TF" />
-                  <MenuItem fx:id="openTextFile" mnemonicParsing="false" onAction="#openFromTextfile" text="open TF" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
@@ -38,7 +38,7 @@
                    <MenuItem fx:id="refactor" mnemonicParsing="false" onAction="#refactor" text="Refactor" />
                   <MenuItem fx:id="undo" mnemonicParsing="false" text="Undo" />
                   <MenuItem fx:id="redo" mnemonicParsing="false" text="Redo" />
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem fx:id="delete" mnemonicParsing="false" text="Delete" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">

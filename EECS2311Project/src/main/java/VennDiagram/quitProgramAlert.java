@@ -47,6 +47,7 @@ public class quitProgramAlert {
 		
 		Scene scene = new Scene(layout);
 		window.setScene(scene);
+		
 		window.showAndWait();
 		
 	}

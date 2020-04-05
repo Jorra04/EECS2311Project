@@ -143,6 +143,8 @@ public class startPageController {
 	@FXML
 	protected void menuButtonClose(ActionEvent event) {
 		VennDiagram.quitProgramAlert.display("Confirm Exit", "Are you sure you want to exit?");
+		VennDiagram.quitProgramAlert.window.setX(VennDiagram.View.promptWindow.getX() + 100);
+		VennDiagram.quitProgramAlert.window.setY(VennDiagram.View.promptWindow.getY() + 50);
 		if(VennDiagram.quitProgramAlert.closePressed) {
 			View.primaryStage.close();
 		}

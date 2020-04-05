@@ -44,6 +44,8 @@ import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
@@ -81,8 +83,8 @@ import VennDiagram.tooManyCirclesAlert;
 public class Controller {
 	public static int NUMIDS = 0;
 	ContextMenu contextMenu = new ContextMenu();
-	MenuItem delete = new MenuItem("Delete");
-	MenuItem refactor = new MenuItem("Refactor");
+	MenuItem RCdelete = new MenuItem("Delete");
+	MenuItem RCrefactor = new MenuItem("Refactor");
 	@FXML
 	Slider circleSize;
 	@FXML
@@ -142,26 +144,39 @@ public class Controller {
 	@FXML
 	Button addCirc;
 	@FXML
-	private MenuItem newFile;
+    private MenuItem openTextFile;
 
-	@FXML
-	private MenuItem openFile;
+    @FXML
+    private MenuItem textFileSave;
 
-	@FXML
-	private MenuItem saveFile;
+    @FXML
+    private MenuItem switchScene;
 
-	@FXML
-	private MenuItem textFileSave;
+    @FXML
+    private MenuItem openFile;
 
-	@FXML
-	private MenuItem switchScene;
+    @FXML
+    private MenuItem saveFile;
 
-	@FXML
-	private MenuItem quitProgram;
-	@FXML
-	private MenuItem restoreDef;
-	@FXML
-	private MenuItem aboutUs;
+    @FXML
+    private MenuItem quitProgram;
+
+    @FXML
+    private MenuItem restoreDef;
+    @FXML
+    private MenuItem refactor;
+    @FXML
+    private MenuItem delete;
+ 
+    @FXML
+    private MenuItem undo;
+
+    @FXML
+    private MenuItem redo;
+    
+    @FXML
+    private MenuItem aboutUs;
+
 	@FXML
 	Circle leftCircle;
 	@FXML
@@ -176,7 +191,20 @@ public class Controller {
 	Button createDraggableItemButton;
 	@FXML
 	ToolBar toolbar;
-
+	ImageView save = new ImageView(new Image("/images/save.png"));
+	ImageView load = new ImageView(new Image("/images/load.png"));
+	ImageView importFile = new ImageView(new Image("/images/import.png"));
+	ImageView export = new ImageView(new Image("/images/export.png"));
+	ImageView quit = new ImageView(new Image("/images/exit.png"));
+	ImageView backToMenu = new ImageView(new Image("/images/back.png"));
+	
+	ImageView refactorIM = new ImageView(new Image("/images/refactor.png"));
+	ImageView deleteIM = new ImageView(new Image("/images/delete.png"));
+	ImageView undoIM = new ImageView(new Image("/images/undo.png"));
+	ImageView redoIM = new ImageView(new Image("/images/redo.png"));
+	ImageView aboutIM = new ImageView(new Image("/images/aboutUs.png"));
+	ImageView restoreIM = new ImageView(new Image("/images/restore.png"));
+	
 	@FXML
 	SplitMenuButton splitMenu = new SplitMenuButton();
 
@@ -231,6 +259,54 @@ public class Controller {
 	double lastValidX = 0;
 	double lastValidY = 0;
 	public void initialize() {
+		save.setFitHeight(20);
+		save.setFitWidth(20);
+		textFileSave.setGraphic(save);
+		
+		load.setFitHeight(20);
+		load.setFitWidth(20);
+		openTextFile.setGraphic(load);
+		
+		importFile.setFitHeight(20);
+		importFile.setFitWidth(20);
+		openFile.setGraphic(importFile);
+
+		export.setFitHeight(20);
+		export.setFitWidth(20);
+		saveFile.setGraphic(export);
+		
+		quit.setFitHeight(20);
+		quit.setFitWidth(20);
+		quitProgram.setGraphic(quit);
+		
+		backToMenu.setFitHeight(20);
+		backToMenu.setFitWidth(20);
+		switchScene.setGraphic(backToMenu);
+		
+		refactorIM.setFitHeight(20);
+		refactorIM.setFitWidth(20);
+		refactor.setGraphic(refactorIM);
+	
+		deleteIM.setFitHeight(20);
+		deleteIM.setFitWidth(20);
+		delete.setGraphic(deleteIM);
+		
+		undoIM.setFitHeight(20);
+		undoIM.setFitWidth(20);
+		undo.setGraphic(undoIM);
+		
+		redoIM.setFitHeight(20);
+		redoIM.setFitWidth(20);
+		redo.setGraphic(redoIM);
+		
+		aboutIM.setFitHeight(20);
+		aboutIM.setFitWidth(20);
+		aboutUs.setGraphic(aboutIM);
+		
+		restoreIM.setFitHeight(20);
+		restoreIM.setFitWidth(20);
+		restoreDef.setGraphic(restoreIM);
+		
 //		diagram_pane.setStyle(backgroundCol);
 		minX = diagram_pane.getBoundsInParent().getMinX();
 		maxX = diagram_pane.getBoundsInParent().getMaxX();
@@ -245,7 +321,7 @@ public class Controller {
 		bottomCircle.setCenterY(700);
 		bottomCircle.setOpacity(leftCircle.getOpacity());
 		bottomCircle.setFill(leftCircle.getFill());
-		contextMenu.getItems().addAll(refactor, delete);
+		contextMenu.getItems().addAll(RCrefactor, RCdelete);
 		// create listeners on the diagram_pane's dimensions so its components can
 		// resize as well
 		leftSetName.setLayoutY(rightSetName.getLayoutY());
@@ -1583,7 +1659,6 @@ public class Controller {
 		FileChooser fileChooser = new FileChooser();
 		selectedFile = fileChooser.showOpenDialog(null);
 		fileChooser.setTitle("Select a Text File");
-		int count = 0;
 		if(selectedFile == null) {
 			return;
 		}
