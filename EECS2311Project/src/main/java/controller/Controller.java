@@ -26,6 +26,7 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -51,6 +52,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
@@ -781,6 +785,7 @@ public class Controller {
 	
 	protected boolean isOverlapping(DraggableItem item) {
 		for(Node node : diagram_pane.getChildren()) {
+			
 			if(node.getClass().equals(DraggableItem.class) && !((DraggableItem)node).equals(item)) {
 				if(((DraggableItem)node).getBoundsInParent().intersects(item.getBoundsInParent())) {
 					return true;
@@ -806,7 +811,10 @@ public class Controller {
 			DraggableItem tempItem = new DraggableItem(item, this);
 			tempItem.getLabel().setTextFill(Color.BLACK); // tbh it looks gray but w.e.
 			tempItem.getLabel().setFont(new Font("Arial", 18));
-			tempItem.setPrefSize(Region.USE_COMPUTED_SIZE + 50, Region.USE_COMPUTED_SIZE + 50);
+			tempItem.setPrefSize(Region.USE_COMPUTED_SIZE + 50, Region.USE_COMPUTED_SIZE + 25);
+			//changed the above line to 25 from 50. Did this because this allows the items to be placed closer.
+//			tempItem.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+//			use the above line to visualize what the label object actually looks like.
 			// set position within diagram pane
 			itemPositionY += spaceY;
 			if (itemPositionY >= paneY - 100) {
@@ -941,8 +949,11 @@ public class Controller {
 					
 				}
 				else {
-					if(isOverlapping(tempItem)) {
+			
+					while(isOverlapping(tempItem)) {
 						tempItem.setLayoutY(tempItem.getLayoutY()+30);
+						isOverlapping(tempItem);
+			
 					}
 					lastValidX = tempItem.getLayoutX();
 					lastValidY = tempItem.getLayoutY();
