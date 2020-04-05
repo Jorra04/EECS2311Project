@@ -20,10 +20,10 @@
                <menus>
                   <Menu mnemonicParsing="false" text="File">
                      <items>
-                        <MenuItem mnemonicParsing="false" text="New" />
-                        <MenuItem mnemonicParsing="false" text="Open" />
-                        <MenuItem mnemonicParsing="false" text="Save" />
-                        <MenuItem mnemonicParsing="false" onAction="#menuButtonClose" text="Quit" />
+                        <MenuItem fx:id="newFile" mnemonicParsing="false" text="New" />
+                        <MenuItem fx:id="openFile" mnemonicParsing="false" text="Open" />
+                        <MenuItem fx:id="saveFile" mnemonicParsing="false" text="Save" />
+                        <MenuItem fx:id="quitProgram" mnemonicParsing="false" onAction="#menuButtonClose" text="Quit" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Edit">
@@ -33,7 +33,7 @@
                   </Menu>
                   <Menu mnemonicParsing="false" text="Help">
                      <items>
-                        <MenuItem mnemonicParsing="false" onAction="#aboutUs" text="About Our Program" />
+                        <MenuItem fx:id="aboutUs" mnemonicParsing="false" onAction="#aboutUs" text="About Our Program" />
                      </items>
                   </Menu>
                </menus>

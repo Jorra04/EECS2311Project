@@ -51,12 +51,15 @@ public class startPageController {
 
     @FXML
     private MenuItem openFile;
-    
+
     @FXML
     private MenuItem saveFile;
-    
+
     @FXML
     private MenuItem quitProgram;
+
+    @FXML
+    private MenuItem aboutUs;
     
     @FXML
     private TextField diagramTitle;
@@ -72,8 +75,41 @@ public class startPageController {
     public static File selectedFile;
     
     public static boolean isFinishedLoading = false;
+    
+    /*
+     * images sources from http://www.iconarchive.com/search?q=load+file
+     */
+    
+    ImageView saveIM = new ImageView(new Image("/images/save.png"));
+	ImageView loadIM = new ImageView(new Image("/images/load.png"));
+	ImageView newIM = new ImageView(new Image("/images/newFile2.png"));
+	ImageView quit = new ImageView(new Image("/images/exit.png"));
+	ImageView aboutUsIM = new ImageView(new Image("/images/aboutUs.png"));
     public void initialize() {
  
+    	saveIM.setFitHeight(20);
+    	saveIM.setFitWidth(20);
+    	saveFile.setGraphic(saveIM);
+		
+		loadIM.setFitHeight(20);
+		loadIM.setFitWidth(20);
+		openFile.setGraphic(loadIM);
+		
+		newIM.setFitHeight(20);
+		newIM.setFitWidth(20);
+		newFile.setGraphic(newIM);
+
+		quit.setFitHeight(20);
+		quit.setFitWidth(20);
+		quitProgram.setGraphic(quit);
+		
+		aboutUsIM.setFitHeight(20);
+		aboutUsIM.setFitWidth(20);
+		aboutUs.setGraphic(aboutUsIM);
+    	
+    	
+    	
+    	
     	FadeTransition ft = new FadeTransition(Duration.millis(1500),loadNew);
     	FadeTransition ft2 = new FadeTransition(Duration.millis(1500),loadPrev);
     	RotateTransition rt = new RotateTransition(Duration.millis(3000),loadNew);
