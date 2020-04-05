@@ -779,18 +779,16 @@ public class Controller {
 	
 	
 	
-//	protected boolean isOverlapping(DraggableItem item) {
-//		for(Node node : diagram_pane.getChildren()) {
-//			if(node.getClass().equals(DraggableItem.class) && !((DraggableItem)node).equals(item)) {
-//				if( ((((DraggableItem)node).getX() <= 10 + item.getX()) || (((DraggableItem)node).getX() <=item.getX() -10)) 
-//						&& ((((DraggableItem)node).getY() <= 10 + item.getY()) || (((DraggableItem)node).getY() <= item.getY()-10)) ) {
-//					System.out.println("here");
-//					return true;
-//				}
-//			}
-//		}
-//		return false;
-//	}
+	protected boolean isOverlapping(DraggableItem item) {
+		for(Node node : diagram_pane.getChildren()) {
+			if(node.getClass().equals(DraggableItem.class) && !((DraggableItem)node).equals(item)) {
+				if(((DraggableItem)node).getBoundsInParent().intersects(item.getBoundsInParent())) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 	
 
 	@FXML
@@ -943,9 +941,9 @@ public class Controller {
 					
 				}
 				else {
-//					if(isOverlapping(tempItem)) {
-//						tempItem.setLayoutY(tempItem.getLayoutY()+30);
-//					}
+					if(isOverlapping(tempItem)) {
+						tempItem.setLayoutY(tempItem.getLayoutY()+30);
+					}
 					lastValidX = tempItem.getLayoutX();
 					lastValidY = tempItem.getLayoutY();
 				}
