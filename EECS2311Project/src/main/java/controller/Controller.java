@@ -970,26 +970,8 @@ public class Controller {
 
 				}
 			});
-			rightSetName.setOnMouseClicked(new EventHandler<MouseEvent>() {
-				@SuppressWarnings("unchecked")
-				@Override
-				public void handle(MouseEvent event) {
-					if(event.getClickCount() == 2 && event.getButton().equals(MouseButton.PRIMARY)) {
 	
-					}
-				}
-			});
 			tempItem.setOnMouseReleased(e -> {
-//				System.out.println("("+tempItem.getX() + "," + tempItem.getY()+")");
-//				System.out.println("("+tempItem.getLayoutX() + "," + tempItem.getLayoutY()+")");
-//				System.out.println(tempItem.getLayoutX() + " > " + diagram_pane.getBoundsInParent().getMinX());
-//				System.out.println(tempItem.getLayoutX() +" < "+ diagram_pane.getBoundsInParent().getMaxX());
-//				System.out.println(tempItem.getLayoutY() +" > "+ diagram_pane.getBoundsInParent().getMinY());
-//				System.out.println(tempItem.getLayoutY() +" < "+ diagram_pane.getBoundsInParent().getMaxY());
-//				System.out.println(tempItem.getLayoutX() + " > " + diagram_pane.getMinWidth());
-//				System.out.println(tempItem.getLayoutX() +" < "+ diagram_pane.getMaxWidth());
-//				System.out.println(tempItem.getLayoutY() +" > "+ diagram_pane.getMinHeight());
-//				System.out.println(tempItem.getLayoutY() +" < "+ diagram_pane.getMaxHeight());
 				
 				if(!( tempItem.getLayoutX() > minX && tempItem.getLayoutX() < diagram_pane.getBoundsInLocal().getMaxX() 
 						) || !( tempItem.getLayoutY() > diagram_pane.getBoundsInLocal().getMinY() && 
