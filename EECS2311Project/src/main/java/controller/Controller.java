@@ -27,6 +27,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -362,12 +363,6 @@ public class Controller {
 				} else {
 					setText(item.getText());
 				}
-//				if(getIndex() %2 == 0) {
-//					setStyle("-fx-background-color: #F5F5DC");
-//				}
-//				else {
-//					setStyle("-fx-background-color: #F5EAB5");
-//				}
 
 			}
 		});
@@ -452,15 +447,7 @@ public class Controller {
 		tt8.setShowDelay(Duration.millis(500));
 		tt9.setShowDelay(Duration.millis(500));
 		tt10.setShowDelay(Duration.millis(500));
-//		rightCircle.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//			@SuppressWarnings("unchecked")
-//			@Override
-//			public void handle(MouseEvent event) {
-//				if(event.getButton().equals(MouseButton.SECONDARY)) {
-//					System.out.println("heeee");
-//				}
-//			}
-//		});
+
 	}
 
 	// listview is not serializable, so convert to arraylist which is.
@@ -501,9 +488,7 @@ public class Controller {
 		}
 		splitMenu.setText("Left Circle");
 		toolbar.getItems().add(Controller.box);
-//		diagram_pane.getChildren().add(Controller.box);
-//		box.setLayoutX(splitMenu.getLayoutX() + 360);
-//		box.setLayoutY(splitMenu.getLayoutY() - 37.5);
+
 
 		colorPicker.setOnAction(new EventHandler() {
 			@Override
@@ -528,10 +513,6 @@ public class Controller {
 		splitMenu.setText("Right Circle");
 		toolbar.getItems().add(Controller.box);
 
-//		diagram_pane.getChildren().add(Controller.box);
-//		box.setPrefSize(splitMenu.getPrefWidth(), splitMenu.getPrefHeight());
-//		box.setLayoutX(splitMenu.getLayoutX() + 360);
-//		box.setLayoutY(splitMenu.getLayoutY() - 37.5);
 		colorPicker.setOnAction(new EventHandler() {
 			public void handle(javafx.event.Event event) {
 				rightCircle.setFill(colorPicker.getValue());
@@ -666,10 +647,6 @@ public class Controller {
 
 			event.getSceneX();
 			event.getSceneY();
-//			middleSetText.setText(matchGroup.toVisualList());
-//			leftSetText.setText(leftGroup.toVisualList());
-//			rightSetText.setText(rightGroup.toVisualList());
-//			setMatcher(rightGroupList,leftGroupList,midGroupList,arr);
 
 			isCompleted = true;
 		}
@@ -809,7 +786,7 @@ public class Controller {
 
 	@FXML
 	public void handleCreateDraggableItemButton(ActionEvent event) {
-		// if the selected items in the item list is 0, dont do anything
+		// if the selected items in the item list is 0, don't do anything
 		if (selectedItems.size() <= 0) {
 			event.consume();
 			return;
@@ -903,9 +880,6 @@ public class Controller {
 										diagram_pane.getChildren().remove(tempItem);
 									});
 
-//									System.out.println(model.getItemSet());
-//									System.out.println(itemsContent);
-//									System.out.println(containsArray);
 									groupIdentifier.clear(); // clears the group identifier.
 									item_list.refresh();
 								} catch (Exception e1) {
@@ -999,18 +973,7 @@ public class Controller {
 							matchGroup.removeItem(tempItem.item);
 						}
 					}
-//					System.out.println(tempItem.item.id);
-//					System.out.println("Left: " + leftGroup.getSize());
-//					System.out.println("Right : " + rightGroup.getSize());
-//					System.out.println("Intersect: " + matchGroup.getSize());
-//					
-//					System.out.println("Left: "+leftGroup.toVisualList());
-//					System.out.println("Right : "+rightGroup.toVisualList());
-//					System.out.println("Intersect: "+matchGroup.toVisualList());
-//
-//					System.out.println(leftGroup.contains(tempItem.item));
-//					System.out.println(rightGroup.contains(tempItem.item));
-//					System.out.println(matchGroup.contains(tempItem.item));
+					
 				} else {
 					if (groupIdentifier.getText().equals("Left Circle")) {
 						leftGroup.insertItem(tempItem.item);
@@ -1188,13 +1151,7 @@ public class Controller {
 						}
 					}
 
-//					System.out.println("Full Intersect size: " + fullIntersect.getSize());
-//					System.out.println("Left Right Intersect size: " + leftRightGroup.getSize());
-//					System.out.println("Bottom Left Intersect size: " + bottomLeftGroup.getSize());
-//					System.out.println("Bottom Right Intersect size: " + bottomRightGroup.getSize());
-//					System.out.println("Right set size: " + rightGroup.getSize());
-//					System.out.println("Left Set size: " + leftGroup.getSize());
-//					System.out.println("Bottom Set size: " + bottomGroup.getSize());
+
 				}
 
 			});
@@ -1231,14 +1188,6 @@ public class Controller {
 
 	private void circleCreator(double radius, int startX, int startY) {
 		// making the circles
-//		circle = new Circle();
-//		circle.setFill(Color.DODGERBLUE);
-//		circle.setOpacity(leftCircle.getOpacity());
-//		circle.setRadius(radius);
-//		circle.setLayoutX(startX);
-//		circle.setLayoutY(startY);
-//		circles.add(circle);
-//		diagram_pane.getChildren().add(circle);
 		if (threeCircs) {
 			return;
 		}
