@@ -795,6 +795,17 @@ public class Controller {
 		return false;
 	}
 	
+	
+	protected void overlapCorrector(DraggableItem tempItem) {
+		while(isOverlapping(tempItem)) {
+			tempItem.setLayoutY(tempItem.getLayoutY()+30);
+			isOverlapping(tempItem);
+
+		}
+		lastValidX = tempItem.getLayoutX();
+		lastValidY = tempItem.getLayoutY();
+	}
+	
 
 	@FXML
 	public void handleCreateDraggableItemButton(ActionEvent event) {
@@ -946,18 +957,8 @@ public class Controller {
 //					System.out.println(tempItem.getLayoutY() < diagram_pane.getBoundsInLocal().getMaxY());
 					
 //					System.out.println(diagram_pane.getMinHeight() + "+ "+ diagram_pane.getMinWidth());
-					
 				}
-				else {
-			
-					while(isOverlapping(tempItem)) {
-						tempItem.setLayoutY(tempItem.getLayoutY()+30);
-						isOverlapping(tempItem);
-			
-					}
-					lastValidX = tempItem.getLayoutX();
-					lastValidY = tempItem.getLayoutY();
-				}
+				overlapCorrector(tempItem);
 				groupFinder2(tempItem);
 				if (!threeCircs) {
 					if (groupIdentifier.getText().equals("Left Circle")) {
