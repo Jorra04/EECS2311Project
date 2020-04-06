@@ -1630,8 +1630,102 @@ public class Controller {
 				}
 				writer.write("\n");
 
-				writer.close();
+				
 			}
+			else {
+			
+				int i = 0;
+				writer.write("Left Group:");
+				for (Item item : leftGroup.items.values()) {
+					if (i == leftGroup.getSize() - 1) {
+						writer.write(item.getText());
+					} else {
+						writer.write(item.getText() + ", ");
+					}
+					i++;
+
+				}
+				writer.write("\n");
+			
+				i = 0;
+				writer.write("Right Group:");
+				for (Item item : rightGroup.items.values()) {
+					if (i == rightGroup.getSize() - 1) {
+						writer.write(item.getText());
+					} else {
+						writer.write(item.getText() + ", ");
+					}
+					i++;
+
+				}
+				writer.write("\n");
+				i = 0;
+				writer.write("Bottom Group:");
+				for (Item item : bottomGroup.items.values()) {
+					if (i == bottomGroup.getSize() - 1) {
+						writer.write(item.getText());
+					} else {
+						writer.write(item.getText() + ", ");
+					}
+					i++;
+
+				}
+				writer.write("\n");
+	
+				i = 0;
+				writer.write("Left Right Group:");
+				for (Item item : leftRightGroup.items.values()) {
+					if (i == leftRightGroup.getSize() - 1) {
+						writer.write(item.getText());
+					} else {
+						writer.write(item.getText() + ", ");
+					}
+					i++;
+
+				}
+				writer.write("\n");
+
+				i = 0;
+				writer.write("Bottom Left Group:");
+				for (Item item : bottomLeftGroup.items.values()) {
+					if (i == bottomLeftGroup.getSize() - 1) {
+						writer.write(item.getText());
+					} else {
+						writer.write(item.getText() + ", ");
+					}
+					i++;
+
+				}
+				writer.write("\n");
+	
+				i = 0;
+				writer.write("Bottom Right Group:");
+				for (Item item : bottomRightGroup.items.values()) {
+					if (i == bottomRightGroup.getSize() - 1) {
+						writer.write(item.getText());
+					} else {
+						writer.write(item.getText() + ", ");
+					}
+					i++;
+
+				}
+				writer.write("\n");
+			
+				i = 0;
+				writer.write("Match Group:");
+				for (Item item : fullIntersect.items.values()) {
+					if (i == fullIntersect.getSize() - 1) {
+						writer.write(item.getText());
+					} else {
+						writer.write(item.getText() + ", ");
+					}
+					i++;
+
+				}
+				writer.write("\n");
+			}
+			
+			writer.close();
 		} catch (Exception e) {
 
 		}
