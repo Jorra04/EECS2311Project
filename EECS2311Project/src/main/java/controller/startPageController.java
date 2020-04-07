@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.stage.FileChooser;
@@ -85,6 +86,9 @@ public class startPageController {
 	ImageView newIM = new ImageView(new Image("/images/newFile2.png"));
 	ImageView quit = new ImageView(new Image("/images/exit.png"));
 	ImageView aboutUsIM = new ImageView(new Image("/images/aboutUs.png"));
+	ImageView newButtonIM = new ImageView(new Image("/images/newFileButton.png"));
+	ImageView loadButtonIM = new ImageView(new Image("/images/loadFileButton.png"));
+	
     public void initialize() {
  
     	saveIM.setFitHeight(20);
@@ -107,6 +111,14 @@ public class startPageController {
 		aboutUsIM.setFitWidth(20);
 		aboutUs.setGraphic(aboutUsIM);
     	
+		loadNew.setBackground(Background.EMPTY);
+		newButtonIM.setFitHeight(200);
+		newButtonIM.setFitWidth(200);
+		loadNew.setGraphic(newButtonIM);
+		loadPrev.setBackground(Background.EMPTY);
+		loadButtonIM.setFitHeight(200);
+		loadButtonIM.setFitWidth(200);
+		loadPrev.setGraphic(loadButtonIM);
     	
     	
     	

@@ -47,6 +47,7 @@ public class repeatDraggableItem {
 		StackPane.setMargin(checkbox, new Insets(65,0,0,0));
 		
 		Scene scene = new Scene(layout);
+		scene.getStylesheets().add(clearAllAlert.class.getResource("alerts.css").toExternalForm());
 		window.setScene(scene);
 		window.showAndWait();
 		

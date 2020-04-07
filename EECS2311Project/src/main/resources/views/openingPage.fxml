@@ -56,16 +56,16 @@
          				<Font size="10.0" />
          			</font>
          			<graphic>
-        				<ImageView fitHeight="200.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
-          					<image>
-            				<Image url="http://icons.iconarchive.com/icons/custom-icon-design/pretty-office-9/256/new-file-icon.png" />
-         		 			</image>
+        				<ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../java/images/newFileButton.png" />
+                     </image>
         				</ImageView>
       				</graphic>
     			</Button>
-    			<Text layoutX="60.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create a new Venn Diagram" underline="false" wrappingWidth="708.63671875">
+    			<Text layoutX="56.0" layoutY="276.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create a new Venn Diagram" textAlignment="CENTER" underline="false" wrappingWidth="203.63671875">
                		<font>
-                  		<Font name="Arial" size="16.0" />
+                  		<Font name="Rockwell Bold Italic" size="20.0" />
                				</font>
             	</Text>
     			
@@ -75,15 +75,15 @@
          			</font>
          			<graphic>
         				<ImageView fitHeight="200.0" fitWidth="218.0" pickOnBounds="true" preserveRatio="true">
-          					<image>
-            				<Image url="https://icons.iconarchive.com/icons/custom-icon-design/pretty-office-9/256/open-file-icon.png" />
-         		 			</image>
+                     <image>
+                        <Image url="@../../java/images/loadFileButton.png" />
+                     </image>
         				</ImageView>
       				</graphic>
     			</Button>
-    			<Text layoutX="440.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Load a file to import" underline="false" wrappingWidth="708.63671875">
+    			<Text layoutX="415.0" layoutY="271.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Load a file to import" textAlignment="CENTER" underline="false" wrappingWidth="184.63671875">
                		<font>
-                  		<Font name="Arial" size="16.0" />
+                  		<Font name="Rockwell Bold Italic" size="20.0" />
                				</font>
             	</Text>
          </children>
