@@ -41,7 +41,7 @@
          </children>
       </VBox>
       <Pane layoutX="30.0" layoutY="183.0" prefHeight="133.0" prefWidth="600.0" />
-      <Pane layoutX="789.0" layoutY="165.0" prefHeight="389.0" prefWidth="229.0">
+      <Pane layoutX="805.0" layoutY="97.0" prefHeight="389.0" prefWidth="229.0">
          <children>
          		<Button fx:id="loadNew" layoutX="61.0" layoutY="20.0" mnemonicParsing="false" onAction="#nextScene">
          			<font>
@@ -61,7 +61,7 @@
                				</font>
             	</Text>
     			
-                                              			<Button fx:id="loadPrev" layoutX="61.0" layoutY="204.0" mnemonicParsing="false" onAction="#loadFile">
+                                                    			<Button fx:id="loadPrev" layoutX="61.0" layoutY="204.0" mnemonicParsing="false" onAction="#loadFile">
          			<font>
          				<Font size="10.0" />
          			</font>
