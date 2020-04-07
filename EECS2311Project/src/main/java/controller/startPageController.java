@@ -112,12 +112,12 @@ public class startPageController {
 		aboutUs.setGraphic(aboutUsIM);
     	
 		loadNew.setBackground(Background.EMPTY);
-		newButtonIM.setFitHeight(200);
-		newButtonIM.setFitWidth(200);
+		newButtonIM.setFitHeight(110);
+		newButtonIM.setFitWidth(115);
 		loadNew.setGraphic(newButtonIM);
 		loadPrev.setBackground(Background.EMPTY);
-		loadButtonIM.setFitHeight(200);
-		loadButtonIM.setFitWidth(200);
+		loadButtonIM.setFitHeight(110);
+		loadButtonIM.setFitWidth(115);
 		loadPrev.setGraphic(loadButtonIM);
     	
     	
@@ -249,6 +249,7 @@ public class startPageController {
 		View.primaryStage.setTitle("Venn Diagram");
 		View.primaryStage.setScene(View.scene);	
 		View.primaryStage.setMaximized(true);
+		View.primaryStage.setResizable(true);
 		View.primaryStage.hide();
 		View.primaryStage.show();
 	}

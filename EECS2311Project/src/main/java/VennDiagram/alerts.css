@@ -1,7 +1,7 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 
 .root {
-  -fx-app-background: black;
+  -fx-app-background: white;
   -fx-background-color: -fx-app-background;
 }
 .button {
@@ -15,5 +15,5 @@
 }
 
 .label{
-	-fx-text-fill: white;
+	-fx-text-fill: black;
 }
