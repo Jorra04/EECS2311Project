@@ -68,6 +68,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Scale;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import model.VennModel;
@@ -345,6 +346,30 @@ public class Controller {
 			 * add logic for 3rd circle
 			 */
 		});
+		
+		VennDiagram.View.primaryStage.heightProperty().addListener((ChangeListener<? super Number>) new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				
+				leftCircle.setRadius((double)newValue/3);
+				rightCircle.setRadius((double)newValue/3);
+				System.out.println(leftCircle.getRadius() +" -> "+newValue);
+				System.out.println(rightCircle.getRadius()+" -> "+newValue);
+
+			}
+		});
+//		VennDiagram.View.primaryStage.widthProperty().addListener((ChangeListener<? super Number>) new ChangeListener<Number>() {
+//			@Override
+//			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+//				
+//				leftCircle.setRadius((double)newValue/4);
+//				rightCircle.setRadius((double)newValue/4);
+//				System.out.println(leftCircle.getRadius() +" -> "+newValue);
+//				System.out.println(rightCircle.getRadius()+" -> "+newValue);
+//
+//			}
+//		});
+		
 
 		leftSetName.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@SuppressWarnings("unchecked")

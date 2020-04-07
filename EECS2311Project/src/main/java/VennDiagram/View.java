@@ -47,7 +47,8 @@ public class View extends Application{
 			}
 			
 		});
-		
+		primaryStage.setMinHeight(600);
+		primaryStage.setMinWidth(750);
 	    primaryStage.setTitle("VennDiagram Creator");
 	    primaryStage.setScene(promptWindow);
 	    primaryStage.setResizable(true);
