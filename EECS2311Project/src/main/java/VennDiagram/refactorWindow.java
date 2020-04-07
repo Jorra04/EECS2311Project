@@ -8,8 +8,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class refactorWindow {
 	public static Stage window;
@@ -22,11 +24,11 @@ public class refactorWindow {
 		window.initModality(Modality.APPLICATION_MODAL); //stops interaction with the other scene while this scene is open.
 		window.setTitle(title);
 		
-		
-		Scene scene = new Scene(root,300,300);
+		Scene scene = new Scene(root,512,500);
+
 		scene.getStylesheets().add(refactorWindow.class.getResource("refactor.css").toExternalForm());
+		window.setResizable(false);
 		window.setScene(scene);
-		
 		window.showAndWait();
 		
 	}

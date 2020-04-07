@@ -1,47 +1,43 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+
+.root{
+	-fx-background-image: url("/images/backgroundRefactor.png");
+	-fx-border-width: 5;
+	
+	
+}
+
 .button {
-   -fx-background-color: 
-        #000000,
-        linear-gradient(#7ebcea, #2f4b8f),
-        linear-gradient(#426ab7, #263e75),
-        linear-gradient(#395cab, #223768);
-   -fx-background-insets: 0.0,1.0,2.0,3.0;
-   -fx-text-fill: white;
+   -fx-background-color: linear-gradient(to right, #fbc2eb, #a6c1ee);
+   -fx-text-fill: black;
 }
 
 #mainPane{
-	-fx-background-color: #65b8f0;
+	-fx-background-color: white;
 }
 
 .text{
-    -fx-text-fill: white;
+    -fx-text-fill: black;
     
 }
 .text-field {
-    -fx-background-color: -fx-text-box-border, #65b8f0 ;
+    -fx-background-color: -fx-text-box-border, white ;
     -fx-background-insets: 0.0, 0.0 0.0 1.0 0.0 ;
     -fx-background-radius: 0.0 ;
 }
+
 .text-field:focused {
-    -fx-background-color: -fx-focus-color, #65b8f0 ;
+	-fx-border-color: white white #e82e66 white;
 }
+
 
 
 .color-picker{
-	-fx-background-color: 
-        #000000,
-        linear-gradient(#7ebcea, #2f4b8f),
-        linear-gradient(#426ab7, #263e75),
-        linear-gradient(#395cab, #223768);
-    -fx-background-insets: 0.0,1.0,2.0,3.0;
+	 -fx-background-color: linear-gradient(to right, #ff6e7f, #bfe9ff);
 }
 .color-picker .label{
-	-fx-text-fill: white;
+	-fx-text-fill: black;
 }
-
-/*
- *  0 -1 -1 -1, 0 0 0 0, 0 -1 1 -1;
- */
- 
  

@@ -23,10 +23,10 @@ public class changeSetNameWindow {
 		window.setTitle(title);
 		
 		
-		Scene scene = new Scene(root,300,300);
+		Scene scene = new Scene(root,512,500);
 		scene.getStylesheets().add(changeSetNameWindow.class.getResource("changeSetName.css").toExternalForm());
 		window.setScene(scene);
-		
+		window.setResizable(false);
 		window.showAndWait();
 		
 	}

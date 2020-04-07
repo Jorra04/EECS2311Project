@@ -11,6 +11,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -47,6 +49,9 @@ public class refactorController {
 	private String validationError = "-fx-border-color: #DBB1B1; " + "-fx-background-color: #FFF0F0";
 	Tooltip tooltip = new Tooltip("Item text cannot be empty");
 	Tooltip tooltip2 = new Tooltip("Item already Exists");
+	
+	
+	
 	public void initialize() {
 		
 		name.setText(text);

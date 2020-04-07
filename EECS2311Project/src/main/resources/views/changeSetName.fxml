@@ -7,14 +7,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="213.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.changeSetNameController">
+<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="512.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.changeSetNameController">
    <children>
-      <TextField fx:id="name" layoutX="43.0" layoutY="113.0" prefHeight="25.0" prefWidth="194.0" promptText="new name" />
-      <Button fx:id="refactor" layoutX="180.0" layoutY="156.0" mnemonicParsing="false" onAction="#refactor" text="Change" />
-      <ColorPicker fx:id="changeLabelColor" layoutX="43.0" layoutY="156.0" onAction="#changeColor" />
-      <Text fx:id="title" fill="WHITE" layoutX="47.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Change Set Title" textAlignment="CENTER" wrappingWidth="205.126953125">
+      <TextField fx:id="name" layoutX="345.0" layoutY="225.0" prefHeight="25.0" prefWidth="153.0" promptText="new name" />
+      <Button fx:id="refactor" layoutX="441.0" layoutY="275.0" mnemonicParsing="false" onAction="#refactor" text="Change" />
+      <ColorPicker fx:id="changeLabelColor" layoutX="345.0" layoutY="275.0" onAction="#changeColor" prefHeight="25.0" prefWidth="92.0" />
+      <Text fx:id="title" layoutX="331.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Change Set Title" textAlignment="CENTER" wrappingWidth="181.126953125">
          <font>
-            <Font size="31.0" />
+            <Font name="Copperplate Gothic Bold" size="31.0" />
          </font>
       </Text>
    </children>
