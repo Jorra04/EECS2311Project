@@ -325,6 +325,7 @@ public class Controller {
 		contextMenu.getItems().addAll(RCrefactor, RCdelete);
 		// create listeners on the diagram_pane's dimensions so its components can
 		// resize as well
+		item_list.setMinWidth(248);
 		leftSetName.setLayoutY(rightSetName.getLayoutY());
 		diagram_pane.widthProperty().addListener((obs, oldVal, newVal) -> {
 			paneX = newVal.doubleValue();
@@ -332,29 +333,28 @@ public class Controller {
 			// move right circle to the right for intersection
 			rightCircle.setLayoutX(paneX / 3 + paneX / 4);
 			
+			bottomCircle.setCenterX((leftCircle.getBoundsInParent().getCenterX() + rightCircle.getBoundsInParent().getCenterX())/2);
+			
 			rightSetName.setLayoutX(rightCircle.getBoundsInParent().getCenterX());
 			leftSetName.setLayoutX(leftCircle.getBoundsInParent().getCenterX());
-			/*
-			 * add logic for 3rd circle
-			 */
 		});
 		diagram_pane.heightProperty().addListener((obs, oldVal, newVal) -> {
 			paneY = newVal.doubleValue();
 			leftCircle.setLayoutY(paneY / 2);
 			rightCircle.setLayoutY(paneY / 2);
-			/*
-			 * add logic for 3rd circle
-			 */
+			bottomCircle.setCenterY(leftCircle.getBoundsInParent().getCenterY() + leftCircle.getRadius());
+			
 		});
 		
 		VennDiagram.View.primaryStage.heightProperty().addListener((ChangeListener<? super Number>) new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				
-				leftCircle.setRadius((double)newValue/3);
-				rightCircle.setRadius((double)newValue/3);
-				System.out.println(leftCircle.getRadius() +" -> "+newValue);
-				System.out.println(rightCircle.getRadius()+" -> "+newValue);
+				leftCircle.setRadius((double)newValue/3.33);
+				rightCircle.setRadius((double)newValue/3.33);
+				bottomCircle.setRadius((double)newValue/3.33);
+//				System.out.println(leftCircle.getBoundsInLocal().intersects(item_list.getBoundsInLocal()));
+			
+			
 
 			}
 		});

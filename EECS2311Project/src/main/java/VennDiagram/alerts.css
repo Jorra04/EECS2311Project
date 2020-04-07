@@ -1,0 +1,19 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+.root {
+  -fx-app-background: black;
+  -fx-background-color: -fx-app-background;
+}
+.button {
+   -fx-background-color: 
+        #000000,
+        linear-gradient(#7ebcea, #2f4b8f),
+        linear-gradient(#426ab7, #263e75),
+        linear-gradient(#395cab, #223768);
+   -fx-background-insets: 0.0,1.0,2.0,3.0;
+   -fx-text-fill: white;
+}
+
+.label{
+	-fx-text-fill: white;
+}

@@ -46,7 +46,7 @@ public class refactorController {
 	public static boolean buttonPressed;
 	private String validationError = "-fx-border-color: #DBB1B1; " + "-fx-background-color: #FFF0F0";
 	Tooltip tooltip = new Tooltip("Item text cannot be empty");
-	
+	Tooltip tooltip2 = new Tooltip("Item already Exists");
 	public void initialize() {
 		
 		name.setText(text);
@@ -81,13 +81,20 @@ public class refactorController {
 		if (itemDescription.getText().isEmpty()) {
 			description = "No Description";
 			buttonPressed = true;
+//			
+			
 			text = name.getText();
-	
 			VennDiagram.refactorWindow.window.close();
 			
 			return;
 		}
-
+		if(controller.Controller.model.containsText(name.getText())) {
+			Shaker shaker = new Shaker(name);
+			shaker.shake();
+			Tooltip.install(name, tooltip2);
+			return;
+		}
+		Tooltip.uninstall(name, tooltip2);
 		text = name.getText();
 		description = itemDescription.getText();
 		buttonPressed = true;

@@ -8,8 +8,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
+
 import javafx.stage.Stage;
+
 
 //merged
 
@@ -47,6 +48,7 @@ public class View extends Application{
 			}
 			
 		});
+
 		primaryStage.setMinHeight(600);
 		primaryStage.setMinWidth(750);
 	    primaryStage.setTitle("VennDiagram Creator");
