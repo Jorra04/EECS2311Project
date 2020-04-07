@@ -93,12 +93,15 @@ public class refactorController {
 			
 			return;
 		}
-		if(controller.Controller.model.containsText(name.getText())) {
+		if(controller.Controller.model.containsText(name.getText()) 
+				&& !name.getText().equals(text) && !VennDiagram.repeatDraggableItem.checkboxPressed) {
+			VennDiagram.repeatDraggableItem.display("Alert", "Diagram Item Already Exists.");
 			Shaker shaker = new Shaker(name);
 			shaker.shake();
 			Tooltip.install(name, tooltip2);
 			return;
 		}
+		
 		Tooltip.uninstall(name, tooltip2);
 		text = name.getText();
 		description = itemDescription.getText();
