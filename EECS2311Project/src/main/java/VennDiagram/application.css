@@ -28,7 +28,7 @@
 }
 
 #diagram_pane{
-	-fx-background-color: #a8a7a7;
+	-fx-background-color: linear-gradient(to bottom right, #DAE2F8,#D6A4A4 );
 }
 
 /*

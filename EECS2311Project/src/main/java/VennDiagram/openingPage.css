@@ -1,6 +1,16 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 
 #anchorpane{
-	-fx-background-color: #f0e8af;
+	-fx-background-color: linear-gradient(to right, #efefbb, #d4d3dd);
 }
 
+/*
+ * -fx-background-color: linear-gradient(to bottom, #fbc2eb, #a6c1ee); magenta colour
+ * -fx-background-color: linear-gradient(to bottom, #43cea2, #185a9d); greenish blue
+ * -fx-background-color: linear-gradient(to bottom, #fc354c, #0abfbc); red to blue fade
+ * -fx-background-color: linear-gradient(to bottom, #434343, #000000); black to deep black.
+ * -fx-background-color: linear-gradient(to bottom, #CC95C0, #DBD4B4,#7AA1D2); cotton candy sky
+ * -fx-background-color: linear-gradient(to right, #dd3e54, #6be585);
+ * -fx-background-color: linear-gradient(to right, #8e9eab, #eef2f3);gray to platinum
+ * -fx-background-color: linear-gradient(to right, #efefbb, #d4d3dd);yellow to platinum
+ */

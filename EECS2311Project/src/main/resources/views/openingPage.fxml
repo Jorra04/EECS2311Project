@@ -42,9 +42,9 @@
       </VBox>
       <Pane layoutX="9.0" layoutY="27.0" prefHeight="138.0" prefWidth="726.0">
          <children>
-            <Text fill="#d30909" layoutX="9.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to the Venn Diagram App!" textAlignment="CENTER" underline="true" wrappingWidth="708.63671875">
+            <Text fill="WHITE" layoutX="9.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to the Venn Diagram App!" textAlignment="CENTER" underline="true" wrappingWidth="708.63671875">
                <font>
-                  <Font name="Matura MT Script Capitals" size="42.0" />
+                  <Font name="Century" size="49.0" />
                </font>
             </Text>
          </children>
