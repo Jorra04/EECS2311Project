@@ -26,7 +26,7 @@ public class advancedSettings {
 		
 		Scene scene = new Scene(root,600,400);
 
-		scene.getStylesheets().add(refactorWindow.class.getResource("refactor.css").toExternalForm());
+		scene.getStylesheets().add(refactorWindow.class.getResource("advancedSettings.css").toExternalForm());
 		window.setResizable(false);
 		window.setScene(scene);
 		window.showAndWait();
