@@ -27,6 +27,7 @@ public class advancedSettingsController {
 		}
 		if(controller.startPageController.wantDuplicates) {
 			duplicateItems.setSelected(true);
+			
 		}
 	}
 	
@@ -61,9 +62,11 @@ public class advancedSettingsController {
 	protected void duplicatesAllowed(ActionEvent event) {
 		if(duplicateItems.isSelected()) {
 			controller.startPageController.wantDuplicates = true;
+			VennDiagram.repeatDraggableItem.checkboxPressed = true;
 		}
 		else {
 			controller.startPageController.wantDuplicates = false;
+			VennDiagram.repeatDraggableItem.checkboxPressed = false;
 		}
 	}
 }
