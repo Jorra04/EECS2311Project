@@ -3,6 +3,7 @@
 .root{
 	-fx-background-image: url("/images/startPageBackground.png");
 	-fx-border-width: 5;
+	-fx-background-repeat: no-repeat;
 
 }
 /*
