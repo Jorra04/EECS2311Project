@@ -32,9 +32,9 @@ public class advancedSettingsController {
 	
 	@FXML
 	protected void applyAndClose(ActionEvent event) {
-		System.out.println("want sorted: " + controller.startPageController.sortItems);
-		System.out.println("want Darkmode: " + controller.startPageController.darkEnabled);
-		System.out.println("Want repeats: "+ controller.startPageController.wantDuplicates);
+//		System.out.println("want sorted: " + controller.startPageController.sortItems);
+//		System.out.println("want Darkmode: " + controller.startPageController.darkEnabled);
+//		System.out.println("Want repeats: "+ controller.startPageController.wantDuplicates);
 		VennDiagram.advancedSettings.window.close();
 	}
 	

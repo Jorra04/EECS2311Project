@@ -990,7 +990,9 @@ public class Controller {
 										// it to in the refactor.
 										tempItem.getLabel().setTextFill(controller.refactorController.color);
 										containsArray.set(index, tempItem.getItem().getText());
-										
+										if(controller.startPageController.sortItems) {
+											itemListSorter();
+										}
 										item_list.refresh();
 									}
 
@@ -1451,8 +1453,10 @@ public class Controller {
 				create_text.clear(); // reset textfield
 				create_text.requestFocus(); // get the textfield to listen for the next input.
 			}
-//			itemListSorter();
-//			item_list.refresh();
+			if(controller.startPageController.sortItems) {
+				itemListSorter();
+				item_list.refresh();
+			}		
 		}
 	}
 	
@@ -1463,6 +1467,10 @@ public class Controller {
 			itemsContent.add(testing);
 			create_text.clear(); // reset textfield
 			create_text.requestFocus(); // get the textfield to listen for the next input.
+		}
+		if(controller.startPageController.sortItems) {
+			itemListSorter();
+			item_list.refresh();
 		}
 		
 	}
