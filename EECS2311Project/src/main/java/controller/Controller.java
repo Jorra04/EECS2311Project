@@ -550,6 +550,43 @@ public class Controller {
 		tt10.setShowDelay(Duration.millis(500));
 
 	}
+	
+	/*
+	 * sorts the ListView. Call this when you want to resort the list.
+	 */
+	
+	protected void itemListSorter() {
+		Collections.sort(item_list.getItems(), new Comparator<Item>() {
+			@Override
+			public int compare(Item item1, Item item2) {
+				for (int i = 0; i < item1.getText().length() &&  
+	                    i < item2.getText().length(); i++) { 
+	            if ((int)item1.getText().charAt(i) ==  
+	                (int)item2.getText().charAt(i)) { 
+	                continue; 
+	            }  
+	            else { 
+	                return (int)item1.getText().charAt(i) -  
+	                    (int)item2.getText().charAt(i); 
+	            } 
+	        } 
+	  
+	  
+	        if (item1.getText().length() < item2.getText().length()) { 
+	            return (item1.getText().length()-item2.getText().length()); 
+	        }  
+	        else if (item1.getText().length() > item2.getText().length()) { 
+	            return (item1.getText().length()-item2.getText().length()); 
+	        } 
+	        else { 
+	            return 0; 
+	        } 
+			}
+		});
+	}
+	
+	
+	
 
 	// listview is not serializable, so convert to arraylist which is.
 	private ArrayList<Item> obsListToArrayList(ObservableList<Item> list) {
@@ -953,6 +990,7 @@ public class Controller {
 										// it to in the refactor.
 										tempItem.getLabel().setTextFill(controller.refactorController.color);
 										containsArray.set(index, tempItem.getItem().getText());
+										
 										item_list.refresh();
 									}
 
@@ -1413,6 +1451,8 @@ public class Controller {
 				create_text.clear(); // reset textfield
 				create_text.requestFocus(); // get the textfield to listen for the next input.
 			}
+//			itemListSorter();
+//			item_list.refresh();
 		}
 	}
 	

@@ -41,14 +41,14 @@
          </children>
       </VBox>
       <Pane layoutX="30.0" layoutY="183.0" prefHeight="133.0" prefWidth="600.0" />
-      <Pane layoutX="805.0" layoutY="97.0" prefHeight="389.0" prefWidth="229.0">
+      <Pane layoutX="779.0" layoutY="34.0" prefHeight="548.0" prefWidth="229.0">
          <children>
          		<Button fx:id="loadNew" layoutX="61.0" layoutY="20.0" mnemonicParsing="false" onAction="#nextScene">
          			<font>
          				<Font size="10.0" />
          			</font>
          			<graphic>
-        				<ImageView fitHeight="110.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true">
+        				<ImageView fitHeight="105.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../java/images/newFileButton.png" />
                      </image>
@@ -66,7 +66,7 @@
          				<Font size="10.0" />
          			</font>
          			<graphic>
-        				<ImageView fitHeight="109.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true">
+        				<ImageView fitHeight="105.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../java/images/loadFileButton.png" />
                      </image>
@@ -78,6 +78,23 @@
                   		<Font name="Rockwell Bold Italic" size="20.0" />
                				</font>
             	</Text>
+            <Text layoutX="30.0" layoutY="529.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Settings" textAlignment="CENTER" underline="false" wrappingWidth="184.63671875">
+               <font>
+                  <Font name="Rockwell Bold Italic" size="20.0" />
+               </font>
+            </Text>
+            <Button fx:id="settings" layoutX="64.0" layoutY="393.0" mnemonicParsing="false" onAction="#launchExtendedSettings" prefHeight="56.0" prefWidth="57.0">
+               <font>
+                  <Font size="10.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="105.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../java/images/settings.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
          </children>
       </Pane>
       <Text layoutX="69.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to the Venn Diagram App!" textAlignment="CENTER" underline="true" wrappingWidth="516.63671875">
