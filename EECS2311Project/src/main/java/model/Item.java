@@ -39,6 +39,7 @@ public class Item implements Serializable{
 	public String getText() {
 		return this.text;
 	}
+	
 
 	//SOMEONE TOOK 2030 
 	@Override

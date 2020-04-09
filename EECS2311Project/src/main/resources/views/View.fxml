@@ -2,10 +2,12 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
@@ -14,6 +16,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
 
 <VBox minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
     <children>
@@ -21,9 +24,11 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                  <MenuItem fx:id="openFile" mnemonicParsing="false" text="Open" />
-                  <MenuItem fx:id="saveFile" mnemonicParsing="false" onAction="#handleSaveMenuButton" text="Save" />
+                  <MenuItem fx:id="openTextFile" mnemonicParsing="false" onAction="#openFromTextfile" text="Open" />
+                  <MenuItem fx:id="textFileSave" mnemonicParsing="false" onAction="#textFileWriter" text="Save" />
                   <MenuItem fx:id="switchScene" mnemonicParsing="false" onAction="#backToMenu" text="Back to Menu" />
+                  <MenuItem fx:id="openFile" mnemonicParsing="false" text="Import" />
+                  <MenuItem fx:id="saveFile" mnemonicParsing="false" onAction="#handleSaveMenuButton" text="Export" />
               <MenuItem fx:id="quitProgram" mnemonicParsing="false" onAction="#menuButtonClose" text="Quit" />
             </items>
           </Menu>
@@ -33,7 +38,7 @@
                    <MenuItem fx:id="refactor" mnemonicParsing="false" onAction="#refactor" text="Refactor" />
                   <MenuItem fx:id="undo" mnemonicParsing="false" text="Undo" />
                   <MenuItem fx:id="redo" mnemonicParsing="false" text="Redo" />
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem fx:id="delete" mnemonicParsing="false" text="Delete" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
@@ -57,33 +62,42 @@
       </BorderPane>
       <HBox VBox.vgrow="ALWAYS">
          <children>
-            <ListView fx:id="item_list" onDragDetected="#handleItemListDragDetection" />
+            <ListView fx:id="item_list" onDragDetected="#handleItemListDragDetection" prefHeight="579.0" prefWidth="248.0" />
             <VBox HBox.hgrow="ALWAYS">
                <children>
-                  <ToolBar>
-                     <items>
-                        <TextField fx:id="groupIdentifier" prefHeight="32.0" promptText="Identify Group" />
-                        <Button fx:id="identify" mnemonicParsing="false" onAction="#identifyGroup" prefHeight="32.0" text="Identify" />
-                     </items>
-                  </ToolBar>
-                  <ToolBar>
+                  <ToolBar fx:id="toolbar">
                     <items>
                         <Button fx:id="createDraggableItemButton" mnemonicParsing="false" onAction="#handleCreateDraggableItemButton" text="Create Diagram Item" />
                         <SplitMenuButton fx:id="splitMenu" mnemonicParsing="false" onAction="#menuClick" text="Change Colour">
                           <items>
                             <MenuItem fx:id="lButton" mnemonicParsing="false" onAction="#leftCircleColour" text="Left Circle" />
                             <MenuItem fx:id="rButton" mnemonicParsing="false" onAction="#rightCircleColour" text="Right Circle" />
+                            <MenuItem fx:id="bButton" mnemonicParsing="false" onAction="#bottomCircleColour" text="Bottom Circle" />
                           </items>
                         </SplitMenuButton>
                         <Button fx:id="addCirc" mnemonicParsing="false" onAction="#addCirc" prefHeight="32.0" text="Add Circle" />
                         <Button fx:id="clearData" mnemonicParsing="false" onAction="#handleClearAllButtonAction" prefHeight="32.0" text="Clear Data"> </Button>
                         <Button fx:id="clearSelButton" mnemonicParsing="false" onAction="#handleClearSelectedButtonAction" prefHeight="32.0" text="Clear selected" />
+                        <TextField fx:id="groupIdentifier" prefHeight="32.0" promptText="Identify Group" />
+                        <Slider fx:id="circleSize" max="366.0" min="200.0" />
+                        <Slider fx:id="leftCircleSlider" />
+                        <Slider fx:id="rightCircleSlider" max="60.0" value="60.0" />
                     </items>
                   </ToolBar>
                   <Pane fx:id="diagram_pane" VBox.vgrow="ALWAYS">
                      <children>
                         <Circle fx:id="leftCircle" fill="DODGERBLUE" layoutX="350.0" layoutY="395.0" onDragDropped="#handleLeftSetDrop" onDragOver="#handleLeftSetDragOver" opacity="0.2" radius="336.0" stroke="BLACK" strokeType="INSIDE" />
                         <Circle fx:id="rightCircle" fill="DODGERBLUE" layoutX="686.0" layoutY="395.0" onDragDropped="#handleRightSetDrop" onDragOver="#handleRightSetDragOver" opacity="0.2" radius="336.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Label fx:id="leftSetName" layoutX="198.0" layoutY="24.0" prefHeight="35.0" prefWidth="295.0" text="Set 1">
+                           <font>
+                              <Font name="Rockwell Bold" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="rightSetName" layoutX="662.0" layoutY="14.0" prefHeight="35.0" prefWidth="350.0" text="Set 2">
+                           <font>
+                              <Font name="Rockwell Bold" size="24.0" />
+                           </font>
+                        </Label>
                      </children>
                   </Pane>
                </children>

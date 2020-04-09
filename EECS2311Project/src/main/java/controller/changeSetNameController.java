@@ -11,8 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -20,7 +18,7 @@ import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import model.Shaker;
 
-public class refactorController {
+public class changeSetNameController {
 
 	@FXML
 	private AnchorPane mainPane;
@@ -32,9 +30,6 @@ public class refactorController {
 	private TextField name;
 
 	@FXML
-	private TextField itemDescription;
-
-	@FXML
 	private Button refactor;
 
 	@FXML
@@ -44,18 +39,12 @@ public class refactorController {
 	public static Color color = Color.BLACK;
 
 	public static String text = "";
-	public static String description = "";
 	public static boolean buttonPressed;
 	private String validationError = "-fx-border-color: #DBB1B1; " + "-fx-background-color: #FFF0F0";
-	Tooltip tooltip = new Tooltip("Item text cannot be empty");
-	Tooltip tooltip2 = new Tooltip("Item already Exists");
-	
-	
 	
 	public void initialize() {
 		
 		name.setText(text);
-		itemDescription.setText(description);
 		origStyle = name.getStyle();
 		buttonPressed = false;
 		changeLabelColor.setValue(color);
@@ -80,33 +69,13 @@ public class refactorController {
 			Shaker shaker = new Shaker(name);
 			shaker.shake();
 			name.setStyle(validationError);
-			Tooltip.install(name, tooltip);
 			return;
 		}
-		if (itemDescription.getText().isEmpty()) {
-			description = "No Description";
-			buttonPressed = true;
-//			
-			
-			text = name.getText();
-			VennDiagram.refactorWindow.window.close();
-			
-			return;
-		}
-		if(controller.Controller.model.containsText(name.getText()) 
-				&& !name.getText().equals(text) && !VennDiagram.repeatDraggableItem.checkboxPressed) {
-			VennDiagram.repeatDraggableItem.display("Alert", "Diagram Item Already Exists.");
-			Shaker shaker = new Shaker(name);
-			shaker.shake();
-			Tooltip.install(name, tooltip2);
-			return;
-		}
-		
-		Tooltip.uninstall(name, tooltip2);
+
+
 		text = name.getText();
-		description = itemDescription.getText();
 		buttonPressed = true;
-		VennDiagram.refactorWindow.window.close();
+		VennDiagram.changeSetNameWindow.window.close();
 
 	}
 	

@@ -1,11 +1,19 @@
 package controller;
+import org.apache.commons.math3.util.MultidimensionalCounter.Iterator;
+
 import javafx.event.EventHandler;
+import javafx.scene.Node;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
+import model.Group;
 import model.Item;
 import model.VennModel;
+
 
 /**
  * 
@@ -16,7 +24,6 @@ import model.VennModel;
  */
 
 public class DraggableItem extends Pane{
-	
 	private double x = 0;
 	private double y = 0;
 	
@@ -27,19 +34,25 @@ public class DraggableItem extends Pane{
 	private boolean isDragging = false;
 	
 	public Item item;
-	private Label text;
+	public Label text;
 	
 	private Controller mainController;
 	private VennModel model;
+	Tooltip tooltip = new Tooltip();
 	
+	
+
 	//constructor requires a reference to the main controller so it can compare to the circles
 	public DraggableItem(Item item, Controller mainController) {
 		this.item = item;
 		this.text = new Label(item.getText());
 		this.mainController = mainController;
 		//create a reference to the main controller's model
-		this.model = mainController.model;
+		this.model = Controller.model;
 		this.getChildren().add(text);
+		this.tooltip.setText("No Description Given");
+		Tooltip.install(text, this.tooltip);
+	
 		
 		//----------------------------------------------------------------------------------------------------------------
 		//make item draggable
@@ -92,24 +105,40 @@ public class DraggableItem extends Pane{
 		EventHandler<MouseEvent> eventHandlerMouseReleased = new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
+				Group group;
 				if(isIntersecting(mainController.leftCircle) && isIntersecting(mainController.rightCircle)) {
-					System.out.println("is intersecting with both circles");
+					group = model.getGroupMap().get("match");
+					group.insertItem(item);
 				} else if(isIntersecting(mainController.rightCircle)) {
-					System.out.println("is intersecting with right circle");
+					group = model.getGroupMap().get("right");
+					group.insertItem(item);
 				} else if(isIntersecting(mainController.leftCircle)) {
-					System.out.println("is intersecting with left circle");
+					group = model.getGroupMap().get("left");
+					group.insertItem(item);
+				} else {
+					//not within any circle i.e. item has been removed from both groups
+					//iterate through each group that exists and remove that specific item
+					for (Group g : model.getGroupMap().values()) {
+						g.removeItem(item);
+					}
 				}
 			};
 		};
 		this.setOnMouseReleased(eventHandlerMouseReleased);
 		//----------end of drag functionality-----------------------------------------------------
+		
 	}
+	
+	
+	
+	
 	
 	public void setItem(Item item) {
 		//set new item
 		this.item = item;
 		//set the label's text
 		this.text.setText(item.getText());
+
 	}
 	
 	public Item getItem() {
@@ -118,6 +147,15 @@ public class DraggableItem extends Pane{
 	
 	public Label getLabel() {
 		return this.text;
+	}
+	public String getDescription() {
+		return this.tooltip.getText();
+	}
+	public double getX() {
+		return this.x;
+	}
+	public double getY() {
+		return this.y;
 	}
 	
 	//checks if the draggable item itnersects with a given shape, usually the circle.
@@ -129,5 +167,17 @@ public class DraggableItem extends Pane{
 			return false;
 		}
 	}
+	
+//	public boolean overlappingElements(DraggableItem item) {
+//		for(Node node : mainController.diagram_pane.getChildren()) {
+//			if( ((DraggableItem)node).getX() == item.getX() &&  ((DraggableItem)node).getY() == item.getY() ) {
+//				return true;
+//			}
+//				
+//		}
+//		return false;
+//	}
+	
+	
 	
 }

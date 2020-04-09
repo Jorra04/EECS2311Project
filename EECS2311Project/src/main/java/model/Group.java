@@ -42,6 +42,7 @@ public class Group {
 	public void removeItem(Item item) {
 		items.remove(item.getID());
 	}
+
 	
 	public void removeItems(Collection<Item> items) {
 		for(Item item : items) {
