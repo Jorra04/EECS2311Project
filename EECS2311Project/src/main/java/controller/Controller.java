@@ -561,8 +561,8 @@ public class Controller {
 			public int compare(Item item1, Item item2) {
 				for (int i = 0; i < item1.getText().length() &&  
 	                    i < item2.getText().length(); i++) { 
-	            if ((int)item1.getText().charAt(i) ==  
-	                (int)item2.getText().charAt(i)) { 
+	            if ((int)item1.getText().toLowerCase().charAt(i) ==  
+	                (int)item2.getText().toLowerCase().charAt(i)) { 
 	                continue; 
 	            }  
 	            else { 
@@ -734,11 +734,13 @@ public class Controller {
 	 * object is isItemClicked: returns true if an item is clicked clickedItem:
 	 * returns the Item object associated with the click
 	 */
-	@FXML
+//	@FXML
 	public boolean testMouse(MouseEvent event) {
 		isItemClicked = item_list.isFocused();
+		System.out.println("Item is focused: " + item_list.isFocused());
 		clickedItem = item_list.getFocusModel().getFocusedItem();
 		event.consume();
+		System.out.println("Is Clicked: " + isItemClicked);
 		return isItemClicked;
 	}
 
@@ -1486,23 +1488,46 @@ public class Controller {
 		itemsContent.add(item);
 	}
 
+//	@FXML
+//	protected void refactor(ActionEvent event) throws Exception {
+//		if (isItemClicked == false) { // no selected items.
+//			VennDiagram.TagAlreadyExistsAlert.display("ERROR", "Select some items before trying to rename them.");
+//		}
+//
+//		else {
+//			VennDiagram.refactorWindow.display("Window");
+//			if (!controller.refactorController.buttonPressed) { // checks if the exit button is pressed
+//				// or if the refactor button is pressed.
+//				return;
+//			}
+//			if (model.containsText(refactorController.text)) { // stops duplicates.
+//				VennDiagram.TagAlreadyExistsAlert.display("ERROR", "Tag Already Exists");
+//				return;
+//			} else {
+//				clickedItem.text = refactorController.text;
+//			}
+//			item_list.refresh(); // refresh the listView to show us the current values.
+//		}
+//	}
+	
 	@FXML
-	protected void refactor(ActionEvent event) throws Exception {
-		if (isItemClicked == false) { // no selected items.
+	protected void refactor(ActionEvent event) throws Exception{
+		item_list.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+		if(item_list.getSelectionModel().getSelectedItems().size() == 0) {
 			VennDiagram.TagAlreadyExistsAlert.display("ERROR", "Select some items before trying to rename them.");
 		}
-
 		else {
-			VennDiagram.refactorWindow.display("Window");
+			controller.refactorController.text = item_list.getSelectionModel().getSelectedItem().getText();
+			System.out.println(item_list.getSelectionModel().getSelectedItem().getText());
+			controller.refactorController.description = "No description Given.";
+			VennDiagram.refactorWindow.display("Refactor");
 			if (!controller.refactorController.buttonPressed) { // checks if the exit button is pressed
 				// or if the refactor button is pressed.
 				return;
 			}
-			if (model.containsText(refactorController.text)) { // stops duplicates.
-				VennDiagram.TagAlreadyExistsAlert.display("ERROR", "Tag Already Exists");
-				return;
-			} else {
-				clickedItem.text = refactorController.text;
+			item_list.getSelectionModel().getSelectedItem().setText(refactorController.text);
+			if(controller.startPageController.sortItems) {
+				itemListSorter();
 			}
 			item_list.refresh(); // refresh the listView to show us the current values.
 		}
