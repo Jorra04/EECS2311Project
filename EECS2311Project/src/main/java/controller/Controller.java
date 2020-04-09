@@ -714,17 +714,22 @@ public class Controller {
 		groupArray[0] = leftGroup;
 		groupArray[1] = rightGroup;
 		groupArray[2] = matchGroup;
-
+		Item clickedItem1  = item_list.getSelectionModel().getSelectedItem();
 		for (int i = 0; i < 3; i++) {
-			if (groupArray[i].contains(clickedItem)) {
-				groupArray[i].removeItem(clickedItem);
-				item_list.getItems().remove(clickedItem);
+			if (groupArray[i].contains(clickedItem1)) {
+				System.out.println("here");
+				groupArray[i].removeItem(clickedItem1);
+				
+				
 			}
+			model.getItemSet().remove(clickedItem1);
+			item_list.getItems().remove(clickedItem1); //remove it from the list out here so even if 
+			//it's not in a group, it will still be removed.
 		}
 		item_list.refresh();
-		leftSetText.setText(leftGroup.toVisualList());
-		rightSetText.setText(rightGroup.toVisualList());
-		middleSetText.setText(matchGroup.toVisualList());
+//		leftSetText.setText(leftGroup.toVisualList());
+//		rightSetText.setText(rightGroup.toVisualList());
+//		middleSetText.setText(matchGroup.toVisualList());
 		groupIdentifier.clear();
 		event.consume();
 	}
@@ -922,6 +927,8 @@ public class Controller {
 		lastValidX = tempItem.getLayoutX();
 		lastValidY = tempItem.getLayoutY();
 	}
+	
+	
 	
 
 	@FXML
@@ -1381,6 +1388,13 @@ public class Controller {
 		rightGroup.removeAll();
 		leftGroup.removeAll();
 		matchGroup.removeAll();
+		if(threeCircs) {
+			leftRightGroup.removeAll();
+			bottomGroup.removeAll();
+			bottomLeftGroup.removeAll();
+			bottomRightGroup.removeAll();
+			fullIntersect.removeAll();
+		}
 		model.getItemSet().clear();
 		item_list.getItems().clear(); // clearing the listview.
 		groupIdentifier.clear(); // clearing the group identifiers.
@@ -1512,13 +1526,12 @@ public class Controller {
 	
 	@FXML
 	protected void refactor(ActionEvent event) throws Exception{
-		item_list.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		if(item_list.getSelectionModel().getSelectedItems().size() == 0) {
 			VennDiagram.TagAlreadyExistsAlert.display("ERROR", "Select some items before trying to rename them.");
 		}
 		else {
 			controller.refactorController.text = item_list.getSelectionModel().getSelectedItem().getText();
-			System.out.println(item_list.getSelectionModel().getSelectedItem().getText());
+
 			controller.refactorController.description = "No description Given.";
 			VennDiagram.refactorWindow.display("Refactor");
 			if (!controller.refactorController.buttonPressed) { // checks if the exit button is pressed
