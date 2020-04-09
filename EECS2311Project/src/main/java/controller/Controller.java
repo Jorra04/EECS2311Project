@@ -1633,7 +1633,7 @@ public class Controller {
 
 			if (leftCircleDist <= leftCircle.getRadius() && rightCircleDist <= rightCircle.getRadius()) {
 				groupIdentifier.setText("Intersect");
-				groupIdentifier.setStyle("-fx-text-fill: blue;");
+				groupIdentifier.setStyle("-fx-text-fill: green;");
 			} else if (leftCircleDist < leftCircle.getRadius()) {
 				groupIdentifier.setText("Left Circle");
 				groupIdentifier.setStyle("-fx-text-fill: red;");
