@@ -547,7 +547,8 @@ public class Controller {
 		tt8.setShowDelay(Duration.millis(500));
 		tt9.setShowDelay(Duration.millis(500));
 		tt10.setShowDelay(Duration.millis(500));
-
+		leftSetName.setText(controller.startPageController.leftSetName);
+		rightSetName.setText(controller.startPageController.rightSetName);
 	}
 	
 	/*

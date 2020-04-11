@@ -3,6 +3,7 @@ package controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import VennDiagram.View;
 import javafx.event.*;
@@ -25,10 +26,9 @@ public class advancedSettingsController {
 
 	@FXML
 	private TextField venndiagramTitle;
-
 	@FXML
 	private Button apply;
-
+	
 	public void initialize() {
 		if (controller.startPageController.sortItems) {
 			itemSorter.setSelected(true);
@@ -40,6 +40,7 @@ public class advancedSettingsController {
 			duplicateItems.setSelected(true);
 
 		}
+		
 	}
 
 	@FXML
@@ -54,10 +55,10 @@ public class advancedSettingsController {
 			VennDiagram.View.primaryStage.setTitle("Venn Diagram");
 		}
 		if(set1Name.getText().length() != 0) {
-		
+			controller.startPageController.leftSetName = set1Name.getText();
 		}
 		if(set2Name.getText().length() != 0) {
-			
+			controller.startPageController.rightSetName = set2Name.getText();
 		}
 		VennDiagram.advancedSettings.window.close();
 	}
@@ -90,4 +91,5 @@ public class advancedSettingsController {
 			VennDiagram.repeatDraggableItem.checkboxPressed = false;
 		}
 	}
+	
 }
