@@ -276,7 +276,6 @@ public class startPageController {
 	}
 
 	private void createTitleAndEnter() {
-		View.primaryStage.setTitle("Venn Diagram");
 		View.primaryStage.setScene(View.scene);
 		View.primaryStage.setMaximized(true);
 		View.primaryStage.setResizable(true);

@@ -122,11 +122,10 @@ public class Controller {
 	 */
 
 	@FXML
-	private Label leftSetName;
+	public Label leftSetName;
 
 	@FXML
-	private Label rightSetName;
-
+	public Label rightSetName;
 	Group bottomGroup;
 	Group leftRightGroup;
 	Group bottomLeftGroup;
