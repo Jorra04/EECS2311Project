@@ -715,9 +715,18 @@ public class Controller {
 		groupArray[1] = rightGroup;
 		groupArray[2] = matchGroup;
 		Item clickedItem1  = item_list.getSelectionModel().getSelectedItem();
+		
+		//Warn the user once or more times if they don't select the option.
+		if (VennDiagram.repeatDraggableItem.checkboxPressed2) {
+
+		} else {
+			VennDiagram.repeatDraggableItem.display2("Alert", "Are you sure you want to delete this item?");
+		}
+		if(!VennDiagram.repeatDraggableItem.confirmPressed2) {
+			return;
+		}
 		for (int i = 0; i < 3; i++) {
 			if (groupArray[i].contains(clickedItem1)) {
-				System.out.println("here");
 				groupArray[i].removeItem(clickedItem1);
 				
 				
@@ -1538,10 +1547,20 @@ public class Controller {
 				// or if the refactor button is pressed.
 				return;
 			}
+			
+			for(Node node : diagram_pane.getChildren()) {
+				if(node.getClass().equals(DraggableItem.class)) {
+					if(((DraggableItem)node).text.getText().equals(item_list.getSelectionModel().getSelectedItem().getText())) {
+						((DraggableItem)node).text.setText(refactorController.text);
+					}
+				}
+			}
+			
 			item_list.getSelectionModel().getSelectedItem().setText(refactorController.text);
 			if(controller.startPageController.sortItems) {
 				itemListSorter();
 			}
+			
 			item_list.refresh(); // refresh the listView to show us the current values.
 		}
 	}
