@@ -122,11 +122,10 @@ public class Controller {
 	 */
 
 	@FXML
-	private Label leftSetName;
+	public Label leftSetName;
 
 	@FXML
-	private Label rightSetName;
-
+	public Label rightSetName;
 	Group bottomGroup;
 	Group leftRightGroup;
 	Group bottomLeftGroup;
@@ -548,7 +547,8 @@ public class Controller {
 		tt8.setShowDelay(Duration.millis(500));
 		tt9.setShowDelay(Duration.millis(500));
 		tt10.setShowDelay(Duration.millis(500));
-
+		leftSetName.setText(controller.startPageController.leftSetName);
+		rightSetName.setText(controller.startPageController.rightSetName);
 	}
 	
 	/*
@@ -561,8 +561,8 @@ public class Controller {
 			public int compare(Item item1, Item item2) {
 				for (int i = 0; i < item1.getText().length() &&  
 	                    i < item2.getText().length(); i++) { 
-	            if ((int)item1.getText().charAt(i) ==  
-	                (int)item2.getText().charAt(i)) { 
+	            if ((int)item1.getText().toLowerCase().charAt(i) ==  
+	                (int)item2.getText().toLowerCase().charAt(i)) { 
 	                continue; 
 	            }  
 	            else { 
@@ -714,17 +714,31 @@ public class Controller {
 		groupArray[0] = leftGroup;
 		groupArray[1] = rightGroup;
 		groupArray[2] = matchGroup;
+		Item clickedItem1  = item_list.getSelectionModel().getSelectedItem();
+		
+		//Warn the user once or more times if they don't select the option.
+		if (VennDiagram.repeatDraggableItem.checkboxPressed2) {
 
+		} else {
+			VennDiagram.repeatDraggableItem.display2("Alert", "Are you sure you want to delete this item?");
+		}
+		if(!VennDiagram.repeatDraggableItem.confirmPressed2) {
+			return;
+		}
 		for (int i = 0; i < 3; i++) {
-			if (groupArray[i].contains(clickedItem)) {
-				groupArray[i].removeItem(clickedItem);
-				item_list.getItems().remove(clickedItem);
+			if (groupArray[i].contains(clickedItem1)) {
+				groupArray[i].removeItem(clickedItem1);
+				
+				
 			}
+			model.getItemSet().remove(clickedItem1);
+			item_list.getItems().remove(clickedItem1); //remove it from the list out here so even if 
+			//it's not in a group, it will still be removed.
 		}
 		item_list.refresh();
-		leftSetText.setText(leftGroup.toVisualList());
-		rightSetText.setText(rightGroup.toVisualList());
-		middleSetText.setText(matchGroup.toVisualList());
+//		leftSetText.setText(leftGroup.toVisualList());
+//		rightSetText.setText(rightGroup.toVisualList());
+//		middleSetText.setText(matchGroup.toVisualList());
 		groupIdentifier.clear();
 		event.consume();
 	}
@@ -734,11 +748,13 @@ public class Controller {
 	 * object is isItemClicked: returns true if an item is clicked clickedItem:
 	 * returns the Item object associated with the click
 	 */
-	@FXML
+//	@FXML
 	public boolean testMouse(MouseEvent event) {
 		isItemClicked = item_list.isFocused();
+		System.out.println("Item is focused: " + item_list.isFocused());
 		clickedItem = item_list.getFocusModel().getFocusedItem();
 		event.consume();
+		System.out.println("Is Clicked: " + isItemClicked);
 		return isItemClicked;
 	}
 
@@ -920,6 +936,8 @@ public class Controller {
 		lastValidX = tempItem.getLayoutX();
 		lastValidY = tempItem.getLayoutY();
 	}
+	
+	
 	
 
 	@FXML
@@ -1379,6 +1397,13 @@ public class Controller {
 		rightGroup.removeAll();
 		leftGroup.removeAll();
 		matchGroup.removeAll();
+		if(threeCircs) {
+			leftRightGroup.removeAll();
+			bottomGroup.removeAll();
+			bottomLeftGroup.removeAll();
+			bottomRightGroup.removeAll();
+			fullIntersect.removeAll();
+		}
 		model.getItemSet().clear();
 		item_list.getItems().clear(); // clearing the listview.
 		groupIdentifier.clear(); // clearing the group identifiers.
@@ -1486,24 +1511,56 @@ public class Controller {
 		itemsContent.add(item);
 	}
 
+//	@FXML
+//	protected void refactor(ActionEvent event) throws Exception {
+//		if (isItemClicked == false) { // no selected items.
+//			VennDiagram.TagAlreadyExistsAlert.display("ERROR", "Select some items before trying to rename them.");
+//		}
+//
+//		else {
+//			VennDiagram.refactorWindow.display("Window");
+//			if (!controller.refactorController.buttonPressed) { // checks if the exit button is pressed
+//				// or if the refactor button is pressed.
+//				return;
+//			}
+//			if (model.containsText(refactorController.text)) { // stops duplicates.
+//				VennDiagram.TagAlreadyExistsAlert.display("ERROR", "Tag Already Exists");
+//				return;
+//			} else {
+//				clickedItem.text = refactorController.text;
+//			}
+//			item_list.refresh(); // refresh the listView to show us the current values.
+//		}
+//	}
+	
 	@FXML
-	protected void refactor(ActionEvent event) throws Exception {
-		if (isItemClicked == false) { // no selected items.
+	protected void refactor(ActionEvent event) throws Exception{
+		if(item_list.getSelectionModel().getSelectedItems().size() == 0) {
 			VennDiagram.TagAlreadyExistsAlert.display("ERROR", "Select some items before trying to rename them.");
 		}
-
 		else {
-			VennDiagram.refactorWindow.display("Window");
+			controller.refactorController.text = item_list.getSelectionModel().getSelectedItem().getText();
+
+			controller.refactorController.description = "No description Given.";
+			VennDiagram.refactorWindow.display("Refactor");
 			if (!controller.refactorController.buttonPressed) { // checks if the exit button is pressed
 				// or if the refactor button is pressed.
 				return;
 			}
-			if (model.containsText(refactorController.text)) { // stops duplicates.
-				VennDiagram.TagAlreadyExistsAlert.display("ERROR", "Tag Already Exists");
-				return;
-			} else {
-				clickedItem.text = refactorController.text;
+			
+			for(Node node : diagram_pane.getChildren()) {
+				if(node.getClass().equals(DraggableItem.class)) {
+					if(((DraggableItem)node).text.getText().equals(item_list.getSelectionModel().getSelectedItem().getText())) {
+						((DraggableItem)node).text.setText(refactorController.text);
+					}
+				}
 			}
+			
+			item_list.getSelectionModel().getSelectedItem().setText(refactorController.text);
+			if(controller.startPageController.sortItems) {
+				itemListSorter();
+			}
+			
 			item_list.refresh(); // refresh the listView to show us the current values.
 		}
 	}
@@ -1595,7 +1652,7 @@ public class Controller {
 
 			if (leftCircleDist <= leftCircle.getRadius() && rightCircleDist <= rightCircle.getRadius()) {
 				groupIdentifier.setText("Intersect");
-				groupIdentifier.setStyle("-fx-text-fill: blue;");
+				groupIdentifier.setStyle("-fx-text-fill: green;");
 			} else if (leftCircleDist < leftCircle.getRadius()) {
 				groupIdentifier.setText("Left Circle");
 				groupIdentifier.setStyle("-fx-text-fill: red;");

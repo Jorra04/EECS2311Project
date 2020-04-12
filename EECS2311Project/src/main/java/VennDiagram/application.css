@@ -27,6 +27,15 @@
     -fx-border-color: white;
 }
 
+.color-picker{
+	-fx-background-color: #232323;
+	 -fx-border-color: white;
+}
+.color-picker .label{
+	-fx-text-fill: white;
+}
+
+
 #diagram_pane{
 	-fx-background-color: linear-gradient(to bottom right, #DAE2F8,#D6A4A4 );
 }

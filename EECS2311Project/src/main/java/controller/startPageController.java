@@ -84,6 +84,8 @@ public class startPageController {
 	static boolean wantDuplicates = false;
 	static boolean darkEnabled = false;
 	static boolean sortItems = false;
+	static String leftSetName = "Set 1";
+	static String rightSetName = "Set 2";
 
 	/*
 	 * images sources from http://www.iconarchive.com/search?q=load+file
@@ -276,7 +278,6 @@ public class startPageController {
 	}
 
 	private void createTitleAndEnter() {
-		View.primaryStage.setTitle("Venn Diagram");
 		View.primaryStage.setScene(View.scene);
 		View.primaryStage.setMaximized(true);
 		View.primaryStage.setResizable(true);
