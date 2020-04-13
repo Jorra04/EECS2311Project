@@ -23,7 +23,7 @@ public class GUITest {
 	 * @throws java.lang.Exception
 	 */
 	@Before
-	public static void setUp() throws InterruptedException {
+	public void setUp() throws InterruptedException {
 		
 		}
 
