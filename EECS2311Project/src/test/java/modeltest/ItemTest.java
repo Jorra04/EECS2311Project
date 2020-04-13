@@ -33,13 +33,17 @@ public class ItemTest {
 	
 	@Test
 	public void testGetID() {
-		assertEquals(1, item.getID());
+		String b = "apple";
+		int a = b.hashCode();
+		assertEquals(a, item.getID());
 	}
 	
 	@Test
 	public void testIncrementID() {
 		Item item2 = new Item("bananas");
-		assertEquals(2, item2.getID());
+		String b = "bananas";
+		int a = b.hashCode();
+		assertEquals(a, item2.getID());
 	}
 	
 	@Test
@@ -56,7 +60,9 @@ public class ItemTest {
 	
 	@Test
 	public void testToString() {
-		assertEquals("Item [id=1, text=apple]", item.toString());
+		String b = "apple";
+		int a = b.hashCode();
+		assertEquals("Item [id="+a+", text="+b+"]", item.toString());
 		
 	}
 	

@@ -6,6 +6,8 @@ package modeltest;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
@@ -133,5 +135,21 @@ public class GroupTest {
 	public void testFindMatching() {
 		
 	}
+	@Test
+	public void testGetItems() {
+		Item item1 = new Item("item1");
+		group.insertItem(item1);
+		
+		TreeMap<Integer, Item> a = new TreeMap<Integer ,Item >();
+		a.put(Integer.valueOf(item1.getID()), item1);
+		assertEquals(true, group.getItems().equals(a));		
+	}
+	
+	@Test
+	public void testContains() {
+		
+	}
+	
+	
 	
 }
