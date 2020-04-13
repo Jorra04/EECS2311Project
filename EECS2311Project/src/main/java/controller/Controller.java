@@ -1376,6 +1376,11 @@ public class Controller {
 		// delete the circles.
 		diagram_pane.getChildren().removeAll(circle);
 		Controller.numCirc = 2; // resets the value of numCirc, allows for the other functions to work.
+		leftRightGroup.removeAll();
+		bottomGroup.removeAll();
+		bottomLeftGroup.removeAll();
+		bottomRightGroup.removeAll();
+		fullIntersect.removeAll();
 		threeCircs = false;
 	}
 
@@ -1421,7 +1426,7 @@ public class Controller {
 			rightCircle.setFill(Color.DODGERBLUE);
 			Color colorVal = (Color) rightCircle.getFill();
 			colorPicker.setValue(colorVal);
-			
+			VennDiagram.repeatDraggableItem.checkboxPressed = false;
 			event.consume();
 		}
 
