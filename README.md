@@ -12,5 +12,3 @@ Once downloaded, open a command prompt (windows) or terminal (linux, macOS):
 The jar files are cross-platform (All jars work on the mainstream OSes: Windows, MacOS, Linux).
 NOT forward compatible in terms of JDK versions. 
 i.e. You downloaded the .jar for JDK13, but you attempt to run the jar program with JDK8/1.8 on your computer. It will not work.
-
-If you have any questions or concerns, please email brianmw1@my.yorku.ca
