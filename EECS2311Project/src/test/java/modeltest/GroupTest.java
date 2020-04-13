@@ -93,8 +93,8 @@ public class GroupTest {
 		items.add(item1);
 		items.add(item2);
 		group.insertItems(items);
-		assertEquals(true, group.getItem(1).equals(item1));
-		assertEquals(true, group.getItem(2).equals(item2));
+		assertEquals(true, group.getItem(item1.getID()).equals(item1));
+		assertEquals(true, group.getItem(item2.getID()).equals(item2));
 	}
 	
 	@Test
