@@ -258,7 +258,18 @@ public class Controller {
 	 
 	double lastValidX = 0;
 	double lastValidY = 0;
+	
+	/*
+	 * for the bottom circle.
+	 */
+	ContextMenu circleMenu = new ContextMenu();
+	MenuItem Circledelete = new MenuItem("Delete");
+	
+	
 	public void initialize() {
+		
+		circleMenu.getItems().add(Circledelete);
+		
 		save.setFitHeight(20);
 		save.setFitWidth(20);
 		textFileSave.setGraphic(save);
@@ -512,6 +523,27 @@ public class Controller {
 
 			}
 		});
+		
+		bottomCircle.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@SuppressWarnings("unchecked")
+			@Override
+			public void handle(MouseEvent event) {
+				if(event.getButton().equals(MouseButton.SECONDARY)) {
+					try {
+						circleMenu.show(View.primaryStage, event.getScreenX(), event.getScreenY());
+						circleMenu.getItems().get(0).setOnAction(e -> {
+							circleDestroyer(circles);
+						});
+
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
+		
+		
+		
 
 		/*
 		 * installing tooltips on the buttons so the user can see exactly what they do.
@@ -1340,8 +1372,11 @@ public class Controller {
 	}
 
 	private void circleDestroyer(List<Circle> circle) {
+		toolbar.getItems().remove(bottomCircleSlider);
 		// delete the circles.
 		diagram_pane.getChildren().removeAll(circle);
+		Controller.numCirc = 2; // resets the value of numCirc, allows for the other functions to work.
+		threeCircs = false;
 	}
 
 	@FXML
@@ -1376,17 +1411,17 @@ public class Controller {
 				ft.play();
 				ft.setOnFinished(e1 -> {
 					circleDestroyer(this.circles);
-					toolbar.getItems().remove(bottomCircleSlider);
+					
 				});
 			}
 			// removes additional circles
-			Controller.numCirc = 2; // resets the value of numCirc, allows for the other functions to work.
+			
 			// the rest is resetting original vals.
 			leftCircle.setFill(Color.DODGERBLUE);
 			rightCircle.setFill(Color.DODGERBLUE);
 			Color colorVal = (Color) rightCircle.getFill();
 			colorPicker.setValue(colorVal);
-			threeCircs = false;
+			
 			event.consume();
 		}
 
