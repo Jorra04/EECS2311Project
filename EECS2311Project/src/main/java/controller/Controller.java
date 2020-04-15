@@ -224,6 +224,9 @@ public class Controller {
 	Deque<DraggableItem> undoDItem = new ArrayDeque<>();
 	Deque<DraggableItem> redoDItem = new ArrayDeque<>();
 	
+	//List for dragItem
+	List <DraggableItem> currentItems = new ArrayList<DraggableItem>();
+	
 	//Last Action
 	ArrayList<Integer> lastAction = new ArrayList<Integer>(); // 0 is add to list, 1 is add to window, 2 is move position
 	ArrayList<Integer> lastRemovedAction = new ArrayList<Integer>();// 0 is add to list, 1 is add to window, 2 is move position
@@ -560,6 +563,7 @@ public class Controller {
 		isItemClicked = item_list.isFocused();
 		clickedItem = item_list.getFocusModel().getFocusedItem();
 		event.consume();
+		System.out.println("clicked");
 		return isItemClicked;
 	}
 
@@ -612,6 +616,7 @@ public class Controller {
 //			setMatcher(rightGroupList,leftGroupList,midGroupList,arr);
 
 			isCompleted = true;
+			
 		}
 		event.setDropCompleted(isCompleted);
 		event.consume();
@@ -1248,9 +1253,6 @@ public class Controller {
 	}
 	@FXML
 	public void undoEvent(ActionEvent event) {
-		System.out.println("ITEMS BEFORE : " +undoItem );
-		System.out.println("LAST ACTION BEFORE : " + lastAction);
-		
 		if(lastAction.get(lastAction.size()-1) ==0 ) {
 			itemsContent.remove(undoItem.getFirst()); //Remove element from the items list
 			redoItem.addFirst(undoItem.getFirst());//Add the most recent popped item to a new queue so we can redo if needed
@@ -1258,8 +1260,6 @@ public class Controller {
 			item_list.refresh();// Refresh the item list
 			lastRemovedAction.add(0);
 			lastAction.remove(lastAction.size()-1);
-			System.out.println("ITEMS AFTER : " + undoItem);
-			System.out.println("LAST ACTION AFTER :" + lastAction);
 		}
 		
 		else if(lastAction.get(lastAction.size()-1) ==1) {
@@ -1282,21 +1282,25 @@ public class Controller {
 	@FXML
 	public void redoEvent(ActionEvent event) {
 		
-		if(lastAction.get(lastAction.size()-1) ==0 ) {
+		if(lastRemovedAction.get(lastRemovedAction.size()-1) ==0 ) {
 			
-		
 		itemsContent.add(redoItem.getFirst());
 		undoItem.addFirst(redoItem.getFirst());
 		lastAction.add(0);
 		redoItem.pop();
 		lastRemovedAction.remove(lastRemovedAction.size()-1);
-		item_list.refresh();
-		System.out.println("ITEMS AFTER : " + undoItem);
-		System.out.println("LAST ACTION AFTER :" + lastAction);
+		item_list.refresh();	
 		}
 		
-		else if(lastAction.get(lastAction.size()-1) ==1) {
-			
+		else if(lastRemovedAction.get(lastRemovedAction.size()-1) ==1) {
+			DraggableItem tempItem = redoDItem.getFirst();
+			undoDItem.addFirst(tempItem);
+			containsArray.add(tempItem.getItem().getText());
+			redoDItem.pop();
+			lastRemovedAction.remove(lastRemovedAction.size() - 1);
+			lastAction.add(1);
+			model.getItemSet().add(tempItem.getItem());
+			diagram_pane.getChildren().add(tempItem);		
 		}
 		event.consume();
 	}
