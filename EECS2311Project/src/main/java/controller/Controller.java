@@ -3,7 +3,9 @@ package controller;
 import VennDiagram.clearAllAlert;
 import VennDiagram.restoreDefaultsAlert;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
@@ -24,6 +26,8 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -40,6 +44,8 @@ import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
@@ -49,6 +55,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
@@ -59,6 +68,8 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Scale;
+import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import model.VennModel;
 import util.Save;
@@ -73,14 +84,16 @@ import VennDiagram.tooManyCirclesAlert;
 public class Controller {
 	public static int NUMIDS = 0;
 	ContextMenu contextMenu = new ContextMenu();
-	MenuItem delete = new MenuItem("Delete");
-	MenuItem refactor = new MenuItem("Refactor");
+	MenuItem RCdelete = new MenuItem("Delete");
+	MenuItem RCrefactor = new MenuItem("Refactor");
 	@FXML
 	Slider circleSize;
 	@FXML
 	Slider leftCircleSlider;
 	@FXML
 	Slider rightCircleSlider;
+	@FXML
+	Slider bottomCircleSlider = new Slider();
 	boolean animationDone = false;
 	// View.primaryStage.setScene(View.promptWindow); --> code to switch windows.
 	// create venn diagram instance
@@ -109,11 +122,10 @@ public class Controller {
 	 */
 
 	@FXML
-	private Label leftSetName;
+	public Label leftSetName;
 
 	@FXML
-	private Label rightSetName;
-
+	public Label rightSetName;
 	Group bottomGroup;
 	Group leftRightGroup;
 	Group bottomLeftGroup;
@@ -132,26 +144,39 @@ public class Controller {
 	@FXML
 	Button addCirc;
 	@FXML
-	private MenuItem newFile;
+    private MenuItem openTextFile;
 
-	@FXML
-	private MenuItem openFile;
+    @FXML
+    private MenuItem textFileSave;
 
-	@FXML
-	private MenuItem saveFile;
+    @FXML
+    private MenuItem switchScene;
 
-	@FXML
-	private MenuItem textFileSave;
+    @FXML
+    private MenuItem openFile;
 
-	@FXML
-	private MenuItem switchScene;
+    @FXML
+    private MenuItem saveFile;
 
-	@FXML
-	private MenuItem quitProgram;
-	@FXML
-	private MenuItem restoreDef;
-	@FXML
-	private MenuItem aboutUs;
+    @FXML
+    private MenuItem quitProgram;
+
+    @FXML
+    private MenuItem restoreDef;
+    @FXML
+    private MenuItem refactor;
+    @FXML
+    private MenuItem delete;
+ 
+    @FXML
+    private MenuItem undo;
+
+    @FXML
+    private MenuItem redo;
+    
+    @FXML
+    private MenuItem aboutUs;
+
 	@FXML
 	Circle leftCircle;
 	@FXML
@@ -166,7 +191,20 @@ public class Controller {
 	Button createDraggableItemButton;
 	@FXML
 	ToolBar toolbar;
-
+	ImageView save = new ImageView(new Image("/images/save.png"));
+	ImageView load = new ImageView(new Image("/images/load.png"));
+	ImageView importFile = new ImageView(new Image("/images/import.png"));
+	ImageView export = new ImageView(new Image("/images/export.png"));
+	ImageView quit = new ImageView(new Image("/images/exit.png"));
+	ImageView backToMenu = new ImageView(new Image("/images/back.png"));
+	
+	ImageView refactorIM = new ImageView(new Image("/images/refactor.png"));
+	//ImageView deleteIM = new ImageView(new Image("/images/delete.png"));
+	ImageView undoIM = new ImageView(new Image("/images/undo.png"));
+	ImageView redoIM = new ImageView(new Image("/images/redo.png"));
+	ImageView aboutIM = new ImageView(new Image("/images/aboutUs.png"));
+	ImageView restoreIM = new ImageView(new Image("/images/restore.png"));
+	
 	@FXML
 	SplitMenuButton splitMenu = new SplitMenuButton();
 
@@ -200,17 +238,16 @@ public class Controller {
 	StackPane leftSet, rightSet, middleSet;
 	@FXML
 	Text leftSetText, rightSetText, middleSetText;
-
+	
 	private static ColorPicker colorPicker = new ColorPicker(Color.DODGERBLUE);
 	private static VBox box = new VBox(colorPicker);
 
 	public boolean isItemClicked; // Returns a true or false if the item has been clicked or not
 	public static Item clickedItem; // Holds the item object that is currently clicked
-	double leftCircOrig;
-	double rightCircleOrig;
-	double origRad;
-	double runsumLeft;
-	double runSumRight;
+	double minX;
+	double maxX;
+	double minY;
+	double maxY;
 
 	// new stuff i added 04-04
 	boolean threeCircs = false;
@@ -231,11 +268,82 @@ public class Controller {
 	ArrayList<Integer> lastAction = new ArrayList<Integer>(); // 0 is add to list, 1 is add to window, 2 is move position
 	ArrayList<Integer> lastRemovedAction = new ArrayList<Integer>();// 0 is add to list, 1 is add to window, 2 is move position
 
+	 public static File selectedFile;
 	// use this to help setup the fxml components, initialize is called as soon as
 	// app starts up. Similar to a constructor.
+	 
+	double lastValidX = 0;
+	double lastValidY = 0;
+	
+	/*
+	 * for the bottom circle.
+	 */
+	ContextMenu circleMenu = new ContextMenu();
+	MenuItem Circledelete = new MenuItem("Delete");
+	
+	
 	public void initialize() {
+
 //		diagram_pane.setStyle(backgroundCol);
 		
+		circleMenu.getItems().add(Circledelete);
+		
+		save.setFitHeight(20);
+		save.setFitWidth(20);
+		textFileSave.setGraphic(save);
+		
+		load.setFitHeight(20);
+		load.setFitWidth(20);
+		openTextFile.setGraphic(load);
+		
+		importFile.setFitHeight(20);
+		importFile.setFitWidth(20);
+		openFile.setGraphic(importFile);
+
+		export.setFitHeight(20);
+		export.setFitWidth(20);
+		saveFile.setGraphic(export);
+		
+		quit.setFitHeight(20);
+		quit.setFitWidth(20);
+		quitProgram.setGraphic(quit);
+		
+		backToMenu.setFitHeight(20);
+		backToMenu.setFitWidth(20);
+		switchScene.setGraphic(backToMenu);
+		
+		refactorIM.setFitHeight(20);
+		refactorIM.setFitWidth(20);
+		refactor.setGraphic(refactorIM);
+	
+		/*
+		deleteIM.setFitHeight(20);
+		deleteIM.setFitWidth(20);
+		delete.setGraphic(deleteIM);
+		*/
+		
+		undoIM.setFitHeight(20);
+		undoIM.setFitWidth(20);
+		undo.setGraphic(undoIM);
+		
+		redoIM.setFitHeight(20);
+		redoIM.setFitWidth(20);
+		redo.setGraphic(redoIM);
+		
+		aboutIM.setFitHeight(20);
+		aboutIM.setFitWidth(20);
+		aboutUs.setGraphic(aboutIM);
+		
+		restoreIM.setFitHeight(20);
+		restoreIM.setFitWidth(20);
+		restoreDef.setGraphic(restoreIM);
+		
+//		diagram_pane.setStyle(backgroundCol);
+		minX = diagram_pane.getBoundsInParent().getMinX();
+		maxX = diagram_pane.getBoundsInParent().getMaxX();
+		minY = diagram_pane.getBoundsInParent().getMinY();
+		maxY = diagram_pane.getBoundsInParent().getMaxY();
+
 //		createDraggableItemButton.setStyle("-fx-background-color: #a8a496");
 		create_text.requestFocus();
 //		diagram_pane.setStyle("-fx-background-color: #F5F5DC");
@@ -245,27 +353,103 @@ public class Controller {
 		bottomCircle.setCenterY(700);
 		bottomCircle.setOpacity(leftCircle.getOpacity());
 		bottomCircle.setFill(leftCircle.getFill());
-		contextMenu.getItems().addAll(refactor, delete);
+		contextMenu.getItems().addAll(RCrefactor, RCdelete);
 		// create listeners on the diagram_pane's dimensions so its components can
 		// resize as well
+		item_list.setMinWidth(248);
+		leftSetName.setLayoutY(rightSetName.getLayoutY());
 		diagram_pane.widthProperty().addListener((obs, oldVal, newVal) -> {
 			paneX = newVal.doubleValue();
 			leftCircle.setLayoutX(paneX / 3);
 			// move right circle to the right for intersection
 			rightCircle.setLayoutX(paneX / 3 + paneX / 4);
-			/*
-			 * add logic for 3rd circle
-			 */
+			
+			bottomCircle.setCenterX((leftCircle.getBoundsInParent().getCenterX() + rightCircle.getBoundsInParent().getCenterX())/2);
+			
+			rightSetName.setLayoutX(rightCircle.getBoundsInParent().getCenterX());
+			leftSetName.setLayoutX(leftCircle.getBoundsInParent().getCenterX());
 		});
 		diagram_pane.heightProperty().addListener((obs, oldVal, newVal) -> {
 			paneY = newVal.doubleValue();
 			leftCircle.setLayoutY(paneY / 2);
 			rightCircle.setLayoutY(paneY / 2);
-			/*
-			 * add logic for 3rd circle
-			 */
+			bottomCircle.setCenterY(leftCircle.getBoundsInParent().getCenterY() + leftCircle.getRadius());
+			
 		});
+		
+		VennDiagram.View.primaryStage.heightProperty().addListener((ChangeListener<? super Number>) new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				leftCircle.setRadius((double)newValue/3.33);
+				rightCircle.setRadius((double)newValue/3.33);
+				bottomCircle.setRadius((double)newValue/3.33);
+//				System.out.println(leftCircle.getBoundsInLocal().intersects(item_list.getBoundsInLocal()));
+			
+			
 
+			}
+		});
+//		VennDiagram.View.primaryStage.widthProperty().addListener((ChangeListener<? super Number>) new ChangeListener<Number>() {
+//			@Override
+//			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+//				
+//				leftCircle.setRadius((double)newValue/4);
+//				rightCircle.setRadius((double)newValue/4);
+//				System.out.println(leftCircle.getRadius() +" -> "+newValue);
+//				System.out.println(rightCircle.getRadius()+" -> "+newValue);
+//
+//			}
+//		});
+		
+
+		leftSetName.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@SuppressWarnings("unchecked")
+			@Override
+			public void handle(MouseEvent event) {
+				if(event.getClickCount() == 2 && event.getButton().equals(MouseButton.PRIMARY)) {
+					try {
+						controller.changeSetNameController.text = leftSetName.getText();
+						controller.changeSetNameController.color = (Color) leftSetName.getTextFill();
+						VennDiagram.changeSetNameWindow.display("Change Title");
+						if (controller.changeSetNameController.buttonPressed) {
+							leftSetName.setText(controller.changeSetNameController.text);
+							leftSetName.setText(controller.changeSetNameController.text);
+							// need to loop through elements and change the element to whatever we changed
+							// it to in the refactor.
+							leftSetName.setTextFill(controller.changeSetNameController.color);
+						}
+
+					} catch (Exception e1) {
+						e1.printStackTrace();
+
+					}
+				}
+			}
+		});
+		rightSetName.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@SuppressWarnings("unchecked")
+			@Override
+			public void handle(MouseEvent event) {
+				if(event.getClickCount() == 2 && event.getButton().equals(MouseButton.PRIMARY)) {
+					try {
+						controller.changeSetNameController.text = rightSetName.getText();
+						controller.changeSetNameController.color = (Color) rightSetName.getTextFill();
+						VennDiagram.changeSetNameWindow.display("Change Title");
+						if (controller.changeSetNameController.buttonPressed) {
+							rightSetName.setText(controller.changeSetNameController.text);
+							rightSetName.setText(controller.changeSetNameController.text);
+							// need to loop through elements and change the element to whatever we changed
+							// it to in the refactor.
+							rightSetName.setTextFill(controller.changeSetNameController.color);
+						}
+
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
+		
 		groupIdentifier.setEditable(false);
 		splitMenu.setOnAction(e -> {
 			// keep this empty, it basically removes the functionality of the root button in
@@ -311,32 +495,24 @@ public class Controller {
 				} else {
 					setText(item.getText());
 				}
-//				if(getIndex() %2 == 0) {
-//					setStyle("-fx-background-color: #F5F5DC");
-//				}
-//				else {
-//					setStyle("-fx-background-color: #F5EAB5");
-//				}
 
 			}
 		});
 
-		origRad = leftCircle.getRadius();
-		leftCircOrig = leftCircle.getBoundsInParent().getCenterX();
-		rightCircleOrig = rightCircle.getBoundsInParent().getCenterX();
 
 		/*
 		 * resizing circles.
 		 */
 		circleSize.setRotate(180);
 		circleSize.setValue(366);
-
+		bottomCircleSlider.setMax(bottomCircle.getCenterY());
+		bottomCircleSlider.setMin(600);
 		circleSize.valueProperty().addListener((ChangeListener<? super Number>) new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				leftCircle.setRadius((double) newValue);
 				rightCircle.setRadius((double) newValue);
-
+				bottomCircle.setRadius((double) newValue);
 				leftCircleSlider.setValue(0);
 				rightCircleSlider.setValue(rightCircleSlider.getMax());
 			}
@@ -360,6 +536,35 @@ public class Controller {
 
 			}
 		});
+		bottomCircleSlider.valueProperty().addListener((ChangeListener<? super Number>) new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+//				System.out.println(oldValue);
+				bottomCircle.setCenterY((double) newValue);
+
+			}
+		});
+		
+		bottomCircle.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@SuppressWarnings("unchecked")
+			@Override
+			public void handle(MouseEvent event) {
+				if(event.getButton().equals(MouseButton.SECONDARY)) {
+					try {
+						circleMenu.show(View.primaryStage, event.getScreenX(), event.getScreenY());
+						circleMenu.getItems().get(0).setOnAction(e -> {
+							circleDestroyer(circles);
+						});
+
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
+		
+		
+		
 
 		/*
 		 * installing tooltips on the buttons so the user can see exactly what they do.
@@ -395,16 +600,46 @@ public class Controller {
 		tt8.setShowDelay(Duration.millis(500));
 		tt9.setShowDelay(Duration.millis(500));
 		tt10.setShowDelay(Duration.millis(500));
-//		rightCircle.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//			@SuppressWarnings("unchecked")
-//			@Override
-//			public void handle(MouseEvent event) {
-//				if(event.getButton().equals(MouseButton.SECONDARY)) {
-//					System.out.println("heeee");
-//				}
-//			}
-//		});
+		leftSetName.setText(controller.startPageController.leftSetName);
+		rightSetName.setText(controller.startPageController.rightSetName);
 	}
+	
+	/*
+	 * sorts the ListView. Call this when you want to resort the list.
+	 */
+	
+	protected void itemListSorter() {
+		Collections.sort(item_list.getItems(), new Comparator<Item>() {
+			@Override
+			public int compare(Item item1, Item item2) {
+				for (int i = 0; i < item1.getText().length() &&  
+	                    i < item2.getText().length(); i++) { 
+	            if ((int)item1.getText().toLowerCase().charAt(i) ==  
+	                (int)item2.getText().toLowerCase().charAt(i)) { 
+	                continue; 
+	            }  
+	            else { 
+	                return (int)item1.getText().charAt(i) -  
+	                    (int)item2.getText().charAt(i); 
+	            } 
+	        } 
+	  
+	  
+	        if (item1.getText().length() < item2.getText().length()) { 
+	            return (item1.getText().length()-item2.getText().length()); 
+	        }  
+	        else if (item1.getText().length() > item2.getText().length()) { 
+	            return (item1.getText().length()-item2.getText().length()); 
+	        } 
+	        else { 
+	            return 0; 
+	        } 
+			}
+		});
+	}
+	
+	
+	
 
 	// listview is not serializable, so convert to arraylist which is.
 	private ArrayList<Item> obsListToArrayList(ObservableList<Item> list) {
@@ -444,9 +679,7 @@ public class Controller {
 		}
 		splitMenu.setText("Left Circle");
 		toolbar.getItems().add(Controller.box);
-//		diagram_pane.getChildren().add(Controller.box);
-//		box.setLayoutX(splitMenu.getLayoutX() + 360);
-//		box.setLayoutY(splitMenu.getLayoutY() - 37.5);
+
 
 		colorPicker.setOnAction(new EventHandler() {
 			@Override
@@ -471,10 +704,6 @@ public class Controller {
 		splitMenu.setText("Right Circle");
 		toolbar.getItems().add(Controller.box);
 
-//		diagram_pane.getChildren().add(Controller.box);
-//		box.setPrefSize(splitMenu.getPrefWidth(), splitMenu.getPrefHeight());
-//		box.setLayoutX(splitMenu.getLayoutX() + 360);
-//		box.setLayoutY(splitMenu.getLayoutY() - 37.5);
 		colorPicker.setOnAction(new EventHandler() {
 			public void handle(javafx.event.Event event) {
 				rightCircle.setFill(colorPicker.getValue());
@@ -538,17 +767,31 @@ public class Controller {
 		groupArray[0] = leftGroup;
 		groupArray[1] = rightGroup;
 		groupArray[2] = matchGroup;
+		Item clickedItem1  = item_list.getSelectionModel().getSelectedItem();
+		
+		//Warn the user once or more times if they don't select the option.
+		if (VennDiagram.repeatDraggableItem.checkboxPressed2) {
 
+		} else {
+			VennDiagram.repeatDraggableItem.display2("Alert", "Are you sure you want to delete this item?");
+		}
+		if(!VennDiagram.repeatDraggableItem.confirmPressed2) {
+			return;
+		}
 		for (int i = 0; i < 3; i++) {
-			if (groupArray[i].contains(clickedItem)) {
-				groupArray[i].removeItem(clickedItem);
-				item_list.getItems().remove(clickedItem);
+			if (groupArray[i].contains(clickedItem1)) {
+				groupArray[i].removeItem(clickedItem1);
+				
+				
 			}
+			model.getItemSet().remove(clickedItem1);
+			item_list.getItems().remove(clickedItem1); //remove it from the list out here so even if 
+			//it's not in a group, it will still be removed.
 		}
 		item_list.refresh();
-		leftSetText.setText(leftGroup.toVisualList());
-		rightSetText.setText(rightGroup.toVisualList());
-		middleSetText.setText(matchGroup.toVisualList());
+//		leftSetText.setText(leftGroup.toVisualList());
+//		rightSetText.setText(rightGroup.toVisualList());
+//		middleSetText.setText(matchGroup.toVisualList());
 		groupIdentifier.clear();
 		event.consume();
 	}
@@ -558,12 +801,12 @@ public class Controller {
 	 * object is isItemClicked: returns true if an item is clicked clickedItem:
 	 * returns the Item object associated with the click
 	 */
-	@FXML
+//	@FXML
 	public boolean testMouse(MouseEvent event) {
 		isItemClicked = item_list.isFocused();
+		System.out.println("Item is focused: " + item_list.isFocused());
 		clickedItem = item_list.getFocusModel().getFocusedItem();
 		event.consume();
-		System.out.println("clicked");
 		return isItemClicked;
 	}
 
@@ -610,10 +853,6 @@ public class Controller {
 
 			event.getSceneX();
 			event.getSceneY();
-//			middleSetText.setText(matchGroup.toVisualList());
-//			leftSetText.setText(leftGroup.toVisualList());
-//			rightSetText.setText(rightGroup.toVisualList());
-//			setMatcher(rightGroupList,leftGroupList,midGroupList,arr);
 
 			isCompleted = true;
 			
@@ -715,10 +954,48 @@ public class Controller {
 
 		event.consume();
 	}
+	
+	protected void overlappingItems(DraggableItem item) {
+		for(Node node : diagram_pane.getChildren()) {
+			if(node.getClass().equals(DraggableItem.class)) {
+				if(((DraggableItem)node).getX() == item.getX() && ((DraggableItem)node).getY() == item.getY() ) {
+					item.setLayoutY(item.getLayoutY() + 30);
+				}
+			}
+		}
+	}
+	
+	
+	
+	protected boolean isOverlapping(DraggableItem item) {
+		for(Node node : diagram_pane.getChildren()) {
+			
+			if(node.getClass().equals(DraggableItem.class) && !((DraggableItem)node).equals(item)) {
+				if(((DraggableItem)node).getBoundsInParent().intersects(item.getBoundsInParent())) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	
+	protected void overlapCorrector(DraggableItem tempItem) {
+		while(isOverlapping(tempItem)) {
+			tempItem.setLayoutY(tempItem.getLayoutY()+30);
+			isOverlapping(tempItem);
+
+		}
+		lastValidX = tempItem.getLayoutX();
+		lastValidY = tempItem.getLayoutY();
+	}
+	
+	
+	
 
 	@FXML
 	public void handleCreateDraggableItemButton(ActionEvent event) {
-		// if the selected items in the item list is 0, dont do anything
+		// if the selected items in the item list is 0, don't do anything
 		if (selectedItems.size() <= 0) {
 			event.consume();
 			return;
@@ -732,7 +1009,10 @@ public class Controller {
 			DraggableItem tempItem = new DraggableItem(item, this);
 			tempItem.getLabel().setTextFill(Color.BLACK); // tbh it looks gray but w.e.
 			tempItem.getLabel().setFont(new Font("Arial", 18));
-			tempItem.setPrefSize(Region.USE_COMPUTED_SIZE + 50, Region.USE_COMPUTED_SIZE + 50);
+			tempItem.setPrefSize(Region.USE_COMPUTED_SIZE + 50, Region.USE_COMPUTED_SIZE + 25);
+			//changed the above line to 25 from 50. Did this because this allows the items to be placed closer.
+//			tempItem.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+//			use the above line to visualize what the label object actually looks like.
 			// set position within diagram pane
 			itemPositionY += spaceY;
 			if (itemPositionY >= paneY - 100) {
@@ -748,12 +1028,17 @@ public class Controller {
 			if (!containsArray.contains(tempItem.getItem().getText())
 					|| VennDiagram.repeatDraggableItem.checkboxPressed) {
 				diagram_pane.getChildren().add(tempItem);
+				if(item_list.getSelectionModel().getSelectedItems().size() == 1) {
+					overlappingItems(tempItem);
+				}
 				containsArray.add(tempItem.getItem().getText());
+				lastValidX = tempItem.getLayoutX();
+				lastValidY = tempItem.getLayoutY();
+				
 
 			} else {
 				VennDiagram.repeatDraggableItem.display("Alert", "Diagram Item Already Exists.");
 			}
-			NUMIDS++;
 			tempItem.setOnMouseClicked(new EventHandler<MouseEvent>() {
 				@SuppressWarnings("unchecked")
 				@Override
@@ -779,6 +1064,9 @@ public class Controller {
 										// it to in the refactor.
 										tempItem.getLabel().setTextFill(controller.refactorController.color);
 										containsArray.set(index, tempItem.getItem().getText());
+										if(controller.startPageController.sortItems) {
+											itemListSorter();
+										}
 										item_list.refresh();
 									}
 
@@ -808,9 +1096,6 @@ public class Controller {
 										diagram_pane.getChildren().remove(tempItem);
 									});
 
-//									System.out.println(model.getItemSet());
-//									System.out.println(itemsContent);
-//									System.out.println(containsArray);
 									groupIdentifier.clear(); // clears the group identifier.
 									item_list.refresh();
 								} catch (Exception e1) {
@@ -825,8 +1110,27 @@ public class Controller {
 
 				}
 			});
+	
 			tempItem.setOnMouseReleased(e -> {
-//				System.out.println("("+tempItem.getX() + "," + tempItem.getY()+")");
+				
+				if(!( tempItem.getLayoutX() > minX && tempItem.getLayoutX() < diagram_pane.getBoundsInLocal().getMaxX() 
+						) || !( tempItem.getLayoutY() > diagram_pane.getBoundsInLocal().getMinY() && 
+								tempItem.getLayoutY() < diagram_pane.getBoundsInLocal().getMaxY() 
+								)) {
+					tempItem.setLayoutX(lastValidX);
+					tempItem.setLayoutY(lastValidY);
+//					System.out.println(tempItem.getLayoutX() + " > " + diagram_pane.getBoundsInLocal().getMinX());
+//					System.out.println(tempItem.getLayoutX() > minX);
+//					System.out.println(tempItem.getLayoutX() +" < "+ diagram_pane.getBoundsInLocal().getMaxX());
+//					System.out.println(tempItem.getLayoutX() < diagram_pane.getBoundsInLocal().getMaxX() );
+//					System.out.println(tempItem.getLayoutY() +" > "+ diagram_pane.getBoundsInLocal().getMinY());
+//					System.out.println(tempItem.getLayoutY() > diagram_pane.getBoundsInLocal().getMinY());
+//					System.out.println(tempItem.getLayoutY() +" < "+ diagram_pane.getBoundsInLocal().getMaxY());
+//					System.out.println(tempItem.getLayoutY() < diagram_pane.getBoundsInLocal().getMaxY());
+					
+//					System.out.println(diagram_pane.getMinHeight() + "+ "+ diagram_pane.getMinWidth());
+				}
+				overlapCorrector(tempItem);
 				groupFinder2(tempItem);
 				if (!threeCircs) {
 					if (groupIdentifier.getText().equals("Left Circle")) {
@@ -867,18 +1171,7 @@ public class Controller {
 							matchGroup.removeItem(tempItem.item);
 						}
 					}
-//					System.out.println(tempItem.item.id);
-					System.out.println("Left: " + leftGroup.getSize());
-					System.out.println("Right : " + rightGroup.getSize());
-					System.out.println("Intersect: " + matchGroup.getSize());
-//					
-//					System.out.println("Left: "+leftGroup.toVisualList());
-//					System.out.println("Right : "+rightGroup.toVisualList());
-//					System.out.println("Intersect: "+matchGroup.toVisualList());
-
-					System.out.println(leftGroup.contains(tempItem.item));
-					System.out.println(rightGroup.contains(tempItem.item));
-					System.out.println(matchGroup.contains(tempItem.item));
+					
 				} else {
 					if (groupIdentifier.getText().equals("Left Circle")) {
 						leftGroup.insertItem(tempItem.item);
@@ -1056,13 +1349,7 @@ public class Controller {
 						}
 					}
 
-//					System.out.println("Full Intersect size: " + fullIntersect.getSize());
-//					System.out.println("Left Right Intersect size: " + leftRightGroup.getSize());
-//					System.out.println("Bottom Left Intersect size: " + bottomLeftGroup.getSize());
-//					System.out.println("Bottom Right Intersect size: " + bottomRightGroup.getSize());
-//					System.out.println("Right set size: " + rightGroup.getSize());
-//					System.out.println("Left Set size: " + leftGroup.getSize());
-//					System.out.println("Bottom Set size: " + bottomGroup.getSize());
+
 				}
 
 			});
@@ -1088,6 +1375,7 @@ public class Controller {
 	public void addCirc(ActionEvent event) {
 		if (Controller.numCirc == 2) { // if the numCircles is 2, then we put the 3rd in a specific place.
 			circleCreator(leftCircle.getRadius(), 300, 400);
+			toolbar.getItems().add(bottomCircleSlider);
 			numCirc++; // inc the number of circles.
 		} else {
 			// >4 cicles is not allowed, this will check any circle creation beyond 4.
@@ -1098,14 +1386,6 @@ public class Controller {
 
 	private void circleCreator(double radius, int startX, int startY) {
 		// making the circles
-//		circle = new Circle();
-//		circle.setFill(Color.DODGERBLUE);
-//		circle.setOpacity(leftCircle.getOpacity());
-//		circle.setRadius(radius);
-//		circle.setLayoutX(startX);
-//		circle.setLayoutY(startY);
-//		circles.add(circle);
-//		diagram_pane.getChildren().add(circle);
 		if (threeCircs) {
 			return;
 		}
@@ -1117,8 +1397,16 @@ public class Controller {
 	}
 
 	private void circleDestroyer(List<Circle> circle) {
+		toolbar.getItems().remove(bottomCircleSlider);
 		// delete the circles.
 		diagram_pane.getChildren().removeAll(circle);
+		Controller.numCirc = 2; // resets the value of numCirc, allows for the other functions to work.
+		leftRightGroup.removeAll();
+		bottomGroup.removeAll();
+		bottomLeftGroup.removeAll();
+		bottomRightGroup.removeAll();
+		fullIntersect.removeAll();
+		threeCircs = false;
 	}
 
 	@FXML
@@ -1130,6 +1418,7 @@ public class Controller {
 			startPageController.load = false; // Ensures the Controller knows that we are going back to the beginning.
 			startPageController.selectedFile = null; // Make the userFile Load to null
 			remover();
+			View.primaryStage.setResizable(false);
 			View.primaryStage.setScene(View.promptWindow);
 		}
 	}
@@ -1152,18 +1441,17 @@ public class Controller {
 				ft.play();
 				ft.setOnFinished(e1 -> {
 					circleDestroyer(this.circles);
+					
 				});
 			}
 			// removes additional circles
-			Controller.numCirc = 2; // resets the value of numCirc, allows for the other functions to work.
+			
 			// the rest is resetting original vals.
 			leftCircle.setFill(Color.DODGERBLUE);
 			rightCircle.setFill(Color.DODGERBLUE);
 			Color colorVal = (Color) rightCircle.getFill();
 			colorPicker.setValue(colorVal);
-			rightCircle.setRadius(origRad);
-			leftCircle.setRadius(origRad);
-			threeCircs = false;
+			VennDiagram.repeatDraggableItem.checkboxPressed = false;
 			event.consume();
 		}
 
@@ -1174,6 +1462,13 @@ public class Controller {
 		rightGroup.removeAll();
 		leftGroup.removeAll();
 		matchGroup.removeAll();
+		if(threeCircs) {
+			leftRightGroup.removeAll();
+			bottomGroup.removeAll();
+			bottomLeftGroup.removeAll();
+			bottomRightGroup.removeAll();
+			fullIntersect.removeAll();
+		}
 		model.getItemSet().clear();
 		item_list.getItems().clear(); // clearing the listview.
 		groupIdentifier.clear(); // clearing the group identifiers.
@@ -1250,8 +1545,13 @@ public class Controller {
 				create_text.clear(); // reset textfield
 				create_text.requestFocus(); // get the textfield to listen for the next input.
 			}
+			if(controller.startPageController.sortItems) {
+				itemListSorter();
+				item_list.refresh();
+			}		
 		}
 	}
+
 	@FXML
 	public void undoEvent(ActionEvent event) {
 		if(lastAction.get(lastAction.size()-1) ==0 ) {
@@ -1306,6 +1606,24 @@ public class Controller {
 		event.consume();
 	}
 	
+
+	
+	protected void createFromTextFile(String text) {
+		Item testing = new Item(text.trim());
+		if (!model.containsText(testing.text)) {
+			model.addSet(testing);
+			itemsContent.add(testing);
+			create_text.clear(); // reset textfield
+			create_text.requestFocus(); // get the textfield to listen for the next input.
+		}
+		if(controller.startPageController.sortItems) {
+			itemListSorter();
+			item_list.refresh();
+		}
+		
+	}
+
+
 	/*
 	 * New Method: checks the model for element by string O(1).
 	 * 
@@ -1317,24 +1635,56 @@ public class Controller {
 		itemsContent.add(item);
 	}
 
+//	@FXML
+//	protected void refactor(ActionEvent event) throws Exception {
+//		if (isItemClicked == false) { // no selected items.
+//			VennDiagram.TagAlreadyExistsAlert.display("ERROR", "Select some items before trying to rename them.");
+//		}
+//
+//		else {
+//			VennDiagram.refactorWindow.display("Window");
+//			if (!controller.refactorController.buttonPressed) { // checks if the exit button is pressed
+//				// or if the refactor button is pressed.
+//				return;
+//			}
+//			if (model.containsText(refactorController.text)) { // stops duplicates.
+//				VennDiagram.TagAlreadyExistsAlert.display("ERROR", "Tag Already Exists");
+//				return;
+//			} else {
+//				clickedItem.text = refactorController.text;
+//			}
+//			item_list.refresh(); // refresh the listView to show us the current values.
+//		}
+//	}
+	
 	@FXML
-	protected void refactor(ActionEvent event) throws Exception {
-		if (isItemClicked == false) { // no selected items.
+	protected void refactor(ActionEvent event) throws Exception{
+		if(item_list.getSelectionModel().getSelectedItems().size() == 0) {
 			VennDiagram.TagAlreadyExistsAlert.display("ERROR", "Select some items before trying to rename them.");
 		}
-
 		else {
-			VennDiagram.refactorWindow.display("Window");
+			controller.refactorController.text = item_list.getSelectionModel().getSelectedItem().getText();
+
+			controller.refactorController.description = "No description Given.";
+			VennDiagram.refactorWindow.display("Refactor");
 			if (!controller.refactorController.buttonPressed) { // checks if the exit button is pressed
 				// or if the refactor button is pressed.
 				return;
 			}
-			if (model.containsText(refactorController.text)) { // stops duplicates.
-				VennDiagram.TagAlreadyExistsAlert.display("ERROR", "Tag Already Exists");
-				return;
-			} else {
-				clickedItem.text = refactorController.text;
+			
+			for(Node node : diagram_pane.getChildren()) {
+				if(node.getClass().equals(DraggableItem.class)) {
+					if(((DraggableItem)node).text.getText().equals(item_list.getSelectionModel().getSelectedItem().getText())) {
+						((DraggableItem)node).text.setText(refactorController.text);
+					}
+				}
 			}
+			
+			item_list.getSelectionModel().getSelectedItem().setText(refactorController.text);
+			if(controller.startPageController.sortItems) {
+				itemListSorter();
+			}
+			
 			item_list.refresh(); // refresh the listView to show us the current values.
 		}
 	}
@@ -1426,7 +1776,7 @@ public class Controller {
 
 			if (leftCircleDist <= leftCircle.getRadius() && rightCircleDist <= rightCircle.getRadius()) {
 				groupIdentifier.setText("Intersect");
-				groupIdentifier.setStyle("-fx-text-fill: blue;");
+				groupIdentifier.setStyle("-fx-text-fill: green;");
 			} else if (leftCircleDist < leftCircle.getRadius()) {
 				groupIdentifier.setText("Left Circle");
 				groupIdentifier.setStyle("-fx-text-fill: red;");
@@ -1493,7 +1843,10 @@ public class Controller {
 	@FXML
 	protected void textFileWriter(ActionEvent event) {
 		try {
-			FileWriter writer = new FileWriter("results.txt", false);
+			FileChooser fileChooser = new FileChooser();
+			selectedFile = fileChooser.showSaveDialog(null);
+			
+			FileWriter writer = new FileWriter(selectedFile, false);
 			if (!threeCircs) {
 				writer.write("Left Group:");
 				int i = 0;
@@ -1532,10 +1885,133 @@ public class Controller {
 				}
 				writer.write("\n");
 
-				writer.close();
+				
 			}
+			else {
+			
+				int i = 0;
+				writer.write("Left Group:");
+				for (Item item : leftGroup.items.values()) {
+					if (i == leftGroup.getSize() - 1) {
+						writer.write(item.getText());
+					} else {
+						writer.write(item.getText() + ", ");
+					}
+					i++;
+
+				}
+				writer.write("\n");
+			
+				i = 0;
+				writer.write("Right Group:");
+				for (Item item : rightGroup.items.values()) {
+					if (i == rightGroup.getSize() - 1) {
+						writer.write(item.getText());
+					} else {
+						writer.write(item.getText() + ", ");
+					}
+					i++;
+
+				}
+				writer.write("\n");
+				i = 0;
+				writer.write("Bottom Group:");
+				for (Item item : bottomGroup.items.values()) {
+					if (i == bottomGroup.getSize() - 1) {
+						writer.write(item.getText());
+					} else {
+						writer.write(item.getText() + ", ");
+					}
+					i++;
+
+				}
+				writer.write("\n");
+	
+				i = 0;
+				writer.write("Left Right Group:");
+				for (Item item : leftRightGroup.items.values()) {
+					if (i == leftRightGroup.getSize() - 1) {
+						writer.write(item.getText());
+					} else {
+						writer.write(item.getText() + ", ");
+					}
+					i++;
+
+				}
+				writer.write("\n");
+
+				i = 0;
+				writer.write("Bottom Left Group:");
+				for (Item item : bottomLeftGroup.items.values()) {
+					if (i == bottomLeftGroup.getSize() - 1) {
+						writer.write(item.getText());
+					} else {
+						writer.write(item.getText() + ", ");
+					}
+					i++;
+
+				}
+				writer.write("\n");
+	
+				i = 0;
+				writer.write("Bottom Right Group:");
+				for (Item item : bottomRightGroup.items.values()) {
+					if (i == bottomRightGroup.getSize() - 1) {
+						writer.write(item.getText());
+					} else {
+						writer.write(item.getText() + ", ");
+					}
+					i++;
+
+				}
+				writer.write("\n");
+			
+				i = 0;
+				writer.write("Match Group:");
+				for (Item item : fullIntersect.items.values()) {
+					if (i == fullIntersect.getSize() - 1) {
+						writer.write(item.getText());
+					} else {
+						writer.write(item.getText() + ", ");
+					}
+					i++;
+
+				}
+				writer.write("\n");
+			}
+			
+			writer.close();
 		} catch (Exception e) {
 
+		}
+	}
+	@FXML
+	protected void openFromTextfile(ActionEvent action) throws Exception {
+		FileChooser fileChooser = new FileChooser();
+		selectedFile = fileChooser.showOpenDialog(null);
+		fileChooser.setTitle("Select a Text File");
+		if(selectedFile == null) {
+			return;
+		}
+		else {
+			
+		String fileExtension = selectedFile.getName().substring(selectedFile.getName().lastIndexOf("."),selectedFile.getName().length());
+			
+		if(!fileExtension.equals(".txt")) {
+			VennDiagram.invalidFileFormatAlert.display("Invalid File", "Select a .txt file.");
+			return;
+		}
+		String[] words = null;
+		String s;
+		FileReader fr = new FileReader(selectedFile);
+		BufferedReader br = new BufferedReader(fr);
+		
+		while((s=br.readLine())!= null) {
+			words = s.split(" ");
+			for(String word: words) {
+				createFromTextFile(word);
+			}
+		}
 		}
 	}
 

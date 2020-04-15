@@ -1,6 +1,7 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 
+
 .root{
 	-fx-background-image: url("/images/backgroundRefactor.png");
 	-fx-border-width: 5;
@@ -32,12 +33,11 @@
 }
 
 
+
 .color-picker{
 	 -fx-background-color: linear-gradient(to right, #ff6e7f, #bfe9ff);
 }
 .color-picker .label{
 	-fx-text-fill: black;
 }
-
- 
  

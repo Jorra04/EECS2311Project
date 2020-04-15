@@ -2,14 +2,14 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 
 .root{
-	-fx-background-image: url("/images/backgroundRefactor.png");
+	-fx-background-image: url("/images/settingsBackground.png");
 	-fx-border-width: 5;
-	
+	-fx-background-size: cover;
 	
 }
 
 .button {
-   -fx-background-color: linear-gradient(to right, #fbc2eb, #a6c1ee);
+   -fx-background-color: linear-gradient(to right, #cb2d3e, #ef473a);
    -fx-text-fill: black;
 }
 
@@ -37,6 +37,24 @@
 }
 .color-picker .label{
 	-fx-text-fill: black;
+}
+.check-box .box {
+
+-fx-background-color: white;
+-fx-border-color:black;
+-fx-border-radius:3px; 
+
+}
+
+.check-box:selected .mark {
+
+-fx-background-color: white;
+
+}
+
+.check-box:selected .box {
+
+-fx-background-color: #28a3f4;
 }
 
  

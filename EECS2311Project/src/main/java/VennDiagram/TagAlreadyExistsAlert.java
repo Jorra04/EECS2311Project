@@ -38,7 +38,9 @@ public class TagAlreadyExistsAlert {
 		StackPane.setMargin(confirm, new Insets(20,0,0,0));
 		
 		Scene scene = new Scene(layout);
+		scene.getStylesheets().add(clearAllAlert.class.getResource("alerts.css").toExternalForm());
 		window.setScene(scene);
+		
 		window.showAndWait();
 		
 	}

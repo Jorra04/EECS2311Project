@@ -13,20 +13,20 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public class refactorWindow {
+public class advancedSettings {
 	public static Stage window;
 	
 	
 	
 	public static void display(String title) throws Exception{
-		Parent root = FXMLLoader.load(refactorWindow.class.getResource("/views/refactorUI.fxml"));
+		Parent root = FXMLLoader.load(refactorWindow.class.getResource("/views/extendedSettings.fxml"));
 		window = new Stage();
 		window.initModality(Modality.APPLICATION_MODAL); //stops interaction with the other scene while this scene is open.
 		window.setTitle(title);
 		
-		Scene scene = new Scene(root,512,500);
+		Scene scene = new Scene(root,600,400);
 
-		scene.getStylesheets().add(refactorWindow.class.getResource("refactor.css").toExternalForm());
+		scene.getStylesheets().add(refactorWindow.class.getResource("advancedSettings.css").toExternalForm());
 		window.setResizable(false);
 		window.setScene(scene);
 		window.showAndWait();

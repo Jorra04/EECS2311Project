@@ -8,8 +8,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
+
 import javafx.stage.Stage;
+
 
 //merged
 
@@ -37,7 +38,7 @@ public class View extends Application{
 		   
 	    //scene = new Scene(root, 900, 650);
 	    scene = new Scene(root);
-		promptWindow = new Scene(root2,750,550);
+		promptWindow = new Scene(root2,1020,580);
 		promptWindow.getStylesheets().add(getClass().getResource("openingPage.css").toExternalForm());
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		primaryStage.setOnCloseRequest(event ->{
@@ -47,10 +48,12 @@ public class View extends Application{
 			}
 			
 		});
-		
+
+		primaryStage.setMinHeight(600);
+		primaryStage.setMinWidth(750);
 	    primaryStage.setTitle("VennDiagram Creator");
 	    primaryStage.setScene(promptWindow);
-	    primaryStage.setResizable(true);
+	    primaryStage.setResizable(false);
 	    //primaryStage.getIcons().add(0,new Image(getClass().getResourceAsStream("/images/icon.png")));
 	    primaryStage.show();
 	}

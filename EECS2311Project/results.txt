@@ -1,3 +1,3 @@
-Left Group:danial, jorra
-Match Group:daniel
-Right Group:inder
+Left Group:oranges
+Match Group:bananas
+Right Group:apples
