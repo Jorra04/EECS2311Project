@@ -199,7 +199,7 @@ public class Controller {
 	ImageView backToMenu = new ImageView(new Image("/images/back.png"));
 	
 	ImageView refactorIM = new ImageView(new Image("/images/refactor.png"));
-	ImageView deleteIM = new ImageView(new Image("/images/delete.png"));
+	//ImageView deleteIM = new ImageView(new Image("/images/delete.png"));
 	ImageView undoIM = new ImageView(new Image("/images/undo.png"));
 	ImageView redoIM = new ImageView(new Image("/images/redo.png"));
 	ImageView aboutIM = new ImageView(new Image("/images/aboutUs.png"));
@@ -298,9 +298,11 @@ public class Controller {
 		refactorIM.setFitWidth(20);
 		refactor.setGraphic(refactorIM);
 	
+		/*
 		deleteIM.setFitHeight(20);
 		deleteIM.setFitWidth(20);
 		delete.setGraphic(deleteIM);
+		*/
 		
 		undoIM.setFitHeight(20);
 		undoIM.setFitWidth(20);
