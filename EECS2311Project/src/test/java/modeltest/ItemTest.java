@@ -4,6 +4,7 @@
 package modeltest;
 
 import static org.junit.Assert.*;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,30 +34,56 @@ public class ItemTest {
 	
 	@Test
 	public void testGetID() {
-		assertEquals(1, item.getID());
+		String b = "apple";
+		int a = b.hashCode();
+		assertEquals(a, item.getID());
 	}
 	
 	@Test
 	public void testIncrementID() {
 		Item item2 = new Item("bananas");
-		assertEquals(2, item2.getID());
+		String b = "bananas";
+		int a = b.hashCode();
+		assertEquals(a, item2.getID());
 	}
 	
 	@Test
 	public void testSetText() {
 		item.setText("oranges");
-		assertEquals("oranges", item.getText());
+		assertEquals(item.getText(), "oranges");
 	}
 	
 	@Test
 	public void testEquals() {
 		Item item2 = new Item("apple");
+		Item item3 = null;
+		Item item4 = new Item ("");
+		item4.setText(null);
+		String a = "a";
+		
+		
+		assertEquals(item, item2);
+		assertNotEquals(item, item3);
+	
+		assertEquals(item.getClass(), item2.getClass());
+		assertNotEquals(getClass(), a.getClass());
+		
+		assertEquals(false, item.equals(item4));
+		assertEquals(false, item.equals(item3));
+		assertEquals(false, item.equals(a));
+		assertEquals(true, item.equals(item2));
+		
+		item.setText(null);
+		assertEquals(false, item.equals(item2));
+		item2.setText(null);
 		assertEquals(true, item.equals(item2));
 	}
 	
 	@Test
 	public void testToString() {
-		assertEquals("Item [id=1, text=apple]", item.toString());
+		String b = "apple";
+		int a = b.hashCode();
+		assertEquals("Item [id="+a+", text="+b+"]", item.toString());
 		
 	}
 	
@@ -64,7 +91,6 @@ public class ItemTest {
 	public void testHashCode() {
 		assertNotEquals(0, item.hashCode());
 	}
-	
 	
 	
 	@After

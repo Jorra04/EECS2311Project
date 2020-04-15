@@ -485,7 +485,7 @@ public class Controller {
 		circleSize.setRotate(180);
 		circleSize.setValue(366);
 		bottomCircleSlider.setMax(bottomCircle.getCenterY());
-		bottomCircleSlider.setMin(400);
+		bottomCircleSlider.setMin(600);
 		circleSize.valueProperty().addListener((ChangeListener<? super Number>) new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
