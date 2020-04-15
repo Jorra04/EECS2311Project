@@ -215,12 +215,24 @@ public class Controller {
 	// new stuff i added 04-04
 	boolean threeCircs = false;
 	Circle bottomCircle = new Circle();
+	
+	//Queues for the tasklist
+	Deque<Item> undoItem = new ArrayDeque<>();
+	Deque<Item> redoItem = new ArrayDeque<>();
+	
+	//Queues for undo and redo
+	Deque<DraggableItem> undoDItem = new ArrayDeque<>();
+	Deque<DraggableItem> redoDItem = new ArrayDeque<>();
+	
+	//Last Action
+	ArrayList<Integer> lastAction = new ArrayList<Integer>(); // 0 is add to list, 1 is add to window, 2 is move position
+	ArrayList<Integer> lastRemovedAction = new ArrayList<Integer>();// 0 is add to list, 1 is add to window, 2 is move position
 
 	// use this to help setup the fxml components, initialize is called as soon as
 	// app starts up. Similar to a constructor.
 	public void initialize() {
 //		diagram_pane.setStyle(backgroundCol);
-
+		
 //		createDraggableItemButton.setStyle("-fx-background-color: #a8a496");
 		create_text.requestFocus();
 //		diagram_pane.setStyle("-fx-background-color: #F5F5DC");
@@ -709,6 +721,7 @@ public class Controller {
 		double itemPositionY = 0;
 		double itemPositionX = 0;
 		for (Item item : selectedItems) {
+			lastAction.add(1);
 			// provide each item with a reference to the controller class itself, so it can
 			// compare the item with the circle positions for intersection.
 			DraggableItem tempItem = new DraggableItem(item, this);
@@ -724,6 +737,7 @@ public class Controller {
 			}
 			tempItem.setLayoutX(itemPositionX); // set to the left
 			tempItem.setLayoutY(itemPositionY); // space between each item
+			undoDItem.addFirst(tempItem);
 
 			if (!containsArray.contains(tempItem.getItem().getText())
 					|| VennDiagram.repeatDraggableItem.checkboxPressed) {
@@ -775,6 +789,7 @@ public class Controller {
 									int index = containsArray.indexOf(tempItem.getItem().getText());
 									containsArray.remove(index);
 									item_list.getItems().remove(tempItem.item);
+									System.out.println("deleted");
 
 									FadeTransition ft = new FadeTransition(Duration.millis(1000), tempItem);
 
@@ -1206,7 +1221,7 @@ public class Controller {
 		});
 
 	}
-
+	
 	/*
 	 * New Method: creates the data that will be populated by the ListView. If the
 	 * model contains the item being added an alert is popped O(nlogn). Note that no
@@ -1223,13 +1238,69 @@ public class Controller {
 				TagAlreadyExistsAlert.display("Alert", "Tag Already Exists!");
 			} else {
 				model.addSet(testing);
+				undoItem.addFirst(testing);
+				lastAction.add(0);
 				itemsContent.add(testing);
 				create_text.clear(); // reset textfield
 				create_text.requestFocus(); // get the textfield to listen for the next input.
 			}
 		}
 	}
-
+	@FXML
+	public void undoEvent(ActionEvent event) {
+		System.out.println("ITEMS BEFORE : " +undoItem );
+		System.out.println("LAST ACTION BEFORE : " + lastAction);
+		
+		if(lastAction.get(lastAction.size()-1) ==0 ) {
+			itemsContent.remove(undoItem.getFirst()); //Remove element from the items list
+			redoItem.addFirst(undoItem.getFirst());//Add the most recent popped item to a new queue so we can redo if needed
+			undoItem.pop(); // Pop the item off the stack
+			item_list.refresh();// Refresh the item list
+			lastRemovedAction.add(0);
+			lastAction.remove(lastAction.size()-1);
+			System.out.println("ITEMS AFTER : " + undoItem);
+			System.out.println("LAST ACTION AFTER :" + lastAction);
+		}
+		
+		else if(lastAction.get(lastAction.size()-1) ==1) {
+			DraggableItem tempItem = undoDItem.getFirst();
+			redoDItem.addFirst(undoDItem.getFirst());
+			undoDItem.pop();
+			lastAction.remove(lastAction.size()-1);
+			lastRemovedAction.add(1);
+			model.getItemSet().remove(tempItem.getItem());
+			int index = containsArray.indexOf(tempItem.getItem().getText());
+			containsArray.remove(index);
+			diagram_pane.getChildren().remove(tempItem);
+		}
+		else {
+			
+		}
+		event.consume();
+	}
+	
+	@FXML
+	public void redoEvent(ActionEvent event) {
+		
+		if(lastAction.get(lastAction.size()-1) ==0 ) {
+			
+		
+		itemsContent.add(redoItem.getFirst());
+		undoItem.addFirst(redoItem.getFirst());
+		lastAction.add(0);
+		redoItem.pop();
+		lastRemovedAction.remove(lastRemovedAction.size()-1);
+		item_list.refresh();
+		System.out.println("ITEMS AFTER : " + undoItem);
+		System.out.println("LAST ACTION AFTER :" + lastAction);
+		}
+		
+		else if(lastAction.get(lastAction.size()-1) ==1) {
+			
+		}
+		event.consume();
+	}
+	
 	/*
 	 * New Method: checks the model for element by string O(1).
 	 * 
