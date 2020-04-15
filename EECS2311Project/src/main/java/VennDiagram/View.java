@@ -4,11 +4,13 @@ package VennDiagram;
 
 import java.io.File;
 
+import javax.imageio.ImageIO;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 
@@ -31,16 +33,22 @@ public class View extends Application{
 	public void start(Stage stage) throws Exception{
 //		System.out.printf("root = %s\n", getClass().getResource("/views/View.fxml"));
 		
+		System.out.println(getClass().getResource("/views/View.fxml"));
+		System.out.println(getClass().getResource("/views/openingPage.fxml"));
 		
+		System.out.println(getClass().getResourceAsStream("/images/newFileButton.png"));
 		primaryStage = stage;
+		
 		Parent root = FXMLLoader.load(getClass().getResource("/views/View.fxml"));
 		Parent root2 = FXMLLoader.load(getClass().getResource("/views/openingPage.fxml"));
+		
+		
 		   
 	    //scene = new Scene(root, 900, 650);
 	    scene = new Scene(root);
 		promptWindow = new Scene(root2,1020,580);
-		promptWindow.getStylesheets().add(getClass().getResource("openingPage.css").toExternalForm());
-		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+//		promptWindow.getStylesheets().add(getClass().getResource("/images/openingPage.css").toExternalForm());
+//		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		primaryStage.setOnCloseRequest(event ->{
 			quitProgramAlert.display("Confirm Exit", "Are you sure you want to exit?");
 			if(!quitProgramAlert.closePressed) {
@@ -54,7 +62,7 @@ public class View extends Application{
 	    primaryStage.setTitle("VennDiagram Creator");
 	    primaryStage.setScene(promptWindow);
 	    primaryStage.setResizable(false);
-	    //primaryStage.getIcons().add(0,new Image(getClass().getResourceAsStream("/images/icon.png")));
+//	    primaryStage.getIcons().add(0,new Image(getClass().getResourceAsStream("/images/icon.png")));
 	    primaryStage.show();
 	}
 	

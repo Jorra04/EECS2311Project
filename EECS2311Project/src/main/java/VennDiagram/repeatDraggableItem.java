@@ -51,7 +51,7 @@ public class repeatDraggableItem {
 		StackPane.setMargin(checkbox, new Insets(65,0,0,0));
 		
 		Scene scene = new Scene(layout);
-		scene.getStylesheets().add(clearAllAlert.class.getResource("alerts.css").toExternalForm());
+//		scene.getStylesheets().add(clearAllAlert.class.getResource("alerts.css").toExternalForm());
 		window.setScene(scene);
 		window.showAndWait();
 		
@@ -95,7 +95,7 @@ public class repeatDraggableItem {
 		StackPane.setMargin(cancel, new Insets(30,60,10,0));
 		
 		Scene scene = new Scene(layout);
-		scene.getStylesheets().add(clearAllAlert.class.getResource("alerts.css").toExternalForm());
+//		scene.getStylesheets().add(clearAllAlert.class.getResource("alerts.css").toExternalForm());
 		window.setScene(scene);
 		window.showAndWait();
 	}

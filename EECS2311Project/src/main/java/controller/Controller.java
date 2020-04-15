@@ -82,6 +82,7 @@ import VennDiagram.backToMenuAlert;
 import VennDiagram.tooManyCirclesAlert;
 
 public class Controller {
+	
 	public static int NUMIDS = 0;
 	ContextMenu contextMenu = new ContextMenu();
 	MenuItem RCdelete = new MenuItem("Delete");
@@ -191,19 +192,19 @@ public class Controller {
 	Button createDraggableItemButton;
 	@FXML
 	ToolBar toolbar;
-	ImageView save = new ImageView(new Image("/images/save.png"));
-	ImageView load = new ImageView(new Image("/images/load.png"));
-	ImageView importFile = new ImageView(new Image("/images/import.png"));
-	ImageView export = new ImageView(new Image("/images/export.png"));
-	ImageView quit = new ImageView(new Image("/images/exit.png"));
-	ImageView backToMenu = new ImageView(new Image("/images/back.png"));
-	
-	ImageView refactorIM = new ImageView(new Image("/images/refactor.png"));
-	ImageView deleteIM = new ImageView(new Image("/images/delete.png"));
-	ImageView undoIM = new ImageView(new Image("/images/undo.png"));
-	ImageView redoIM = new ImageView(new Image("/images/redo.png"));
-	ImageView aboutIM = new ImageView(new Image("/images/aboutUs.png"));
-	ImageView restoreIM = new ImageView(new Image("/images/restore.png"));
+//	ImageView save = new ImageView(new Image("/images/save.png"));
+//	ImageView load = new ImageView(new Image("/images/load.png"));
+//	ImageView importFile = new ImageView(new Image("/images/import.png"));
+//	ImageView export = new ImageView(new Image("/images/export.png"));
+//	ImageView quit = new ImageView(new Image("/images/exit.png"));
+//	ImageView backToMenu = new ImageView(new Image("/images/back.png"));
+//	
+//	ImageView refactorIM = new ImageView(new Image("/images/refactor.png"));
+//	ImageView deleteIM = new ImageView(new Image("/images/delete.png"));
+//	ImageView undoIM = new ImageView(new Image("/images/undo.png"));
+//	ImageView redoIM = new ImageView(new Image("/images/redo.png"));
+//	ImageView aboutIM = new ImageView(new Image("/images/aboutUs.png"));
+//	ImageView restoreIM = new ImageView(new Image("/images/restore.png"));
 	
 	@FXML
 	SplitMenuButton splitMenu = new SplitMenuButton();
@@ -214,7 +215,7 @@ public class Controller {
 	MenuItem rButton = new MenuItem();
 
 	MenuItem tButton = new MenuItem();
-
+	@FXML
 	MenuItem bButton = new MenuItem("Bottom Circle");
 
 	@FXML
@@ -270,53 +271,53 @@ public class Controller {
 		
 		circleMenu.getItems().add(Circledelete);
 		
-		save.setFitHeight(20);
-		save.setFitWidth(20);
-		textFileSave.setGraphic(save);
-		
-		load.setFitHeight(20);
-		load.setFitWidth(20);
-		openTextFile.setGraphic(load);
-		
-		importFile.setFitHeight(20);
-		importFile.setFitWidth(20);
-		openFile.setGraphic(importFile);
-
-		export.setFitHeight(20);
-		export.setFitWidth(20);
-		saveFile.setGraphic(export);
-		
-		quit.setFitHeight(20);
-		quit.setFitWidth(20);
-		quitProgram.setGraphic(quit);
-		
-		backToMenu.setFitHeight(20);
-		backToMenu.setFitWidth(20);
-		switchScene.setGraphic(backToMenu);
-		
-		refactorIM.setFitHeight(20);
-		refactorIM.setFitWidth(20);
-		refactor.setGraphic(refactorIM);
-	
-		deleteIM.setFitHeight(20);
-		deleteIM.setFitWidth(20);
-		delete.setGraphic(deleteIM);
-		
-		undoIM.setFitHeight(20);
-		undoIM.setFitWidth(20);
-		undo.setGraphic(undoIM);
-		
-		redoIM.setFitHeight(20);
-		redoIM.setFitWidth(20);
-		redo.setGraphic(redoIM);
-		
-		aboutIM.setFitHeight(20);
-		aboutIM.setFitWidth(20);
-		aboutUs.setGraphic(aboutIM);
-		
-		restoreIM.setFitHeight(20);
-		restoreIM.setFitWidth(20);
-		restoreDef.setGraphic(restoreIM);
+//		save.setFitHeight(20);
+//		save.setFitWidth(20);
+//		textFileSave.setGraphic(save);
+//		
+//		load.setFitHeight(20);
+//		load.setFitWidth(20);
+//		openTextFile.setGraphic(load);
+//		
+//		importFile.setFitHeight(20);
+//		importFile.setFitWidth(20);
+//		openFile.setGraphic(importFile);
+//
+//		export.setFitHeight(20);
+//		export.setFitWidth(20);
+//		saveFile.setGraphic(export);
+//		
+//		quit.setFitHeight(20);
+//		quit.setFitWidth(20);
+//		quitProgram.setGraphic(quit);
+//		
+//		backToMenu.setFitHeight(20);
+//		backToMenu.setFitWidth(20);
+//		switchScene.setGraphic(backToMenu);
+//		
+//		refactorIM.setFitHeight(20);
+//		refactorIM.setFitWidth(20);
+//		refactor.setGraphic(refactorIM);
+//	
+//		deleteIM.setFitHeight(20);
+//		deleteIM.setFitWidth(20);
+//		delete.setGraphic(deleteIM);
+//		
+//		undoIM.setFitHeight(20);
+//		undoIM.setFitWidth(20);
+//		undo.setGraphic(undoIM);
+//		
+//		redoIM.setFitHeight(20);
+//		redoIM.setFitWidth(20);
+//		redo.setGraphic(redoIM);
+//		
+//		aboutIM.setFitHeight(20);
+//		aboutIM.setFitWidth(20);
+//		aboutUs.setGraphic(aboutIM);
+//		
+//		restoreIM.setFitHeight(20);
+//		restoreIM.setFitWidth(20);
+//		restoreDef.setGraphic(restoreIM);
 		
 //		diagram_pane.setStyle(backgroundCol);
 		minX = diagram_pane.getBoundsInParent().getMinX();

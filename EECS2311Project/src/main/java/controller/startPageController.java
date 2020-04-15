@@ -90,51 +90,52 @@ public class startPageController {
 	/*
 	 * images sources from http://www.iconarchive.com/search?q=load+file
 	 */
+//
+//	ImageView saveIM = new ImageView(new Image("/images/save.png"));
+//	ImageView loadIM = new ImageView(new Image("/images/load.png"));
+//	ImageView newIM = new ImageView(new Image("/images/newFile2.png"));
+//	ImageView quit = new ImageView(new Image("/images/exit.png"));
+//	ImageView aboutUsIM = new ImageView(new Image("/images/aboutUs.png"));
+	
+//	ImageView newButtonIM = new ImageView(new Image(getClass().getResourceAsStream("/views/newFileButton.png")));
+//	ImageView loadButtonIM = new ImageView(new Image("/images/loadFileButton.png"));
 
-	ImageView saveIM = new ImageView(new Image("/images/save.png"));
-	ImageView loadIM = new ImageView(new Image("/images/load.png"));
-	ImageView newIM = new ImageView(new Image("/images/newFile2.png"));
-	ImageView quit = new ImageView(new Image("/images/exit.png"));
-	ImageView aboutUsIM = new ImageView(new Image("/images/aboutUs.png"));
-	ImageView newButtonIM = new ImageView(new Image("/images/newFileButton.png"));
-	ImageView loadButtonIM = new ImageView(new Image("/images/loadFileButton.png"));
-
-	ImageView settingsButton = new ImageView(new Image("/images/settings.png"));
+//	ImageView settingsButton = new ImageView(new Image("/images/settings.png"));
 
 	public void initialize() {
 
-		saveIM.setFitHeight(20);
-		saveIM.setFitWidth(20);
-		saveFile.setGraphic(saveIM);
-
-		loadIM.setFitHeight(20);
-		loadIM.setFitWidth(20);
-		openFile.setGraphic(loadIM);
-
-		newIM.setFitHeight(20);
-		newIM.setFitWidth(20);
-		newFile.setGraphic(newIM);
-
-		quit.setFitHeight(20);
-		quit.setFitWidth(20);
-		quitProgram.setGraphic(quit);
-
-		aboutUsIM.setFitHeight(20);
-		aboutUsIM.setFitWidth(20);
-		aboutUs.setGraphic(aboutUsIM);
-
-		loadNew.setBackground(Background.EMPTY);
-		newButtonIM.setFitHeight(105);
-		newButtonIM.setFitWidth(115);
-		loadNew.setGraphic(newButtonIM);
-		loadPrev.setBackground(Background.EMPTY);
-		loadButtonIM.setFitHeight(105);
-		loadButtonIM.setFitWidth(115);
-		loadPrev.setGraphic(loadButtonIM);
-		settings.setBackground(Background.EMPTY);
-		settingsButton.setFitHeight(105);
-		settingsButton.setFitWidth(115);
-		settings.setGraphic(settingsButton);
+//		saveIM.setFitHeight(20);
+//		saveIM.setFitWidth(20);
+//		saveFile.setGraphic(saveIM);
+//
+//		loadIM.setFitHeight(20);
+//		loadIM.setFitWidth(20);
+//		openFile.setGraphic(loadIM);
+//
+//		newIM.setFitHeight(20);
+//		newIM.setFitWidth(20);
+//		newFile.setGraphic(newIM);
+//
+//		quit.setFitHeight(20);
+//		quit.setFitWidth(20);
+//		quitProgram.setGraphic(quit);
+//
+//		aboutUsIM.setFitHeight(20);
+//		aboutUsIM.setFitWidth(20);
+//		aboutUs.setGraphic(aboutUsIM);
+//
+//		loadNew.setBackground(Background.EMPTY);
+//		newButtonIM.setFitHeight(105);
+//		newButtonIM.setFitWidth(115);
+//		loadNew.setGraphic(newButtonIM);
+//		loadPrev.setBackground(Background.EMPTY);
+//		loadButtonIM.setFitHeight(105);
+//		loadButtonIM.setFitWidth(115);
+//		loadPrev.setGraphic(loadButtonIM);
+//		settings.setBackground(Background.EMPTY);
+//		settingsButton.setFitHeight(105);
+//		settingsButton.setFitWidth(115);
+//		settings.setGraphic(settingsButton);
 
 		FadeTransition ft = new FadeTransition(Duration.millis(1000), loadNew);
 		FadeTransition ft2 = new FadeTransition(Duration.millis(1000), loadPrev);

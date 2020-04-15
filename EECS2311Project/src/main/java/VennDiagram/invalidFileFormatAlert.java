@@ -39,7 +39,7 @@ public class invalidFileFormatAlert {
 		StackPane.setMargin(ok, new Insets(0,0,5,0));
 		
 		Scene scene = new Scene(layout);
-		scene.getStylesheets().add(clearAllAlert.class.getResource("alerts.css").toExternalForm());
+//		scene.getStylesheets().add(clearAllAlert.class.getResource("alerts.css").toExternalForm());
 		window.setScene(scene);
 		window.showAndWait();
 		
