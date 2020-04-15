@@ -743,6 +743,7 @@ public class Controller {
 			tempItem.setLayoutX(itemPositionX); // set to the left
 			tempItem.setLayoutY(itemPositionY); // space between each item
 			undoDItem.addFirst(tempItem);
+			System.out.println("orig position (" + tempItem.getX() + ",)" + tempItem.getY());
 
 			if (!containsArray.contains(tempItem.getItem().getText())
 					|| VennDiagram.repeatDraggableItem.checkboxPressed) {
