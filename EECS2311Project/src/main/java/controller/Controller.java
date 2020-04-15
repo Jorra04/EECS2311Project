@@ -765,10 +765,15 @@ public class Controller {
 	@FXML
 	protected void handleClearSelectedButtonAction(ActionEvent event) {
 
-		Group groupArray[] = new Group[3];
+		Group groupArray[] = new Group[8];
 		groupArray[0] = leftGroup;
 		groupArray[1] = rightGroup;
 		groupArray[2] = matchGroup;
+		groupArray[3] = bottomGroup;
+		groupArray[4] = leftRightGroup;
+		groupArray[5] = bottomLeftGroup;
+		groupArray[6] = bottomRightGroup;
+		groupArray[7] = fullIntersect;
 		Item clickedItem1  = item_list.getSelectionModel().getSelectedItem();
 		
 		//Warn the user once or more times if they don't select the option.
@@ -780,16 +785,21 @@ public class Controller {
 		if(!VennDiagram.repeatDraggableItem.confirmPressed2) {
 			return;
 		}
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 7; i++) {
 			if (groupArray[i].contains(clickedItem1)) {
-				groupArray[i].removeItem(clickedItem1);
-				
-				
+				groupArray[i].removeItem(clickedItem1);	
 			}
 			model.getItemSet().remove(clickedItem1);
 			item_list.getItems().remove(clickedItem1); //remove it from the list out here so even if 
 			//it's not in a group, it will still be removed.
 		}
+		for(Node node : diagram_pane.getChildren()) {
+			if(node.getClass().equals(DraggableItem.class) && ((DraggableItem)node).text.getText().equals(clickedItem1.getText())) {
+				diagram_pane.getChildren().remove( node );
+				break;
+			}
+		}
+		
 		item_list.refresh();
 //		leftSetText.setText(leftGroup.toVisualList());
 //		rightSetText.setText(rightGroup.toVisualList());
