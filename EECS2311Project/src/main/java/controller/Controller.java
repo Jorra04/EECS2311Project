@@ -191,19 +191,20 @@ public class Controller {
 	Button createDraggableItemButton;
 	@FXML
 	ToolBar toolbar;
-	ImageView save = new ImageView(new Image("/images/save.png"));
-	ImageView load = new ImageView(new Image("/images/load.png"));
-	ImageView importFile = new ImageView(new Image("/images/import.png"));
-	ImageView export = new ImageView(new Image("/images/export.png"));
-	ImageView quit = new ImageView(new Image("/images/exit.png"));
-	ImageView backToMenu = new ImageView(new Image("/images/back.png"));
-	
-	ImageView refactorIM = new ImageView(new Image("/images/refactor.png"));
-	//ImageView deleteIM = new ImageView(new Image("/images/delete.png"));
-	ImageView undoIM = new ImageView(new Image("/images/undo.png"));
-	ImageView redoIM = new ImageView(new Image("/images/redo.png"));
-	ImageView aboutIM = new ImageView(new Image("/images/aboutUs.png"));
-	ImageView restoreIM = new ImageView(new Image("/images/restore.png"));
+//	ImageView save = new ImageView(new Image("/images/save.png"));
+//	ImageView load = new ImageView(new Image("/images/load.png"));
+//	ImageView importFile = new ImageView(new Image("/images/import.png"));
+//	ImageView export = new ImageView(new Image("/images/export.png"));
+//	ImageView quit = new ImageView(new Image("/images/exit.png"));
+//	ImageView backToMenu = new ImageView(new Image("/images/back.png"));
+//	
+//	ImageView refactorIM = new ImageView(new Image("/images/refactor.png"));
+//	ImageView deleteIM = new ImageView(new Image("/images/delete.png"));
+//
+//	ImageView undoIM = new ImageView(new Image("/images/undo.png"));
+//	ImageView redoIM = new ImageView(new Image("/images/redo.png"));
+//	ImageView aboutIM = new ImageView(new Image("/images/aboutUs.png"));
+//	ImageView restoreIM = new ImageView(new Image("/images/restore.png"));
 	
 	@FXML
 	SplitMenuButton splitMenu = new SplitMenuButton();
@@ -244,6 +245,7 @@ public class Controller {
 
 	public boolean isItemClicked; // Returns a true or false if the item has been clicked or not
 	public static Item clickedItem; // Holds the item object that is currently clicked
+	public static DraggableItem clickedDraggable; 
 	double minX;
 	double maxX;
 	double minY;
@@ -254,21 +256,24 @@ public class Controller {
 	Circle bottomCircle = new Circle();
 	
 	//Queues for the tasklist
-	Deque<Item> undoItem = new ArrayDeque<>();
-	Deque<Item> redoItem = new ArrayDeque<>();
+	public static Deque<Item> undoItem = new ArrayDeque<>();
+	public static Deque<Item> redoItem = new ArrayDeque<>();
 	
 	//Queues for undo and redo
-	Deque<DraggableItem> undoDItem = new ArrayDeque<>();
-	Deque<DraggableItem> redoDItem = new ArrayDeque<>();
+	public static Deque<DraggableItem> undoDItem = new ArrayDeque<>();
+	public static Deque<DraggableItem> redoDItem = new ArrayDeque<>();
 	
 	//List for dragItem
 	List <DraggableItem> currentItems = new ArrayList<DraggableItem>();
 	
 	//Last Action
-	ArrayList<Integer> lastAction = new ArrayList<Integer>(); // 0 is add to list, 1 is add to window, 2 is move position
-	ArrayList<Integer> lastRemovedAction = new ArrayList<Integer>();// 0 is add to list, 1 is add to window, 2 is move position
+	public static ArrayList<Integer> lastAction = new ArrayList<Integer>(); // 0 is add to list, 1 is add to window, 2 is move position
+	public static ArrayList<Integer> lastRemovedAction = new ArrayList<Integer>();// 0 is add to list, 1 is add to window, 2 is move position
 
-	 public static File selectedFile;
+	public static ArrayList<Double> posx = new ArrayList<Double>();
+	public static ArrayList<Double> posy = new ArrayList<Double>();
+	
+	public static File selectedFile;
 	// use this to help setup the fxml components, initialize is called as soon as
 	// app starts up. Similar to a constructor.
 	 
@@ -288,55 +293,56 @@ public class Controller {
 		
 		circleMenu.getItems().add(Circledelete);
 		
-		save.setFitHeight(20);
-		save.setFitWidth(20);
-		textFileSave.setGraphic(save);
-		
-		load.setFitHeight(20);
-		load.setFitWidth(20);
-		openTextFile.setGraphic(load);
-		
-		importFile.setFitHeight(20);
-		importFile.setFitWidth(20);
-		openFile.setGraphic(importFile);
-
-		export.setFitHeight(20);
-		export.setFitWidth(20);
-		saveFile.setGraphic(export);
-		
-		quit.setFitHeight(20);
-		quit.setFitWidth(20);
-		quitProgram.setGraphic(quit);
-		
-		backToMenu.setFitHeight(20);
-		backToMenu.setFitWidth(20);
-		switchScene.setGraphic(backToMenu);
-		
-		refactorIM.setFitHeight(20);
-		refactorIM.setFitWidth(20);
-		refactor.setGraphic(refactorIM);
-	
-		/*
-		deleteIM.setFitHeight(20);
-		deleteIM.setFitWidth(20);
-		delete.setGraphic(deleteIM);
-		*/
-		
-		undoIM.setFitHeight(20);
-		undoIM.setFitWidth(20);
-		undo.setGraphic(undoIM);
-		
-		redoIM.setFitHeight(20);
-		redoIM.setFitWidth(20);
-		redo.setGraphic(redoIM);
-		
-		aboutIM.setFitHeight(20);
-		aboutIM.setFitWidth(20);
-		aboutUs.setGraphic(aboutIM);
-		
-		restoreIM.setFitHeight(20);
-		restoreIM.setFitWidth(20);
-		restoreDef.setGraphic(restoreIM);
+//		save.setFitHeight(20);
+//		save.setFitWidth(20);
+//		textFileSave.setGraphic(save);
+//		
+//		load.setFitHeight(20);
+//		load.setFitWidth(20);
+//		openTextFile.setGraphic(load);
+//		
+//		importFile.setFitHeight(20);
+//		importFile.setFitWidth(20);
+//		openFile.setGraphic(importFile);
+//
+//		export.setFitHeight(20);
+//		export.setFitWidth(20);
+//		saveFile.setGraphic(export);
+//		
+//		quit.setFitHeight(20);
+//		quit.setFitWidth(20);
+//		quitProgram.setGraphic(quit);
+//		
+//		backToMenu.setFitHeight(20);
+//		backToMenu.setFitWidth(20);
+//		switchScene.setGraphic(backToMenu);
+//		
+//		refactorIM.setFitHeight(20);
+//		refactorIM.setFitWidth(20);
+//		refactor.setGraphic(refactorIM);
+//	
+//		
+//		deleteIM.setFitHeight(20);
+//		deleteIM.setFitWidth(20);
+//		delete.setGraphic(deleteIM);
+//		
+//
+//		
+//		undoIM.setFitHeight(20);
+//		undoIM.setFitWidth(20);
+//		undo.setGraphic(undoIM);
+//		
+//		redoIM.setFitHeight(20);
+//		redoIM.setFitWidth(20);
+//		redo.setGraphic(redoIM);
+//		
+//		aboutIM.setFitHeight(20);
+//		aboutIM.setFitWidth(20);
+//		aboutUs.setGraphic(aboutIM);
+//		
+//		restoreIM.setFitHeight(20);
+//		restoreIM.setFitWidth(20);
+//		restoreDef.setGraphic(restoreIM);
 		
 //		diagram_pane.setStyle(backgroundCol);
 		minX = diagram_pane.getBoundsInParent().getMinX();
@@ -763,10 +769,15 @@ public class Controller {
 	@FXML
 	protected void handleClearSelectedButtonAction(ActionEvent event) {
 
-		Group groupArray[] = new Group[3];
+		Group groupArray[] = new Group[8];
 		groupArray[0] = leftGroup;
 		groupArray[1] = rightGroup;
 		groupArray[2] = matchGroup;
+		groupArray[3] = bottomGroup;
+		groupArray[4] = leftRightGroup;
+		groupArray[5] = bottomLeftGroup;
+		groupArray[6] = bottomRightGroup;
+		groupArray[7] = fullIntersect;
 		Item clickedItem1  = item_list.getSelectionModel().getSelectedItem();
 		
 		//Warn the user once or more times if they don't select the option.
@@ -778,16 +789,21 @@ public class Controller {
 		if(!VennDiagram.repeatDraggableItem.confirmPressed2) {
 			return;
 		}
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 7; i++) {
 			if (groupArray[i].contains(clickedItem1)) {
-				groupArray[i].removeItem(clickedItem1);
-				
-				
+				groupArray[i].removeItem(clickedItem1);	
 			}
 			model.getItemSet().remove(clickedItem1);
 			item_list.getItems().remove(clickedItem1); //remove it from the list out here so even if 
 			//it's not in a group, it will still be removed.
 		}
+		for(Node node : diagram_pane.getChildren()) {
+			if(node.getClass().equals(DraggableItem.class) && ((DraggableItem)node).text.getText().equals(clickedItem1.getText())) {
+				diagram_pane.getChildren().remove( node );
+				break;
+			}
+		}
+		
 		item_list.refresh();
 //		leftSetText.setText(leftGroup.toVisualList());
 //		rightSetText.setText(rightGroup.toVisualList());
@@ -1023,6 +1039,7 @@ public class Controller {
 			tempItem.setLayoutX(itemPositionX); // set to the left
 			tempItem.setLayoutY(itemPositionY); // space between each item
 			undoDItem.addFirst(tempItem);
+			currentItems.add(tempItem);
 			System.out.println("orig position (" + tempItem.getX() + ",)" + tempItem.getY());
 
 			if (!containsArray.contains(tempItem.getItem().getText())
@@ -1574,6 +1591,24 @@ public class Controller {
 			containsArray.remove(index);
 			diagram_pane.getChildren().remove(tempItem);
 		}
+		
+		else if(lastAction.get(lastAction.size()-1) ==2) {
+			for(DraggableItem search : currentItems) {
+				if(search.text.getText().equals(undoItem.getFirst().getText())) {
+					double nX = search.getLayoutX();
+					double nY = search.getLayoutY();
+					search.setLayoutX(posx.get(posx.size()-1));
+					search.setLayoutY(posy.get(posy.size()-1));
+					posx.set(posx.size()-1, nX);
+					posy.set(posy.size()-1, nY);
+					redoItem.addFirst(undoItem.getFirst());
+					undoItem.pop();
+					lastRemovedAction.add(2);
+					lastAction.remove(lastAction.size()-1);
+					}
+				}
+			}
+		
 		else {
 			
 		}
@@ -1602,6 +1637,24 @@ public class Controller {
 			lastAction.add(1);
 			model.getItemSet().add(tempItem.getItem());
 			diagram_pane.getChildren().add(tempItem);		
+		}
+		
+		else if (lastRemovedAction.get(lastRemovedAction.size()-1) ==2) {
+			for(DraggableItem search : currentItems) {
+				if(search.text.getText().equals(undoItem.getFirst().getText())) {
+					double nX = search.getLayoutX();
+					double nY = search.getLayoutY();
+					search.setLayoutX(posx.get(posx.size()-1));
+					search.setLayoutY(posy.get(posy.size()-1));
+					posx.set(posx.size()-1, nX);
+					posy.set(posy.size()-1, nY);
+					undoItem.addFirst(redoItem.getFirst());
+					redoItem.pop();
+					lastAction.add(2);
+					lastRemovedAction.remove(lastRemovedAction.size()-1);
+					}
+				}
+			
 		}
 		event.consume();
 	}

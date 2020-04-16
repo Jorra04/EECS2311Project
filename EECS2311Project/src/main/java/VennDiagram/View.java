@@ -39,8 +39,8 @@ public class View extends Application{
 	    //scene = new Scene(root, 900, 650);
 	    scene = new Scene(root);
 		promptWindow = new Scene(root2,1020,580);
-		promptWindow.getStylesheets().add(getClass().getResource("openingPage.css").toExternalForm());
-		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+//		promptWindow.getStylesheets().add(getClass().getResource("openingPage.css").toExternalForm());
+//		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		primaryStage.setOnCloseRequest(event ->{
 			quitProgramAlert.display("Confirm Exit", "Are you sure you want to exit?");
 			if(!quitProgramAlert.closePressed) {
