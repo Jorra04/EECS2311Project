@@ -244,6 +244,7 @@ public class Controller {
 
 	public boolean isItemClicked; // Returns a true or false if the item has been clicked or not
 	public static Item clickedItem; // Holds the item object that is currently clicked
+	public static DraggableItem clickedDraggable; 
 	double minX;
 	double maxX;
 	double minY;
@@ -254,21 +255,24 @@ public class Controller {
 	Circle bottomCircle = new Circle();
 	
 	//Queues for the tasklist
-	Deque<Item> undoItem = new ArrayDeque<>();
-	Deque<Item> redoItem = new ArrayDeque<>();
+	public static Deque<Item> undoItem = new ArrayDeque<>();
+	public static Deque<Item> redoItem = new ArrayDeque<>();
 	
 	//Queues for undo and redo
-	Deque<DraggableItem> undoDItem = new ArrayDeque<>();
-	Deque<DraggableItem> redoDItem = new ArrayDeque<>();
+	public static Deque<DraggableItem> undoDItem = new ArrayDeque<>();
+	public static Deque<DraggableItem> redoDItem = new ArrayDeque<>();
 	
 	//List for dragItem
 	List <DraggableItem> currentItems = new ArrayList<DraggableItem>();
 	
 	//Last Action
-	ArrayList<Integer> lastAction = new ArrayList<Integer>(); // 0 is add to list, 1 is add to window, 2 is move position
-	ArrayList<Integer> lastRemovedAction = new ArrayList<Integer>();// 0 is add to list, 1 is add to window, 2 is move position
+	public static ArrayList<Integer> lastAction = new ArrayList<Integer>(); // 0 is add to list, 1 is add to window, 2 is move position
+	public static ArrayList<Integer> lastRemovedAction = new ArrayList<Integer>();// 0 is add to list, 1 is add to window, 2 is move position
 
-	 public static File selectedFile;
+	public static ArrayList<Double> posx = new ArrayList<Double>();
+	public static ArrayList<Double> posy = new ArrayList<Double>();
+	
+	public static File selectedFile;
 	// use this to help setup the fxml components, initialize is called as soon as
 	// app starts up. Similar to a constructor.
 	 
@@ -1023,6 +1027,7 @@ public class Controller {
 			tempItem.setLayoutX(itemPositionX); // set to the left
 			tempItem.setLayoutY(itemPositionY); // space between each item
 			undoDItem.addFirst(tempItem);
+			currentItems.add(tempItem);
 			System.out.println("orig position (" + tempItem.getX() + ",)" + tempItem.getY());
 
 			if (!containsArray.contains(tempItem.getItem().getText())
@@ -1574,6 +1579,24 @@ public class Controller {
 			containsArray.remove(index);
 			diagram_pane.getChildren().remove(tempItem);
 		}
+		
+		else if(lastAction.get(lastAction.size()-1) ==2) {
+			for(DraggableItem search : currentItems) {
+				if(search.text.getText().equals(undoItem.getFirst().getText())) {
+					double nX = search.getLayoutX();
+					double nY = search.getLayoutY();
+					search.setLayoutX(posx.get(posx.size()-1));
+					search.setLayoutY(posy.get(posy.size()-1));
+					posx.set(posx.size()-1, nX);
+					posy.set(posy.size()-1, nY);
+					redoItem.addFirst(undoItem.getFirst());
+					undoItem.pop();
+					lastRemovedAction.add(2);
+					lastAction.remove(lastAction.size()-1);
+					}
+				}
+			}
+		
 		else {
 			
 		}
@@ -1602,6 +1625,24 @@ public class Controller {
 			lastAction.add(1);
 			model.getItemSet().add(tempItem.getItem());
 			diagram_pane.getChildren().add(tempItem);		
+		}
+		
+		else if (lastRemovedAction.get(lastRemovedAction.size()-1) ==2) {
+			for(DraggableItem search : currentItems) {
+				if(search.text.getText().equals(undoItem.getFirst().getText())) {
+					double nX = search.getLayoutX();
+					double nY = search.getLayoutY();
+					search.setLayoutX(posx.get(posx.size()-1));
+					search.setLayoutY(posy.get(posy.size()-1));
+					posx.set(posx.size()-1, nX);
+					posy.set(posy.size()-1, nY);
+					undoItem.addFirst(redoItem.getFirst());
+					redoItem.pop();
+					lastAction.add(2);
+					lastRemovedAction.remove(lastRemovedAction.size()-1);
+					}
+				}
+			
 		}
 		event.consume();
 	}

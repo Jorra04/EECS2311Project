@@ -69,6 +69,11 @@ public class DraggableItem extends Pane{
 				
 				x = getLayoutX();
 				y = getLayoutY();
+				Controller.lastAction.add(2);
+				Controller.undoItem.addFirst(item);
+				Controller.posx.add(x);
+				Controller.posy.add(y);
+				System.out.println("mx = " + mx + " my = " + my + "x = " + x + "y = " + y);
 				
 				event.consume();
 			};
