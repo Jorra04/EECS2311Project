@@ -22,6 +22,8 @@ public class quitProgramAlert {
 		window.setTitle(title);
 		window.setMinHeight(100);
 		window.setMinWidth(280);
+		window.setResizable(false);
+		
 		
 		Label label = new Label();
 		label.setText(message);
@@ -39,13 +41,15 @@ public class quitProgramAlert {
 		layout.getChildren().addAll(label,quit,cancel);
 		StackPane.setAlignment(label, Pos.TOP_CENTER);
 		StackPane.setMargin(label, new Insets(5,0,0,0));
-		StackPane.setAlignment(quit, Pos.CENTER_LEFT);
-		StackPane.setMargin(quit, new Insets(30,0,10,60));
-		StackPane.setAlignment(cancel, Pos.CENTER_RIGHT);
-		StackPane.setMargin(cancel, new Insets(30,60,10,0));
+		//StackPane.setAlignment(quit, Pos.CENTER_LEFT);
+		StackPane.setMargin(cancel, new Insets(30,-40,10,60));
+		//StackPane.setAlignment(cancel, Pos.CENTER_RIGHT);
+		StackPane.setMargin(quit, new Insets(30,60,10,-40));
 		
 		Scene scene = new Scene(layout);
+		scene.getStylesheets().add(clearAllAlert.class.getResource("alerts.css").toExternalForm());
 		window.setScene(scene);
+		
 		window.showAndWait();
 		
 	}

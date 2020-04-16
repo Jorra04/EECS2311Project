@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import VennDiagram.View;
 import controller.startPageController;
+import javafx.application.Application;
 
 /**
  * @author Brian
@@ -22,8 +23,9 @@ public class GUITest {
 	 * @throws java.lang.Exception
 	 */
 	@Before
-	public void setUp() throws Exception {
-	}
+	public void setUp() throws InterruptedException {
+		
+		}
 
 	/**
 	 * @throws java.lang.Exception
@@ -33,9 +35,13 @@ public class GUITest {
 	}
 
 	@Test
-	public void setTitle() throws Exception{
-		
-		
+	public void setTitle() throws Exception{	
 	}
+	
+	@Test
+	public void testLoad() {
+	}
+	
+	
 
 }

@@ -7,10 +7,8 @@ public class Item implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	public static int uid = 0; //keep track of each item created, qualitative or quantitative
 	
-	public int id;
+	public int id =0;
 	public String text;
 	/* 
 	 * possible fields in the future:
@@ -19,7 +17,7 @@ public class Item implements Serializable{
 	 */
 	
 	public Item(String text) {
-		this.id	 = generateID(); //unique to all items
+		this.id	 = generateID(text); //unique to all items
 		this.text = text;
 	}
 	
@@ -29,9 +27,9 @@ public class Item implements Serializable{
 		return id;
 	}
 	
-	public int generateID() {
-		uid += 1;
-		return uid;
+	public int generateID(String s) {
+		id = s.hashCode();
+		return id;
 	}
 	
 	public void setText(String text) {
@@ -42,16 +40,8 @@ public class Item implements Serializable{
 		return this.text;
 	}
 	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
-		result = prime * result + ((text == null) ? 0 : text.hashCode());
-		return result;
-	}
 
-
+	//SOMEONE TOOK 2030 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -78,7 +68,7 @@ public class Item implements Serializable{
 	}
 	
 	public static void resetUID() {
-		uid = 0;
+		int x  = 0;
 	}
 	
 }

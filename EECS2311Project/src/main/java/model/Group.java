@@ -32,6 +32,7 @@ public class Group {
 		items.put(Integer.valueOf(item.getID()), item);
 	}
 	
+	
 	public void insertItems(Collection<Item> items) {
 		for(Item item: items) {
 			this.insertItem(item);
@@ -39,8 +40,9 @@ public class Group {
 	}
 	
 	public void removeItem(Item item) {
-		items.remove(Integer.valueOf(item.getID()));
+		items.remove(item.getID());
 	}
+
 	
 	public void removeItems(Collection<Item> items) {
 		for(Item item : items) {
@@ -56,6 +58,10 @@ public class Group {
 		return this.title;
 	}
 	
+	public boolean contains(Item item) {
+		return items.containsKey(item.getID());
+	}
+	
 	public boolean isEmpty() {
 		return items.size() == 0;
 	}
@@ -67,8 +73,7 @@ public class Group {
 	public String toVisualList() {
 		String visualString = "";
     	for(Map.Entry<Integer, Item> entry : items.entrySet()) {
-    		System.out.println(entry.getValue().getText());
-    		visualString = visualString + "ID: " + entry.getValue().getID() + " - " + entry.getValue().getText() + "\n";
+    		visualString = visualString + entry.getValue().getText() + "\n";
     	}
     	return visualString;
     }

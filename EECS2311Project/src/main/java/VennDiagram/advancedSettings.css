@@ -1,0 +1,61 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+.root{
+	-fx-background-image: url("/images/settingsBackground.png");
+	-fx-border-width: 5;
+	-fx-background-size: cover;
+	
+}
+
+.button {
+   -fx-background-color: linear-gradient(to right, #cb2d3e, #ef473a);
+   -fx-text-fill: black;
+}
+
+#mainPane{
+	-fx-background-color: white;
+}
+
+.text{
+    -fx-text-fill: black;
+    
+}
+.text-field {
+    -fx-background-color: -fx-text-box-border, white ;
+    -fx-background-insets: 0.0, 0.0 0.0 1.0 0.0 ;
+    -fx-background-radius: 0.0 ;
+}
+
+.text-field:focused {
+	-fx-border-color: white white #e82e66 white;
+}
+
+
+.color-picker{
+	 -fx-background-color: linear-gradient(to right, #ff6e7f, #bfe9ff);
+}
+.color-picker .label{
+	-fx-text-fill: black;
+}
+.check-box .box {
+
+-fx-background-color: white;
+-fx-border-color:black;
+-fx-border-radius:3px; 
+
+}
+
+.check-box:selected .mark {
+
+-fx-background-color: white;
+
+}
+
+.check-box:selected .box {
+
+-fx-background-color: #28a3f4;
+}
+
+ 
+ 
