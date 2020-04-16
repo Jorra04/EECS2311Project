@@ -47,7 +47,7 @@ public class quitProgramAlert {
 		StackPane.setMargin(quit, new Insets(30,60,10,-40));
 		
 		Scene scene = new Scene(layout);
-//		scene.getStylesheets().add(clearAllAlert.class.getResource("alerts.css").toExternalForm());
+		scene.getStylesheets().add(clearAllAlert.class.getResource("alerts.css").toExternalForm());
 		window.setScene(scene);
 		
 		window.showAndWait();

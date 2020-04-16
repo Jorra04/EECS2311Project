@@ -41,7 +41,7 @@ public class clearAllAlert {
 		StackPane.setMargin(cancel, new Insets(30,90,10,0));
 		
 		Scene scene = new Scene(layout);
-//		scene.getStylesheets().add(clearAllAlert.class.getResource("alerts.css").toExternalForm());
+		scene.getStylesheets().add(clearAllAlert.class.getResource("alerts.css").toExternalForm());
 		window.setScene(scene);
 		window.showAndWait();
 		
